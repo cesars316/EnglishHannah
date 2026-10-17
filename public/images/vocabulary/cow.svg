@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Vaca">
+  <rect width="160" height="160" rx="32" fill="#f6f8f6"/>
+  <ellipse cx="34" cy="74" rx="14" ry="11" fill="#e8d6be"/>
+  <ellipse cx="126" cy="74" rx="14" ry="11" fill="#e8d6be"/>
+  <ellipse cx="80" cy="86" rx="42" ry="38" fill="#f7f4ef"/>
+  <ellipse cx="58" cy="70" rx="15" ry="11" fill="#3d3327" transform="rotate(-14 58 70)"/>
+  <ellipse cx="104" cy="96" rx="12" ry="9" fill="#3d3327" transform="rotate(12 104 96)"/>
+  <path d="M50 50q-6-14 4-18" stroke="#e0c3a3" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <path d="M110 50q6-14-4-18" stroke="#e0c3a3" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <circle cx="64" cy="80" r="7" fill="#ffffff"/>
+  <circle cx="96" cy="80" r="7" fill="#ffffff"/>
+  <circle cx="65" cy="82" r="3.5" fill="#2b2118"/>
+  <circle cx="97" cy="82" r="3.5" fill="#2b2118"/>
+  <ellipse cx="80" cy="110" rx="24" ry="16" fill="#f2a7bd"/>
+  <ellipse cx="72" cy="108" rx="3.5" ry="4.5" fill="#c2497a"/>
+  <ellipse cx="88" cy="108" rx="3.5" ry="4.5" fill="#c2497a"/>
+</svg>

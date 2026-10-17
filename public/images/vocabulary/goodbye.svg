@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Despedida">
+  <rect width="160" height="160" rx="32" fill="#fdf4e7"/>
+  <rect x="44" y="72" width="46" height="52" rx="17" fill="#f7c9a3"/>
+  <rect x="46" y="50" width="10" height="32" rx="5" fill="#f7c9a3"/>
+  <rect x="59" y="42" width="10" height="40" rx="5" fill="#f7c9a3"/>
+  <rect x="72" y="48" width="10" height="34" rx="5" fill="#f7c9a3"/>
+  <rect x="85" y="60" width="10" height="24" rx="5" fill="#f7c9a3"/>
+  <path d="M108 70h30M130 58l14 12-14 12" stroke="#0f5896" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M36 40q-10 10-8 22" stroke="#85c7fa" stroke-width="4" stroke-linecap="round" fill="none"/>
+</svg>

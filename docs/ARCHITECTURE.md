@@ -27,15 +27,15 @@ construida como **monolito modular** full-stack con Next.js (App Router).
 
 ## 2. Limites de responsabilidad
 
-| Capa | Ubicacion | Regla |
-| --- | --- | --- |
-| Rutas y pantallas | `src/app` | Server Components por defecto; solo `use client` cuando hace falta. |
-| Componentes UI | `src/components` | Presentacionales y accesibles; sin acceso a datos. |
-| Dominio / features | `src/features` | Motor de actividades, progreso, recompensas, speech, camara. Logica pura y testeable. |
-| Contenido | `src/content` | Fuente unica de verdad del contenido pedagogico (ADR 0002). |
-| Servidor | `src/server` | `db`, `repositories`, `services`, `use-cases`, `auth`, `validation`, `http`. |
-| Tipos compartidos | `src/types` | Contratos cliente/servidor. |
-| Config compartida | `src/config` | XP, monedas, umbrales, limites, constantes de juego. |
+| Capa               | Ubicacion        | Regla                                                                                 |
+| ------------------ | ---------------- | ------------------------------------------------------------------------------------- |
+| Rutas y pantallas  | `src/app`        | Server Components por defecto; solo `use client` cuando hace falta.                   |
+| Componentes UI     | `src/components` | Presentacionales y accesibles; sin acceso a datos.                                    |
+| Dominio / features | `src/features`   | Motor de actividades, progreso, recompensas, speech, camara. Logica pura y testeable. |
+| Contenido          | `src/content`    | Fuente unica de verdad del contenido pedagogico (ADR 0002).                           |
+| Servidor           | `src/server`     | `db`, `repositories`, `services`, `use-cases`, `auth`, `validation`, `http`.          |
+| Tipos compartidos  | `src/types`      | Contratos cliente/servidor.                                                           |
+| Config compartida  | `src/config`     | XP, monedas, umbrales, limites, constantes de juego.                                  |
 
 Regla de oro: **la UI nunca importa `src/server`** y **`src/server` nunca importa
 componentes de React**.
@@ -49,16 +49,16 @@ english-quest/
 │   ├── app/
 │   │   ├── (public)/            # landing, privacidad, onboarding
 │   │   ├── (game)/              # home, map, world, lesson, play, collection
-│   │   ├── parent/              # zona parental
+│   │   ├── padres/              # zona parental (ruta /padres)
 │   │   ├── api/v1/              # route handlers
 │   │   ├── layout.tsx
 │   │   ├── error.tsx
 │   │   ├── not-found.tsx
 │   │   └── globals.css
-│   ├── components/{ui,game,map,vocabulary,parent,layout}
-│   ├── features/{worlds,lessons,activities,progress,rewards,speech,camera,profile}
-│   ├── server/{db,repositories,services,use-cases,auth,validation,http}
-│   ├── content/{worlds,vocabulary,activities,lessons,stories}
+│   ├── components/{ui,activities,layout}
+│   ├── features/{worlds,activities,progress,rewards,speech,camera,profile,parent,collection,privacy}
+│   ├── server/{db,repositories,services,use-cases,auth,validation,http}   # Fase 3
+│   ├── content/{worlds,vocabulary,lessons,activities,index.ts,validate.ts}
 │   ├── config/
 │   ├── lib/
 │   └── types/
@@ -82,15 +82,15 @@ Colecciones y responsabilidades (esquemas completos en `docs/API.md` y
 
 Indices (creados por `scripts/seed.ts`, idempotentes):
 
-| Coleccion | Indice |
-| --- | --- |
-| `profiles` | `{ ownerId: 1 }` |
-| `progress` | `{ profileId: 1, entityType: 1, entityId: 1 }` unico |
-| `progress` | `{ profileId: 1, nextReviewAt: 1 }` |
-| `activityAttempts` | `{ profileId: 1, clientAttemptId: 1 }` unico |
-| `activityAttempts` | `{ profileId: 1, createdAt: -1 }` |
-| `activityAttempts` | `{ profileId: 1, activityId: 1 }` |
-| `gameState` | `_id` (profileId) |
+| Coleccion          | Indice                                               |
+| ------------------ | ---------------------------------------------------- |
+| `profiles`         | `{ ownerId: 1 }`                                     |
+| `progress`         | `{ profileId: 1, entityType: 1, entityId: 1 }` unico |
+| `progress`         | `{ profileId: 1, nextReviewAt: 1 }`                  |
+| `activityAttempts` | `{ profileId: 1, clientAttemptId: 1 }` unico         |
+| `activityAttempts` | `{ profileId: 1, createdAt: -1 }`                    |
+| `activityAttempts` | `{ profileId: 1, activityId: 1 }`                    |
+| `gameState`        | `_id` (profileId)                                    |
 
 ## 5. Motor de actividades
 

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Leon">
+  <rect width="160" height="160" rx="32" fill="#fdf4e7"/>
+  <circle cx="80" cy="84" r="52" fill="#d97a1f"/>
+  <circle cx="80" cy="26" r="12" fill="#d97a1f"/>
+  <circle cx="126" cy="52" r="12" fill="#d97a1f"/>
+  <circle cx="126" cy="116" r="12" fill="#d97a1f"/>
+  <circle cx="80" cy="142" r="12" fill="#d97a1f"/>
+  <circle cx="34" cy="52" r="12" fill="#d97a1f"/>
+  <circle cx="34" cy="116" r="12" fill="#d97a1f"/>
+  <circle cx="80" cy="84" r="38" fill="#f5c542"/>
+  <circle cx="64" cy="76" r="8" fill="#ffffff"/>
+  <circle cx="96" cy="76" r="8" fill="#ffffff"/>
+  <circle cx="65" cy="78" r="4" fill="#2b2118"/>
+  <circle cx="97" cy="78" r="4" fill="#2b2118"/>
+  <polygon points="72,94 88,94 80,104" fill="#2b2118"/>
+  <path d="M80 104v8" stroke="#2b2118" stroke-width="3" stroke-linecap="round"/>
+  <path d="M80 112c-6 0-10 4-10 8M80 112c6 0 10 4 10 8" stroke="#2b2118" stroke-width="3" stroke-linecap="round" fill="none"/>
+</svg>

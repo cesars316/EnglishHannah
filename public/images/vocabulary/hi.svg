@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Dos globos de dialogo">
+  <rect width="160" height="160" rx="32" fill="#eff8ff"/>
+  <rect x="16" y="34" width="72" height="46" rx="16" fill="#5aa9e6"/>
+  <polygon points="34,78 50,78 30,96" fill="#5aa9e6"/>
+  <circle cx="38" cy="57" r="4.5" fill="#ffffff"/>
+  <circle cx="52" cy="57" r="4.5" fill="#ffffff"/>
+  <circle cx="66" cy="57" r="4.5" fill="#ffffff"/>
+  <rect x="70" y="76" width="74" height="46" rx="16" fill="#4ba9f2"/>
+  <polygon points="126,120 110,120 130,138" fill="#4ba9f2"/>
+  <circle cx="92" cy="99" r="4.5" fill="#ffffff"/>
+  <circle cx="106" cy="99" r="4.5" fill="#ffffff"/>
+  <circle cx="120" cy="99" r="4.5" fill="#ffffff"/>
+</svg>

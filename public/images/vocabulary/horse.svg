@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Caballo">
+  <rect width="160" height="160" rx="32" fill="#fdf4e7"/>
+  <path d="M60 44c-14 6-22 20-22 34 0 8 4 14 4 14l10-6s-6-8-4-18c2-9 8-16 12-24z" fill="#6b4326"/>
+  <ellipse cx="80" cy="88" rx="34" ry="42" fill="#a9744f"/>
+  <ellipse cx="80" cy="116" rx="22" ry="16" fill="#e0c3a3"/>
+  <polygon points="62,50 58,28 74,44" fill="#a9744f"/>
+  <polygon points="98,50 102,28 86,44" fill="#a9744f"/>
+  <circle cx="68" cy="80" r="7" fill="#ffffff"/>
+  <circle cx="94" cy="80" r="7" fill="#ffffff"/>
+  <circle cx="69" cy="82" r="3.5" fill="#2b2118"/>
+  <circle cx="95" cy="82" r="3.5" fill="#2b2118"/>
+  <ellipse cx="72" cy="114" rx="4" ry="3" fill="#6b4326"/>
+  <ellipse cx="88" cy="114" rx="4" ry="3" fill="#6b4326"/>
+  <path d="M70 124q10 8 20 0" stroke="#6b4326" stroke-width="3" stroke-linecap="round" fill="none"/>
+</svg>

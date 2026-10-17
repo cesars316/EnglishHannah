@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Gato">
+  <rect width="160" height="160" rx="32" fill="#fdf4e7"/>
+  <polygon points="32,50 40,14 66,34" fill="#f0a45c"/>
+  <polygon points="128,50 120,14 94,34" fill="#f0a45c"/>
+  <polygon points="41,45 45,25 58,35" fill="#f7c9a3"/>
+  <polygon points="119,45 115,25 102,35" fill="#f7c9a3"/>
+  <circle cx="80" cy="86" r="42" fill="#f0a45c"/>
+  <ellipse cx="80" cy="100" rx="24" ry="16" fill="#ffe6cc"/>
+  <circle cx="64" cy="78" r="8" fill="#ffffff"/>
+  <circle cx="96" cy="78" r="8" fill="#ffffff"/>
+  <circle cx="65" cy="80" r="4" fill="#2b2118"/>
+  <circle cx="97" cy="80" r="4" fill="#2b2118"/>
+  <polygon points="74,92 86,92 80,101" fill="#e0788f"/>
+  <path d="M20 84h22M20 96h20M118 84h22M120 96h20" stroke="#2b2118" stroke-width="3" stroke-linecap="round"/>
+  <path d="M80 103c-5 5-11 6-15 4M80 103c5 5 11 6 15 4" stroke="#2b2118" stroke-width="3" stroke-linecap="round" fill="none"/>
+</svg>

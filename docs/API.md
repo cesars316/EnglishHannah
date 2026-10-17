@@ -33,26 +33,26 @@ Nunca se devuelven stack traces, consultas ni credenciales.
 
 ## Endpoints
 
-| Metodo | Ruta | Auth | Descripcion |
-| --- | --- | --- | --- |
-| GET | `/health` | - | Estado de la app y de la DB, sin secretos. |
-| POST | `/profiles` | sesion | Crea perfil infantil (`displayName`, `avatarId`). |
-| GET | `/profiles/:profileId` | sesion + propiedad | Perfil del jugador. |
-| PATCH | `/profiles/:profileId/settings` | sesion + propiedad | Ajustes permitidos. |
-| DELETE | `/profiles/:profileId` | parental | Elimina perfil y datos asociados (cascada). |
-| GET | `/profiles/:profileId/progress` | sesion + propiedad | Progreso agregado. |
-| GET | `/profiles/:profileId/review` | sesion + propiedad | Palabras/actividades para repasar. |
-| GET | `/profiles/:profileId/rewards` | sesion + propiedad | XP, monedas, insignias. |
-| GET | `/profiles/:profileId/export` | parental | Exporta todos los datos en JSON. |
-| GET | `/worlds` | sesion | Mundos con estado de desbloqueo. |
-| GET | `/worlds/:worldId` | sesion | Detalle del mundo (lecciones, progreso). |
-| GET | `/lessons/:lessonId` | sesion | Leccion con actividades **publicas** (sin `answerKey`). |
-| POST | `/activities/:activityId/answer` | sesion | Valida respuesta, registra intento, otorga XP. Idempotente. |
-| POST | `/lessons/:lessonId/complete` | sesion | Marca leccion completada y otorga bonus. Idempotente. |
-| POST | `/parent/setup` | sesion | Crea el codigo parental (solo la primera vez). |
-| POST | `/parent/unlock` | sesion | Verifica el codigo parental y emite `eq_parent`. |
-| POST | `/parent/lock` | - | Cierra la sesion parental. |
-| GET | `/parent/overview` | parental | Resumen para el panel parental. |
+| Metodo | Ruta                             | Auth               | Descripcion                                                 |
+| ------ | -------------------------------- | ------------------ | ----------------------------------------------------------- |
+| GET    | `/health`                        | -                  | Estado de la app y de la DB, sin secretos.                  |
+| POST   | `/profiles`                      | sesion             | Crea perfil infantil (`displayName`, `avatarId`).           |
+| GET    | `/profiles/:profileId`           | sesion + propiedad | Perfil del jugador.                                         |
+| PATCH  | `/profiles/:profileId/settings`  | sesion + propiedad | Ajustes permitidos.                                         |
+| DELETE | `/profiles/:profileId`           | parental           | Elimina perfil y datos asociados (cascada).                 |
+| GET    | `/profiles/:profileId/progress`  | sesion + propiedad | Progreso agregado.                                          |
+| GET    | `/profiles/:profileId/review`    | sesion + propiedad | Palabras/actividades para repasar.                          |
+| GET    | `/profiles/:profileId/rewards`   | sesion + propiedad | XP, monedas, insignias.                                     |
+| GET    | `/profiles/:profileId/export`    | parental           | Exporta todos los datos en JSON.                            |
+| GET    | `/worlds`                        | sesion             | Mundos con estado de desbloqueo.                            |
+| GET    | `/worlds/:worldId`               | sesion             | Detalle del mundo (lecciones, progreso).                    |
+| GET    | `/lessons/:lessonId`             | sesion             | Leccion con actividades **publicas** (sin `answerKey`).     |
+| POST   | `/activities/:activityId/answer` | sesion             | Valida respuesta, registra intento, otorga XP. Idempotente. |
+| POST   | `/lessons/:lessonId/complete`    | sesion             | Marca leccion completada y otorga bonus. Idempotente.       |
+| POST   | `/parent/setup`                  | sesion             | Crea el codigo parental (solo la primera vez).              |
+| POST   | `/parent/unlock`                 | sesion             | Verifica el codigo parental y emite `eq_parent`.            |
+| POST   | `/parent/lock`                   | -                  | Cierra la sesion parental.                                  |
+| GET    | `/parent/overview`               | parental           | Resumen para el panel parental.                             |
 
 ## Ejemplos
 

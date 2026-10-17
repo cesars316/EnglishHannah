@@ -34,7 +34,9 @@ src/content/
   translation: 'rojo',
   partOfSpeech: 'adjective',
   phonetic: 'red',               // ayuda orientativa NO IPA (si no es IPA real)
-  image: '/images/vocabulary/red.svg',
+  // Union tipada: nunca se inventan archivos. O SVG original versionado,
+  // o el visual se dibuja con datos (color/cantidad).
+  visual: { kind: 'color', hex: '#e11d48', alt: 'Circulo rojo' },
   audio: null,                   // null => se usa TTS del navegador
   example: { en: "The apple is red.", es: "La manzana es roja." },
   acceptedAnswers: ['red'],
@@ -46,7 +48,8 @@ src/content/
 ```
 
 Reglas:
-- `image` debe existir en `public/`. Si aún no hay SVG, la validacion falla.
+
+- `visual` es una union tipada: `{ kind: 'image', src, alt }` debe apuntar a un SVG real en `public/`; `{ kind: 'color', hex, alt }` y `{ kind: 'count', count, alt }` se dibujan con datos. Si un `kind: 'image'` no existe, la validacion falla.
 - `acceptedAnswers` nunca vacio.
 - `phonetic` es ayuda, no se presenta como IPA salvo que lo sea.
 
@@ -54,15 +57,16 @@ Reglas:
 
 Tipos del MVP y forma del `answerKey`:
 
-| Tipo | `content` | `answerKey` |
-| --- | --- | --- |
-| `listen-and-choose` | `stimulus` (audio/texto) + `options[]` | `{ optionId }` |
-| `image-choice` | `options[]` | `{ optionId }` |
-| `matching-pairs` | `pairs[]` (left/right) | `{ pairs: { leftId, rightId }[] }` |
-| `word-builder` | `tokens[]`, `mode: 'letters' \| 'words'` | `{ text }` |
-| `sentence-completion` | `sentence` con `___` + `options[]` | `{ optionId }` |
+| Tipo                  | `content`                                | `answerKey`                        |
+| --------------------- | ---------------------------------------- | ---------------------------------- |
+| `listen-and-choose`   | `stimulus` (audio/texto) + `options[]`   | `{ optionId }`                     |
+| `image-choice`        | `options[]`                              | `{ optionId }`                     |
+| `matching-pairs`      | `pairs[]` (left/right)                   | `{ pairs: { leftId, rightId }[] }` |
+| `word-builder`        | `tokens[]`, `mode: 'letters' \| 'words'` | `{ text }`                         |
+| `sentence-completion` | `sentence` con `___` + `options[]`       | `{ optionId }`                     |
 
 Reglas:
+
 - 3-4 opciones como maximo por actividad de eleccion.
 - La respuesta correcta **siempre** debe estar entre las opciones.
 - Distractores plausibles pero inequivocos.
@@ -82,7 +86,7 @@ Reglas:
 1. Crear `worlds/index.ts` entrada con `order`, `prerequisites`, `badgeId`.
 2. Crear vocabulario, leccion y actividades (archivos del mundo).
 3. Registrar en `src/content/index.ts`.
-4. Añadir los SVG a `public/images/vocabulary/`.
+4. Añadir los SVG originales a `public/images/vocabulary/` (solo para `visual.kind: 'image'`).
 5. Ejecutar `npm run validate:content` y `npm test`.
 
 ## 7. Reglas de validacion automatica
@@ -91,7 +95,7 @@ Reglas:
 
 - IDs unicos en cada coleccion.
 - Toda referencia (`worldId`, `lessonId`, `vocabularyIds`, `badgeId`) existe.
-- Las imagenes y audios referenciados existen en `public/`.
+- Los recursos `visual.kind: 'image'` y los audios referenciados existen en `public/`.
 - La respuesta correcta esta entre las opciones (y `answerKey` es coherente con el tipo).
 - `prompt.es` presente; traducciones requeridas completas.
 - `order` de mundos/lecciones sin huecos ni duplicados.

@@ -19,13 +19,25 @@ Documentacion completa en [`docs/`](./docs):
 
 ## Requisitos
 
-| Herramienta | Version |
-| --- | --- |
-| Node.js | >= 20.9 (probado con 24.21.0) |
-| npm | >= 10 (probado con 11.19.0) |
-| Docker Desktop | opcional, para MongoDB local |
+| Herramienta    | Version                       |
+| -------------- | ----------------------------- |
+| Node.js        | >= 20.9 (probado con 24.21.0) |
+| npm            | >= 10 (probado con 11.19.0)   |
+| Docker Desktop | opcional, para MongoDB local  |
 
 ## Puesta en marcha (desde cero)
+
+### Camino rapido (sin base de datos, Fase 2)
+
+La app funciona por completo en local: el progreso se guarda en este dispositivo.
+No hace falta MongoDB, ni `.env.local`, para jugar los cuatro mundos MVP.
+
+```bash
+npm install   # 1. Instalar dependencias
+npm run dev   # 2. Arrancar en desarrollo -> http://localhost:3000
+```
+
+### Con MongoDB (a partir de la Fase 3)
 
 ```bash
 # 1. Instalar dependencias
@@ -53,6 +65,23 @@ En Windows PowerShell el comando de copia es:
 Copy-Item .env.example .env.local
 ```
 
+### Recorrido de la Fase 2
+
+1. `/` - portada; pulsa **Empezar la aventura**.
+2. `/empezar` - crea un perfil (alias + avatar).
+3. `/jugar` - panel de inicio con la siguiente mision.
+4. `/jugar/mapa` - mapa de mundos; abre **Hello Village**.
+5. `/jugar/mundo/hello-village` -> **Jugar la mision** -> `/jugar/leccion/hello-01`.
+6. Resuelve las actividades, mira el feedback y el resumen con XP y monedas.
+7. `/jugar/practicar` - repaso espaciado; `/coleccion` - insignias y palabras.
+8. `/padres` - zona de adultos (crea un codigo la primera vez).
+
+### Comprobacion completa
+
+```bash
+npm run verify   # contenido + lint + tipos + pruebas + build
+```
+
 ### Usar MongoDB Atlas en vez de Docker
 
 1. Crea un cluster gratuito en MongoDB Atlas.
@@ -63,23 +92,39 @@ No se necesitan mas cambios de codigo.
 
 ## Scripts
 
-| Comando | Descripcion |
-| --- | --- |
-| `npm run dev` | Servidor de desarrollo |
-| `npm run build` | Build de produccion |
-| `npm run start` | Servir el build |
-| `npm run lint` | ESLint |
-| `npm run lint:fix` | ESLint con autocorreccion |
-| `npm run format` | Prettier |
-| `npm run typecheck` | TypeScript sin emitir |
-| `npm run test` | Pruebas unitarias y de componentes (Vitest) |
-| `npm run test:watch` | Vitest en modo watch |
-| `npm run test:coverage` | Vitest con cobertura |
-| `npm run test:integration` | Pruebas de integracion (requiere MongoDB) |
-| `npm run test:e2e` | Playwright E2E |
-| `npm run validate:content` | Valida el contenido pedagogico |
-| `npm run seed` | Crea indices y configuracion en MongoDB (idempotente) |
-| `npm run db:up` / `npm run db:down` | MongoDB local con Docker |
+| Comando                             | Descripcion                                                   |
+| ----------------------------------- | ------------------------------------------------------------- |
+| `npm run dev`                       | Servidor de desarrollo                                        |
+| `npm run build`                     | Build de produccion                                           |
+| `npm run start`                     | Servir el build                                               |
+| `npm run lint`                      | ESLint                                                        |
+| `npm run lint:fix`                  | ESLint con autocorreccion                                     |
+| `npm run format`                    | Prettier                                                      |
+| `npm run typecheck`                 | TypeScript sin emitir                                         |
+| `npm run test`                      | Pruebas unitarias y de componentes (Vitest)                   |
+| `npm run test:watch`                | Vitest en modo watch                                          |
+| `npm run test:coverage`             | Vitest con cobertura                                          |
+| `npm run test:integration`          | Pruebas de integracion (requiere MongoDB)                     |
+| `npm run test:e2e`                  | Playwright E2E                                                |
+| `npm run validate:content`          | Valida el contenido pedagogico                                |
+| `npm run verify`                    | Contenido + lint + tipos + pruebas + build                    |
+| `npm run seed`                      | Crea indices y configuracion en MongoDB (idempotente, Fase 3) |
+| `npm run db:up` / `npm run db:down` | MongoDB local con Docker (Fase 3)                             |
+
+## Rutas
+
+| Ruta                           | Contenido                                    |
+| ------------------------------ | -------------------------------------------- |
+| `/`                            | Portada publica                              |
+| `/empezar`, `/perfiles`        | Alta y seleccion de perfil                   |
+| `/privacidad`, `/sin-conexion` | Privacidad y aviso sin conexion              |
+| `/jugar`                       | Inicio: siguiente mision, repaso y coleccion |
+| `/jugar/mapa`                  | Mapa de mundos y estado de desbloqueo        |
+| `/jugar/mundo/[worldId]`       | Detalle del mundo y sus misiones             |
+| `/jugar/leccion/[lessonId]`    | Sesion de mision (actividades + resumen)     |
+| `/jugar/practicar`             | Repaso espaciado                             |
+| `/coleccion`                   | Insignias, monedas y palabras practicadas    |
+| `/padres`, `/padres/ajustes`   | Zona de adultos (protegida por codigo)       |
 
 ## Estructura
 
@@ -99,6 +144,12 @@ tests/         unit, integration, e2e
 ## Estado del proyecto
 
 Ver el checklist vivo en [`docs/IMPLEMENTATION_PLAN.md`](./docs/IMPLEMENTATION_PLAN.md).
+
+- **Fase 0** (documentacion y arquitectura), **Fase 1** (fundacion) y **Fase 2**
+  (contenido + rebanada vertical jugable) estan completadas.
+- Hoy el progreso se guarda en el dispositivo (`localStorage`). MongoDB y la API
+  `/api/v1` llegan en la Fase 3 sin cambiar la interfaz.
+- Limitaciones conocidas al final de `docs/IMPLEMENTATION_PLAN.md`.
 
 ## Privacidad
 

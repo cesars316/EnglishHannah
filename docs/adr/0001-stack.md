@@ -7,20 +7,20 @@
 
 ## Decision
 
-| Capa | Eleccion | Version fijada |
-| --- | --- | --- |
-| Framework | Next.js (App Router) | 16.4.x |
-| UI | React | 19.3.x |
-| Lenguaje | TypeScript estricto | 5.9.3 |
-| Estilos | Tailwind CSS (+ `@tailwindcss/postcss`) | 4.3.x |
-| Persistencia | MongoDB driver oficial (sin Mongoose) | 7.7.x |
-| Validacion | Zod | 4.6.x |
-| Pruebas unitarias | Vitest + jsdom | 5.0.x |
-| Pruebas de componentes | React Testing Library + jest-dom | 16.3.x / 7.0.x |
-| Pruebas E2E | Playwright | 1.64.x |
-| Lint/format | ESLint (flat config) + eslint-config-next + Prettier | 10.x / 3.9.x |
-| CI | GitHub Actions | - |
-| Deploy (futuro) | Vercel Hobby + MongoDB Atlas Free | - |
+| Capa                   | Eleccion                                             | Version fijada |
+| ---------------------- | ---------------------------------------------------- | -------------- |
+| Framework              | Next.js (App Router)                                 | 16.4.x         |
+| UI                     | React                                                | 19.3.x         |
+| Lenguaje               | TypeScript estricto                                  | 5.9.3          |
+| Estilos                | Tailwind CSS (+ `@tailwindcss/postcss`)              | 4.3.x          |
+| Persistencia           | MongoDB driver oficial (sin Mongoose)                | 7.7.x          |
+| Validacion             | Zod                                                  | 4.6.x          |
+| Pruebas unitarias      | Vitest + jsdom                                       | 5.0.x          |
+| Pruebas de componentes | React Testing Library + jest-dom                     | 16.3.x / 7.0.x |
+| Pruebas E2E            | Playwright                                           | 1.64.x         |
+| Lint/format            | ESLint (flat config) + eslint-config-next + Prettier | 10.x / 3.9.x   |
+| CI                     | GitHub Actions                                       | -              |
+| Deploy (futuro)        | Vercel Hobby + MongoDB Atlas Free                    | -              |
 
 ## Por que TypeScript 5.9.3 y no 7.0.2
 

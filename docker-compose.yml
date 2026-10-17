@@ -1,0 +1,24 @@
+# MongoDB local para desarrollo y pruebas.
+# Uso: `npm run db:up` / `npm run db:down`
+#
+# Se usa instancia simple (sin replica set) para que funcione igual en Windows,
+# macOS y Linux. El cluster gratuito de MongoDB Atlas ya es un replica set.
+services:
+  mongo:
+    image: mongo:8.0
+    container_name: english-quest-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
+
+volumes:
+  mongo-data:
+    name: english-quest-mongo-data

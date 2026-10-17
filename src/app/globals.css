@@ -1,0 +1,212 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   English Quest - sistema visual
+   Paleta calida y accesible. Los pares texto/fondo usados en la interfaz
+   cumplen contraste AA (>= 4.5:1) en tamaños de texto normales.
+   --------------------------------------------------------------------------- */
+
+@theme {
+  --font-sans:
+    ui-rounded, "Segoe UI Rounded", "Nunito", "Trebuchet MS", system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Marca (naranja calido) */
+  --color-brand-50: #fff4ed;
+  --color-brand-100: #ffe3d3;
+  --color-brand-200: #ffc6a8;
+  --color-brand-300: #ffa178;
+  --color-brand-400: #f97b4d;
+  --color-brand-500: #ea5a28;
+  --color-brand-600: #d34a18;
+  --color-brand-700: #c2410c;
+  --color-brand-800: #9a3412;
+  --color-brand-900: #7c2d12;
+
+  /* Acento azul (lectura, escucha) */
+  --color-sky-50: #eff8ff;
+  --color-sky-100: #dceefe;
+  --color-sky-200: #b8defd;
+  --color-sky-300: #85c7fa;
+  --color-sky-400: #4ba9f2;
+  --color-sky-500: #208be3;
+  --color-sky-600: #146eb8;
+  --color-sky-700: #0f5896;
+  --color-sky-800: #0d4778;
+  --color-sky-900: #0b3a62;
+
+  /* Neutros calidos */
+  --color-cream-50: #fffbf4;
+  --color-cream-100: #fdf4e7;
+  --color-cream-200: #f6e8d5;
+  --color-cream-300: #e8d6be;
+  --color-cream-400: #cbb89e;
+  --color-cream-500: #a38f76;
+  --color-cream-600: #7a6851;
+  --color-cream-700: #5c4e3d;
+  --color-cream-800: #3d3327;
+  --color-cream-900: #221b16;
+
+  /* Semantica. Nunca se usa solo el color para indicar exito/error. */
+  --color-success-50: #ecfaf3;
+  --color-success-500: #2e9e6b;
+  --color-success-700: #1c7149;
+  --color-success-900: #10402a;
+
+  --color-danger-50: #fdeef0;
+  --color-danger-500: #d64550;
+  --color-danger-600: #c13342;
+  --color-danger-700: #a32a38;
+
+  --color-warning-100: #fff3d6;
+  --color-warning-500: #f5b32b;
+  --color-warning-700: #96660a;
+
+  --color-purple-100: #efe9fb;
+  --color-purple-500: #9b7ede;
+  --color-purple-700: #6d4fbf;
+
+  --color-pink-100: #fde8ef;
+  --color-pink-500: #f17fa6;
+  --color-pink-700: #b23f6c;
+
+  /* Formas y sombras */
+  --radius-card: 1.5rem;
+  --radius-control: 1rem;
+  --shadow-card: 0 12px 32px -18px rgb(34 27 22 / 0.28);
+  --shadow-float: 0 18px 45px -20px rgb(34 27 22 / 0.35);
+
+  /* Animaciones breves */
+  --animate-pop: pop 260ms ease-out;
+  --animate-soft-in: soft-in 240ms ease-out;
+  --animate-shake: shake 320ms ease-in-out;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.94);
+  }
+  60% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes soft-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-cream-50);
+    color: var(--color-cream-900);
+    font-family: var(--font-sans);
+    min-height: 100dvh;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  /* Foco siempre visible y consistente. */
+  :focus-visible {
+    outline: 3px solid var(--color-sky-600);
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+  }
+
+  /* Los controles tactiles nunca son menores de 44 px. */
+  button,
+  a[role="button"],
+  [role="button"] {
+    touch-action: manipulation;
+  }
+}
+
+/* Clase util para texto solo disponible para lectores de pantalla. */
+@utility sr-only-focusable {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+
+  &:focus-visible {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+}
+
+/* Superficie de tarjeta reutilizable. */
+@utility surface-card {
+  border-radius: var(--radius-card);
+  background-color: #ffffff;
+  border: 1px solid var(--color-cream-200);
+  box-shadow: var(--shadow-card);
+}
+
+/*
+ * Movimiento reducido: se respeta (1) la preferencia del sistema operativo y
+ * (2) el ajuste guardado en el perfil, que marca `data-motion="reduced"`.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html[data-motion="reduced"] *,
+html[data-motion="reduced"] *::before,
+html[data-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}

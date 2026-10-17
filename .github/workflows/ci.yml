@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+# Una sola ejecucion por rama: las ejecuciones antiguas se cancelan.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: lint, tipos, contenido, pruebas y build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Validar el contenido pedagogico
+        run: npm run validate:content
+
+      - name: Analisis estatico (ESLint)
+        run: npm run lint
+
+      - name: Comprobar tipos (TypeScript)
+        run: npm run typecheck
+
+      - name: Pruebas unitarias y de componentes
+        run: npm run test
+
+      - name: Compilar la aplicacion
+        run: npm run build
+        env:
+          # El build no necesita base de datos (Fase 2 funciona en local).
+          NEXT_TELEMETRY_DISABLED: "1"

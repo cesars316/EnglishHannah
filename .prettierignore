@@ -1,0 +1,12 @@
+.next
+out
+build
+node_modules
+coverage
+test-results
+playwright-report
+blob-report
+package-lock.json
+.next/types
+*.tsbuildinfo
+English_Quest_Documento_Maestro.md

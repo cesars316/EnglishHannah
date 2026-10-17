@@ -10,15 +10,15 @@
 
 ## 1. Datos que se recogen
 
-| Dato | Finalidad | Obligatorio |
-| --- | --- | --- |
-| Alias del perfil (ej. "Explorer") | Mostrarlo en el juego | Si (editable, no es el nombre real) |
-| Avatar elegido | Personalizacion | Si |
-| Idioma de apoyo (`es-CO`) y objetivo (`en-US`) | Presentar el contenido | Si |
-| Progreso de aprendizaje (palabras vistas, aciertos/errores, fechas) | Guardar el avance y sugerir repaso | Si |
-| XP, monedas, insignias, desbloqueos | Progresion del juego | Si |
-| Preferencias (sonido, microfono, camara, movimiento reducido) | Respetar la eleccion del adulto | Si |
-| Codigo parental (hash scrypt) | Proteger la zona de adultos | Si (lo crea el adulto) |
+| Dato                                                                | Finalidad                          | Obligatorio                         |
+| ------------------------------------------------------------------- | ---------------------------------- | ----------------------------------- |
+| Alias del perfil (ej. "Explorer")                                   | Mostrarlo en el juego              | Si (editable, no es el nombre real) |
+| Avatar elegido                                                      | Personalizacion                    | Si                                  |
+| Idioma de apoyo (`es-CO`) y objetivo (`en-US`)                      | Presentar el contenido             | Si                                  |
+| Progreso de aprendizaje (palabras vistas, aciertos/errores, fechas) | Guardar el avance y sugerir repaso | Si                                  |
+| XP, monedas, insignias, desbloqueos                                 | Progresion del juego               | Si                                  |
+| Preferencias (sonido, microfono, camara, movimiento reducido)       | Respetar la eleccion del adulto    | Si                                  |
+| Codigo parental (hash scrypt)                                       | Proteger la zona de adultos        | Si (lo crea el adulto)              |
 
 **No se recogen:** nombre real y apellidos, fecha de nacimiento exacta, colegio,
 direccion, ubicacion/geolocalizacion, telefono, correo, contactos, biometria ni
@@ -76,12 +76,12 @@ publicidad/rastreadores de terceros.
 
 ## 7. Terceros
 
-| Tercero | Uso | Datos |
-| --- | --- | --- |
-| Proveedor de navegador (Google/Microsoft/Apple) | Sintesis y reconocimiento de voz | Puede recibir audio si se usa el microfono |
-| MongoDB Atlas (opcional, despliegue) | Almacenar progreso | Alias y progreso, sin datos personales reales |
-| Vercel (opcional, despliegue) | Hosting | Logs tecnicos |
-| Nuestra app | Todo lo demas | Sin analitica invasiva ni publicidad |
+| Tercero                                         | Uso                              | Datos                                         |
+| ----------------------------------------------- | -------------------------------- | --------------------------------------------- |
+| Proveedor de navegador (Google/Microsoft/Apple) | Sintesis y reconocimiento de voz | Puede recibir audio si se usa el microfono    |
+| MongoDB Atlas (opcional, despliegue)            | Almacenar progreso               | Alias y progreso, sin datos personales reales |
+| Vercel (opcional, despliegue)                   | Hosting                          | Logs tecnicos                                 |
+| Nuestra app                                     | Todo lo demas                    | Sin analitica invasiva ni publicidad          |
 
 ## 8. Consentimiento y control del adulto
 

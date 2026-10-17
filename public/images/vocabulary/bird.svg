@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Pajaro">
+  <rect width="160" height="160" rx="32" fill="#eff8ff"/>
+  <ellipse cx="76" cy="84" rx="42" ry="40" fill="#5aa9e6"/>
+  <ellipse cx="58" cy="88" rx="17" ry="24" fill="#3d8bd4" transform="rotate(-12 58 88)"/>
+  <polygon points="112,78 142,86 112,96" fill="#f5b32b"/>
+  <circle cx="96" cy="68" r="9" fill="#ffffff"/>
+  <circle cx="97" cy="69" r="4.5" fill="#2b2118"/>
+  <path d="M70 122v12M84 122v12" stroke="#f5b32b" stroke-width="4" stroke-linecap="round"/>
+  <path d="M64 134h12M78 134h12" stroke="#f5b32b" stroke-width="4" stroke-linecap="round"/>
+  <path d="M28 46q10-10 20 0" stroke="#4ba9f2" stroke-width="3" stroke-linecap="round" fill="none"/>
+</svg>
