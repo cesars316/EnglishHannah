@@ -6,7 +6,7 @@
 **Estado actual:** Fase 0 completada · Fase 1 completada · Fase 2 completada
 (rebanada vertical jugable en local) · Fase 3 completada (API `/api/v1` + MongoDB;
 el servidor es la autoridad) · Fase 4 completada (progreso y panel parental) ·
-Fase 5 pendiente.
+Fase 5 completada (voz y camara opcionales) · Fase 6 pendiente.
 
 ## Decisiones del propietario
 
@@ -114,12 +114,17 @@ filtra respuestas correctas. ✅
 
 ## Fase 5 - Voz y camara (opcionales)
 
-- [ ] `SpeechRecognitionService` con deteccion de soporte.
-- [ ] `speak-and-check` con fallback manual "Ya lo dije".
-- [ ] `camera-hunt` con `getUserMedia` explicito, indicador y `track.stop()`.
-- [ ] Estados de permiso denegado, ausente y error.
+- [x] `src/features/speech/recognition.ts`: deteccion de soporte, mapeo de errores
+      y normalizacion del texto reconocido (probado sin navegador real).
+- [x] `speak-and-check` con fallback manual «Ya lo dije» y locucion (TTS).
+- [x] `camera-hunt` con `getUserMedia` explicito, vista previa temporal,
+      indicador visible y `track.stop()` al salir.
+- [x] Estados de permiso denegado, ausente y error, con alternativa sin medios.
+- [x] Contenido: actividades `color-01-speak` y `color-02-hunt` en Color Forest.
+- [x] Pruebas: `tests/unit/media.test.ts` (logica pura) y
+      `tests/components/media-views.test.tsx` (fallbacks sin permisos/APIs).
 
-**Aceptacion:** el juego funciona sin permisos ni APIs; no se guardan medios.
+**Aceptacion:** el juego funciona sin permisos ni APIs; no se guardan medios. ✅
 
 ## Fase 6 - Calidad y despliegue (sin publicar)
 

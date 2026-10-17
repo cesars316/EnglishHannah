@@ -48,3 +48,15 @@ export type MatchingPairsViewProps = ActivityViewBase & {
 export type WordBuilderViewProps = ActivityViewBase & {
   activity: Extract<PublicActivity, { type: "word-builder" }>;
 };
+
+export type SpeakAndCheckViewProps = ActivityViewBase & {
+  activity: Extract<PublicActivity, { type: "speak-and-check" }>;
+  /** El adulto ha habilitado el microfono para este perfil. */
+  microphoneEnabled: boolean;
+};
+
+export type CameraHuntViewProps = ActivityViewBase & {
+  activity: Extract<PublicActivity, { type: "camera-hunt" }>;
+  /** El adulto ha habilitado la camara para este perfil. */
+  cameraEnabled: boolean;
+};

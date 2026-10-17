@@ -408,6 +408,8 @@ export function LessonRunner({
             solved={state.attempt.solved}
             revealed={state.attempt.revealed}
             lockedPairs={state.attempt.lockedPairs}
+            microphoneEnabled={activeProfile?.settings.microphoneEnabled ?? false}
+            cameraEnabled={activeProfile?.settings.cameraEnabled ?? false}
             hintVisible={state.hintVisible}
             showTranslation
             onHint={() => dispatch({ type: "toggle-hint" })}

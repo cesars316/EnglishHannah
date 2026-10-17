@@ -1,5 +1,6 @@
 import { CONTENT_VERSION } from "@/config/game";
 import type {
+  CameraHuntActivity,
   ChoiceOption,
   ContentSource,
   Difficulty,
@@ -10,6 +11,7 @@ import type {
   MatchingPairsActivity,
   SentenceCompletionActivity,
   Skill,
+  SpeakAndCheckActivity,
   VocabularyVisual,
   WordBuilderActivity,
 } from "@/types/content";
@@ -213,6 +215,85 @@ export function buildSentenceCompletion(
       sentence: input.sentence,
       translation: input.translation,
       options: input.options,
+    },
+    answerKey: { optionId: input.answerId },
+  };
+}
+
+export type SpeakAndCheckInput = BaseInput & {
+  /** Palabra u oracion que se pide pronunciar. */
+  target: string;
+  translation: string;
+  /** Respuestas habladas aceptadas; por defecto, el propio objetivo. */
+  acceptedAnswers?: string[];
+};
+
+/**
+ * `speak-and-check`: pronunciar en voz alta.
+ *
+ * El microfono es opcional (ADR 0005): la actividad siempre admite la salida
+ * manual «Ya lo dije», asi que se publica aunque el perfil no tenga microfono.
+ */
+export function buildSpeakAndCheck(input: SpeakAndCheckInput): SpeakAndCheckActivity {
+  const accepted = input.acceptedAnswers ?? [input.target];
+  return {
+    ...base({
+      ...input,
+      skill: "speaking",
+      prompt:
+        input.prompt ?? {
+          es: `Di "${input.target}" en voz alta.`,
+          en: `Say "${input.target}" out loud.`,
+        },
+      instructions:
+        input.instructions ?? {
+          es: "Toca el microfono y di la palabra. Si no puedes, usa «Ya lo dije».",
+          en: "Tap the mic and say the word. If you can't, use «Ya lo dije».",
+        },
+    }),
+    type: "speak-and-check",
+    content: { target: input.target, translation: input.translation, acceptedAnswers: accepted },
+    answerKey: { acceptedAnswers: accepted },
+  };
+}
+
+export type CameraHuntInput = BaseInput & {
+  target: string;
+  translation: string;
+  /** Por que se busca ese objeto (nunca se guarda ninguna imagen). */
+  why: LocalizedText;
+  /** Opciones sin camara; deben incluir `answerId`. */
+  fallbackOptions: ChoiceOption[];
+  answerId: string;
+};
+
+/**
+ * `camera-hunt`: buscar un objeto real con una vista previa temporal.
+ *
+ * La camara nunca captura ni guarda (ADR 0005); siempre hay opciones sin camara.
+ */
+export function buildCameraHunt(input: CameraHuntInput): CameraHuntActivity {
+  return {
+    ...base({
+      ...input,
+      skill: input.skill ?? "vocabulary",
+      prompt:
+        input.prompt ?? {
+          es: `Busca algo ${input.target} a tu alrededor.`,
+          en: `Find something ${input.target} around you.`,
+        },
+      instructions:
+        input.instructions ?? {
+          es: "Mira a tu alrededor o elige una opcion. No se guarda ninguna imagen.",
+          en: "Look around or pick an option. No image is saved.",
+        },
+    }),
+    type: "camera-hunt",
+    content: {
+      target: input.target,
+      translation: input.translation,
+      why: input.why,
+      fallbackOptions: input.fallbackOptions,
     },
     answerKey: { optionId: input.answerId },
   };

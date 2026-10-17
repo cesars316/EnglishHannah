@@ -1,8 +1,10 @@
 import {
+  buildCameraHunt,
   buildImageChoice,
   buildListenAndChoose,
   buildMatchingPairs,
   buildSentenceCompletion,
+  buildSpeakAndCheck,
   buildWordBuilder,
   colorVisual,
   textOption,
@@ -80,6 +82,16 @@ export const COLOR_FOREST_ACTIVITIES: readonly Activity[] = [
     answerId: "yellow",
     hints: [{ es: "¿De que color es un platano?", en: "What colour is a banana?" }],
   }),
+  buildSpeakAndCheck({
+    id: "color-01-speak",
+    worldId: "color-forest",
+    lessonId: "color-01",
+    order: 5,
+    vocabularyIds: ["blue"],
+    target: "blue",
+    translation: "azul",
+    hints: [{ es: "Rima con «you». Di la vocal despacio.", en: "It rhymes with 'you'." }],
+  }),
 
   /* -------------- color-02: verde, naranja, morado y rosa ----------------- */
   buildListenAndChoose({
@@ -122,6 +134,23 @@ export const COLOR_FOREST_ACTIVITIES: readonly Activity[] = [
     translation: "verde",
     extraTokens: ["a"],
     hints: [{ es: "Empieza con g y tiene dos letras e juntas.", en: "It starts with g." }],
+  }),
+  buildCameraHunt({
+    id: "color-02-hunt",
+    worldId: "color-forest",
+    lessonId: "color-02",
+    order: 5,
+    vocabularyIds: ["green", "orange", "pink"],
+    target: "green",
+    translation: "algo verde",
+    prompt: { es: "Busca algo verde a tu alrededor.", en: "Find something green around you." },
+    why: {
+      es: "Para reconocer el color verde en objetos reales.",
+      en: "To recognise green in real objects.",
+    },
+    fallbackOptions: [GREEN, ORANGE, PINK],
+    answerId: "green",
+    hints: [{ es: "Mira las plantas, la ropa o tus lapices.", en: "Look at plants, clothes or pencils." }],
   }),
 
   /* -------------- color-03: mision final del bosque ------------------------ */
