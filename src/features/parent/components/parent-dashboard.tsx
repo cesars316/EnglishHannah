@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 
@@ -96,8 +96,8 @@ function Toggle({
 /**
  * Panel para padres o tutores: progreso real, sin juicios ni notas.
  *
- * Todo lo que se muestra sale del dispositivo; no hay datos de seguimiento ni
- * comparaciones con otros niños.
+ * Todo lo que se muestra sale del servidor; no hay datos de seguimiento ni
+ * comparaciones con otros niÃ±os.
  */
 export function ParentDashboard() {
   const { ready, profiles, activeProfile, updateProfile } = useProfiles();
@@ -170,8 +170,8 @@ export function ParentDashboard() {
               <Pill tone="brand">{summary.worldsCompleted} mundos completados</Pill>
             </div>
             <p className="text-cream-700 text-sm leading-relaxed">
-              El «dominio» es una estimacion: sube al acertar en varias sesiones y con distintos
-              tipos de actividad. No es una nota ni una comparacion con otros niños.
+              El Â«dominioÂ» es una estimacion: sube al acertar en varias sesiones y con distintos
+              tipos de actividad. No es una nota ni una comparacion con otros niÃ±os.
             </p>
           </Card>
 
@@ -223,7 +223,7 @@ export function ParentDashboard() {
                 ))}
               </ul>
               <p className="text-cream-700 text-sm">
-                En el juego aparecen en la seccion «Repaso», sin penalizaciones.
+                En el juego aparecen en la seccion Â«RepasoÂ», sin penalizaciones.
               </p>
             </Card>
           )}
@@ -278,7 +278,9 @@ export function ParentDashboard() {
             description="Efectos y locucion de las actividades."
             checked={selectedProfile.settings.soundEnabled}
             onChange={(value) =>
-              updateProfile(selectedProfile.id, { settings: { soundEnabled: value } })
+              updateProfile(selectedProfile.id, { settings: { soundEnabled: value } }).catch((error) => {
+                console.error("No se pudo guardar el ajuste de sonido", error);
+              })
             }
           />
           <Toggle
@@ -287,7 +289,9 @@ export function ParentDashboard() {
             description="Permite practicar la pronunciacion. Si esta apagado, las actividades de voz se hacen sin microfono."
             checked={selectedProfile.settings.microphoneEnabled}
             onChange={(value) =>
-              updateProfile(selectedProfile.id, { settings: { microphoneEnabled: value } })
+              updateProfile(selectedProfile.id, { settings: { microphoneEnabled: value } }).catch((error) => {
+                console.error("No se pudo guardar el ajuste del micrófono", error);
+              })
             }
           />
           <Toggle
@@ -296,7 +300,9 @@ export function ParentDashboard() {
             description="Solo para retos de buscar objetos. Nunca se guardan fotos ni video."
             checked={selectedProfile.settings.cameraEnabled}
             onChange={(value) =>
-              updateProfile(selectedProfile.id, { settings: { cameraEnabled: value } })
+              updateProfile(selectedProfile.id, { settings: { cameraEnabled: value } }).catch((error) => {
+                console.error("No se pudo guardar el ajuste de la cámara", error);
+              })
             }
           />
           <Toggle
@@ -306,7 +312,9 @@ export function ParentDashboard() {
             checked={selectedProfile.settings.reducedMotion}
             onChange={(value) => {
               persistReducedMotionPreference(value);
-              updateProfile(selectedProfile.id, { settings: { reducedMotion: value } });
+              updateProfile(selectedProfile.id, { settings: { reducedMotion: value } }).catch((error) => {
+                console.error("No se pudo guardar el ajuste de movimiento reducido", error);
+              });
             }}
           />
         </Card>
@@ -323,3 +331,4 @@ export function ParentDashboard() {
     </div>
   );
 }
+

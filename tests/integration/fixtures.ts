@@ -13,8 +13,6 @@ import type {
 } from "@/types/content";
 import type { Profile } from "@/types/domain";
 
-/** Datos de apoyo para las pruebas de integracion. */
-
 export function newOwnerId(): string {
   return randomUUID();
 }
@@ -40,7 +38,6 @@ const CHOICE_TYPES = new Set([
   "camera-hunt",
 ]);
 
-/** Primera actividad de eleccion del contenido real. */
 export function findChoiceActivity(): ChoiceActivity {
   const activity = ALL_ACTIVITIES.find(
     (item): item is ChoiceActivity => CHOICE_TYPES.has(item.type),
@@ -83,8 +80,12 @@ export function correctResponse(activity: Activity): ActivityResponse {
   }
 }
 
-/** Respuesta claramente incorrecta para una actividad de eleccion. */
 export function wrongResponse(activity: ChoiceActivity): ActivityResponse {
   const wrong = optionIds(activity).find((id) => id !== activity.answerKey.optionId);
   return { kind: "choice", optionId: wrong ?? "__opcion_invalida__" };
+}
+
+export function createTestActivity(overrides?: Partial<ChoiceActivity>): ChoiceActivity {
+  const base = findChoiceActivity();
+  return { ...base, ...overrides } as ChoiceActivity;
 }

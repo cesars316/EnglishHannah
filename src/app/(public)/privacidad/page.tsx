@@ -11,27 +11,31 @@ export const metadata: Metadata = {
 const SECTIONS = [
   {
     title: "Que guardamos",
-    body: "Solo lo necesario para que el juego recuerde a cada niño: nombre o apodo, avatar, progreso (misiones, XP, monedas, insignias) e intentos de actividad. Todo se guarda en el propio dispositivo (almacenamiento local del navegador).",
+    body: "Solo lo necesario para que el juego recuerde a cada niño: un alias o apodo (nunca el nombre real), el avatar, el progreso (misiones, XP, monedas e insignias) y los intentos de actividad. Todo se asocia a un identificador de dispositivo anonimo, no a una cuenta con datos personales.",
+  },
+  {
+    title: "Donde se guarda",
+    body: "El progreso se guarda en la base de datos del servidor de la aplicacion (MongoDB). El navegador solo recuerda, en su almacenamiento local, que perfil esta activo en este dispositivo: nada mas. Dos cookies tecnicas (httpOnly y firmadas) identifican el dispositivo y autorizan temporalmente la zona de adultos; no contienen datos del niño.",
   },
   {
     title: "Que NO guardamos",
-    body: "No guardamos grabaciones de voz, fotos ni video. El microfono y la camara, cuando se usan, funcionan en directo y se apagan al terminar la actividad. No hay cuentas con correo, ni chat, ni publicidad y no se recogen datos de menores.",
+    body: "No guardamos grabaciones de voz, fotos ni video. El microfono y la camara, cuando se usan, funcionan en directo y se apagan al terminar la actividad. No hay cuentas con correo, ni chat, ni publicidad y no se recogen datos personales de menores.",
   },
   {
     title: "Quien puede verlo",
-    body: "El progreso se muestra al niño y, en la zona de adultos protegida por un codigo, a la madre, el padre o el tutor. El codigo se guarda cifrado (nunca en texto plano) y solo existe en este dispositivo.",
+    body: "El progreso se muestra al niño y, en la zona de adultos protegida por un codigo, a la madre, el padre o el tutor. El codigo no se guarda nunca en texto plano: se guarda cifrado (scrypt) en el servidor y sin el no se puede entrar en la zona de adultos.",
   },
   {
     title: "Tus decisiones",
-    body: "En la zona de adultos puedes descargar una copia de los datos en un archivo, borrar el progreso de un perfil concreto o borrar todo por completo cuando quieras.",
+    body: "En la zona de adultos puedes descargar una copia de los datos en un archivo JSON, borrar el progreso de un perfil concreto sin eliminar el perfil, o borrar todo por completo cuando quieras. Borrar un perfil elimina tambien su progreso e intentos.",
   },
   {
     title: "Analitica y terceros",
-    body: "La aplicacion no usa servicios de analitica, ni cookies de seguimiento, ni redes sociales. El audio se genera con la voz que ya trae el navegador, sin enviar texto a ningun servidor.",
+    body: "La aplicacion no usa servicios de analitica, ni cookies de seguimiento, ni redes sociales. El audio se genera con la voz que ya trae el navegador, sin enviar texto a ningun servidor. El reconocimiento de voz, si el adulto lo habilita, puede delegar el audio en el proveedor del navegador; siempre existe una alternativa manual sin microfono.",
   },
   {
     title: "Buscadores",
-    body: "Mientras el proyecto esta en desarrollo, la aplicacion pide a los motores de busqueda que no la indexen, tambien cuando se comparta el enlace.",
+    body: "Mientras el proyecto esta en desarrollo, la aplicacion pide a los motores de busqueda que no la indexen, tambien cuando se comparta el enlace. La zona de adultos y los perfiles van con noindex.",
   },
 ];
 
@@ -41,7 +45,7 @@ export default function PrivacyPage() {
       <PageHeader
         eyebrow="Transparencia"
         title="Como cuidamos los datos"
-        subtitle={`${SITE.name} esta pensado para niñas y niños: por defecto, cuanta menos informacion salga del dispositivo, mejor.`}
+        subtitle={`${SITE.name} esta pensado para niñas y niños: cuanta menos informacion se recoge, mejor.`}
       />
 
       <div className="space-y-4">

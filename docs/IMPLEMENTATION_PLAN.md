@@ -5,7 +5,8 @@
 
 **Estado actual:** Fase 0 completada · Fase 1 completada · Fase 2 completada
 (rebanada vertical jugable en local) · Fase 3 completada (API `/api/v1` + MongoDB;
-el servidor es la autoridad) · Fase 4 en curso.
+el servidor es la autoridad) · Fase 4 completada (progreso y panel parental) ·
+Fase 5 pendiente.
 
 ## Decisiones del propietario
 
@@ -100,7 +101,14 @@ filtra respuestas correctas. ✅
       (`DELETE /profiles/:id`, con autorizacion parental).
 - [x] Pagina de privacidad; reinicio de progreso (`DELETE /profiles/:id/progress`)
       y cambio de codigo (`POST /parent/passcode`).
-- [ ] Ajustes de permisos de microfono/camara en la interfaz (se cierra en Fase 5).
+- [x] Ajustes de permisos (microfono, camara, sonido, movimiento reducido) en el
+      panel parental: se guardan en el servidor (cookie parental) y con aviso de
+      error si la sesion de adulto caduca.
+- [x] Contenido de privacidad actualizado tras la Fase 3: pagina de privacidad y
+      `docs/PRIVACY.md` describen MongoDB y el codigo cifrado en servidor (el
+      progreso ya no vive en el navegador).
+- [x] Pruebas de integracion de progreso (`tests/integration/progress.test.ts`):
+      resumen coherente con intentos reales (XP, aciertos por habilidad, tiempo).
 
 **Aceptacion:** estadisticas coherentes con los intentos reales. ✅
 

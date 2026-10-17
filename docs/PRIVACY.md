@@ -1,6 +1,6 @@
 # Privacidad y datos infantiles - English Quest
 
-> Ultima actualizacion: 2026-10-16
+> Ultima actualizacion: 2026-10-17
 >
 > Este documento describe el comportamiento del software. **No constituye una
 > declaracion de cumplimiento legal.** Antes de abrir la aplicacion a otros niños o
@@ -32,14 +32,18 @@ publicidad/rastreadores de terceros.
   dispositivo/adulto. No contiene datos del niño.
 - **Cookie `eq_parent`** (httpOnly, 30 min): autoriza temporalmente las acciones
   sensibles tras verificar el codigo parental.
-- **localStorage del navegador**: progreso pendiente de sincronizar y preferencias de
-  interfaz. Se puede borrar en cualquier momento.
+- **localStorage del navegador**: **unicamente** la preferencia `eq.activeProfileId`
+  (que perfil esta activo en este dispositivo). No contiene progreso ni ningun dato
+  del menor, y se puede borrar en cualquier momento.
+
+> El servidor es la autoridad del progreso (ADR 0003/0004). El navegador nunca
+> calcula XP, monedas, dominio ni desbloqueos: los pide a `/api/v1`.
 
 ## 3. Periodo de conservacion
 
 - El progreso y el perfil se conservan mientras el adulto no los borre.
-- Progreso pendiente de sincronizar en `localStorage`: hasta 30 dias o hasta que se
-  sincronice.
+- El unico dato en `localStorage` (`eq.activeProfileId`) es una preferencia de
+  interfaz y desaparece al borrar los datos del navegador.
 - Logs tecnicos del servidor: solo agregados, sin datos infantiles identificables.
 
 ## 4. Borrado y exportacion

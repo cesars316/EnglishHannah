@@ -17,7 +17,7 @@ export default function ParentHomePage() {
           <div className="space-y-1">
             <h1 className="text-cream-900 text-2xl font-extrabold">Progreso de cada niño</h1>
             <p className="text-cream-700 text-sm">
-              Datos guardados en este dispositivo. Sin notas ni comparaciones.
+              Datos guardados en el servidor. Sin notas ni comparaciones.
             </p>
           </div>
           <LinkButton href="/padres/ajustes" variant="secondary" icon="settings">
