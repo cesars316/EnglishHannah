@@ -51,10 +51,7 @@ node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"
 # 3. Levantar MongoDB local (Docker)
 npm run db:up
 
-# 4. Crear indices y configuracion (idempotente)
-npm run seed
-
-# 5. Arrancar en desarrollo
+# 4. Arrancar en desarrollo
 npm run dev
 #   -> http://localhost:3000
 ```
@@ -64,6 +61,10 @@ En Windows PowerShell el comando de copia es:
 ```powershell
 Copy-Item .env.example .env.local
 ```
+
+> El paso de creacion de indices y datos iniciales (`scripts/seed.ts`) y los
+> endpoints `/api/v1` se incorporan en la Fase 3. Hoy la app funciona sin
+> MongoDB (modo local descrito arriba).
 
 ### Recorrido de la Fase 2
 
@@ -86,30 +87,29 @@ npm run verify   # contenido + lint + tipos + pruebas + build
 
 1. Crea un cluster gratuito en MongoDB Atlas.
 2. Copia la cadena de conexion y pegala en `MONGODB_URI` dentro de `.env.local`.
-3. Ejecuta `npm run seed` y `npm run dev`.
+3. Ejecuta `npm run dev`.
 
 No se necesitan mas cambios de codigo.
 
 ## Scripts
 
-| Comando                             | Descripcion                                                   |
-| ----------------------------------- | ------------------------------------------------------------- |
-| `npm run dev`                       | Servidor de desarrollo                                        |
-| `npm run build`                     | Build de produccion                                           |
-| `npm run start`                     | Servir el build                                               |
-| `npm run lint`                      | ESLint                                                        |
-| `npm run lint:fix`                  | ESLint con autocorreccion                                     |
-| `npm run format`                    | Prettier                                                      |
-| `npm run typecheck`                 | TypeScript sin emitir                                         |
-| `npm run test`                      | Pruebas unitarias y de componentes (Vitest)                   |
-| `npm run test:watch`                | Vitest en modo watch                                          |
-| `npm run test:coverage`             | Vitest con cobertura                                          |
-| `npm run test:integration`          | Pruebas de integracion (requiere MongoDB)                     |
-| `npm run test:e2e`                  | Playwright E2E                                                |
-| `npm run validate:content`          | Valida el contenido pedagogico                                |
-| `npm run verify`                    | Contenido + lint + tipos + pruebas + build                    |
-| `npm run seed`                      | Crea indices y configuracion en MongoDB (idempotente, Fase 3) |
-| `npm run db:up` / `npm run db:down` | MongoDB local con Docker (Fase 3)                             |
+| Comando                             | Descripcion                                       |
+| ----------------------------------- | ------------------------------------------------- |
+| `npm run dev`                       | Servidor de desarrollo                            |
+| `npm run build`                     | Build de produccion                               |
+| `npm run start`                     | Servir el build                                   |
+| `npm run lint`                      | ESLint                                            |
+| `npm run lint:fix`                  | ESLint con autocorreccion                         |
+| `npm run format`                    | Prettier                                          |
+| `npm run typecheck`                 | TypeScript sin emitir                             |
+| `npm run test`                      | Pruebas unitarias y de componentes (Vitest)       |
+| `npm run test:watch`                | Vitest en modo watch                              |
+| `npm run test:coverage`             | Vitest con cobertura                              |
+| `npm run test:integration`          | Pruebas de integracion (requiere MongoDB, Fase 3) |
+| `npm run test:e2e`                  | Playwright E2E (navegadores en Fase 6)            |
+| `npm run validate:content`          | Valida el contenido pedagogico                    |
+| `npm run verify`                    | Contenido + lint + tipos + pruebas + build        |
+| `npm run db:up` / `npm run db:down` | MongoDB local con Docker (Fase 3)                 |
 
 ## Rutas
 
@@ -135,10 +135,13 @@ src/app        rutas y pantallas (App Router)
 src/components componentes de UI
 src/features   dominio: actividades, progreso, recompensas, speech, camara
 src/content    contenido pedagogico (fuente de verdad)
-src/server     db, repositorios, servicios, casos de uso, auth, validacion
 src/config     XP, monedas, umbrales y limites
+src/lib        utilidades (texto, aleatoriedad, almacenamiento, formato)
+src/types      contratos compartidos
+scripts/       validate-content.ts (seed.ts llega en la Fase 3)
+src/server     db, repositorios, servicios, casos de uso (Fase 3)
 docs/          documentacion y ADRs
-tests/         unit, integration, e2e
+tests/         unit, components (integration y e2e en fases siguientes)
 ```
 
 ## Estado del proyecto

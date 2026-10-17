@@ -22,5 +22,8 @@ export default defineConfig({
     testTimeout: 30_000,
     hookTimeout: 30_000,
     fileParallelism: false,
+    // Todavia no hay suites de integracion (llegan en la Fase 3 con MongoDB):
+    // el script no debe fallar por "no test files" mientras tanto.
+    passWithNoTests: true,
   },
 });
