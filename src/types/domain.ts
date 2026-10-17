@@ -96,6 +96,13 @@ export type ProgressSummary = {
   worldsCompleted: number;
   vocabularySeen: number;
   vocabularyMastered: number;
+  /** Estado de cada palabra practicada (pantalla de coleccion). */
+  vocabulary: {
+    entityId: string;
+    status: MasteryStatus;
+    seenCount: number;
+    correctCount: number;
+  }[];
   bySkill: Record<Skill, { attempts: number; correct: number }>;
   reviewSuggestions: {
     entityId: string;

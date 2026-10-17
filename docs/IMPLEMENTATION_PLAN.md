@@ -3,7 +3,9 @@
 > Checklist vivo. Se actualiza al cerrar cada fase. Fuente de verdad del contenido:
 > `English_Quest_Documento_Maestro.md` (raiz del repo).
 
-**Estado actual:** Fase 0 completada · Fase 1 completada · Fase 2 completada (rebanada vertical jugable en local) · Fase 3 pendiente.
+**Estado actual:** Fase 0 completada · Fase 1 completada · Fase 2 completada
+(rebanada vertical jugable en local) · Fase 3 completada (API `/api/v1` + MongoDB;
+el servidor es la autoridad) · Fase 4 en curso.
 
 ## Decisiones del propietario
 
@@ -70,29 +72,37 @@ validacion de contenido sin fallos. ✅
 
 ## Fase 3 - Backend y persistencia
 
-- [ ] `src/server/env.ts` con validacion al arrancar.
-- [ ] `src/server/db/*` (cliente Mongo, colecciones, indices).
-- [ ] `scripts/seed.ts` idempotente.
-- [ ] Repositorios, servicios y casos de uso.
-- [ ] Endpoints `/api/v1` con sobre de respuesta y `requestId`.
-- [ ] Validacion Zod, limite de body, rate limiting.
-- [ ] Cookie de sesion firmada + verificacion de pertenencia.
-- [ ] Evaluacion server-side de actividades + idempotencia.
-- [ ] Pruebas de integracion con Mongo.
+- [x] `src/server/env.ts` con validacion al arrancar.
+- [x] `src/server/db/*` (cliente Mongo, colecciones, indices).
+- [x] `scripts/seed.ts` idempotente.
+- [x] Repositorios, servicios y casos de uso.
+- [x] Endpoints `/api/v1` con sobre de respuesta y `requestId`.
+- [x] Validacion Zod, limite de body, rate limiting.
+- [x] Cookie de sesion firmada + verificacion de pertenencia.
+- [x] Evaluacion server-side de actividades + idempotencia.
+- [x] Pruebas de integracion con Mongo.
+- [x] Migracion del cliente: el servidor es la autoridad y el navegador solo
+      guarda la preferencia `eq.activeProfileId` en `localStorage`.
+- [x] Retirada de los modulos legacy de `localStorage`.
+- [x] `src/types/api.ts` como fuente unica de los tipos de cable.
 
 **Aceptacion:** al recargar persiste el progreso; sin doble recompensa; la API no
-filtra respuestas correctas.
+filtra respuestas correctas. ✅
 
 ## Fase 4 - Progreso y panel parental
 
-- [ ] Reglas de desbloqueo de mundos.
-- [ ] XP, monedas e insignias (config central).
-- [ ] Dominio provisional + repaso espaciado simple.
-- [ ] Panel parental con datos reales + proteccion por codigo.
-- [ ] Exportar y borrar perfil.
-- [ ] Pagina de privacidad y ajustes de permisos.
+- [x] Reglas de desbloqueo de mundos (`applyUnlocks`, en servidor).
+- [x] XP, monedas e insignias (config central en `src/config/rewards.ts`).
+- [x] Dominio provisional + repaso espaciado simple (calculado en servidor).
+- [x] Panel parental con datos reales (`GET /parent/overview`) + proteccion por
+      codigo (`/parent/*`).
+- [x] Exportar (`GET /profiles/:id/export`) y borrar perfil
+      (`DELETE /profiles/:id`, con autorizacion parental).
+- [x] Pagina de privacidad; reinicio de progreso (`DELETE /profiles/:id/progress`)
+      y cambio de codigo (`POST /parent/passcode`).
+- [ ] Ajustes de permisos de microfono/camara en la interfaz (se cierra en Fase 5).
 
-**Aceptacion:** estadisticas coherentes con los intentos reales.
+**Aceptacion:** estadisticas coherentes con los intentos reales. ✅
 
 ## Fase 5 - Voz y camara (opcionales)
 
@@ -131,10 +141,11 @@ filtra respuestas correctas.
 - [x] El audio se reproduce o se ofrece un fallback claro.
 - [x] Los cinco minijuegos MVP son funcionales.
 - [x] Las respuestas incorrectas generan ayuda amable.
-- [x] XP y recompensas no se duplican con reintentos (idempotencia local; HTTP en Fase 3).
+- [x] XP y recompensas no se duplican con reintentos (idempotencia HTTP por
+      `clientAttemptId`).
 - [x] Los mundos se desbloquean segun reglas reales.
-- [ ] MongoDB persiste progreso. (Fase 3)
-- [x] El panel parental muestra informacion util y real (datos del dispositivo).
+- [x] MongoDB persiste progreso (servidor como autoridad, ADR 0003/0004).
+- [x] El panel parental muestra informacion util y real (datos del servidor).
 - [x] El perfil y sus datos se pueden borrar con autorizacion.
 - [x] El microfono es opcional (Fase 5) y hoy no se usa.
 - [ ] La camara es opcional, se activa explicitamente y se apaga al salir. (Fase 5)
@@ -145,11 +156,19 @@ filtra respuestas correctas.
 - [x] README, arquitectura, API y privacidad estan documentados.
 - [x] No hay despliegue publico sin autorizacion.
 
-## Limitaciones conocidas (Fase 2)
+## Limitaciones conocidas (Fases 2-3)
 
-- El progreso vive en `localStorage`: borrar los datos del navegador borra el
-  progreso. La persistencia en MongoDB llega en la Fase 3 sin cambiar el contrato
-  de la interfaz (ADR 0003/0004).
+- **MongoDB local:** la imagen `mongo:8.0` de `docker-compose.yml` no se pudo
+  descargar en este entorno (fallo de DNS del CDN). El desarrollo y las pruebas
+  se validaron contra el MongoDB 7.0 ya existente en `localhost:27017`
+  (bases `english_quest` y `english_quest_test`). El `docker-compose.yml` se
+  mantiene como objetivo documentado.
+- El servidor no usa transacciones: el MongoDB local es standalone (sin replica
+  set). La idempotencia se apoya en indices unicos y en `$addToSet`/`upsert` por
+  clave natural, no en transacciones multi-documento.
+- Si falta `AUTH_SECRET` se usa un secreto efimero por proceso (las sesiones no
+  sobreviven a un reinicio); se avisa por consola. Sin `MONGODB_URI` la API
+  responde `DB_UNAVAILABLE` (503).
 - `notFound()` en rutas dinamicas devuelve estado HTTP 200 cuando la respuesta ya
   empezo a transmitirse (comportamiento documentado de Next.js 16); la interfaz
   404 se muestra igualmente y va con `noindex`.

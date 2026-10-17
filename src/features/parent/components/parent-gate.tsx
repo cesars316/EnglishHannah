@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useSyncExternalStore, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -8,45 +8,39 @@ import { Icon } from "@/components/ui/icon";
 import { StatusMessage } from "@/components/ui/status-message";
 import { Spinner } from "@/components/ui/spinner";
 import { LIMITS } from "@/config/game";
-import {
-  getParentAuthSnapshot,
-  grantParentUnlock,
-  revokeParentUnlock,
-  SERVER_PARENT_AUTH,
-  setPasscode,
-  subscribeParentAuth,
-  validatePasscodeFormat,
-  verifyPasscode,
-} from "@/features/parent/local-passcode";
+import { api } from "@/features/api/client";
+import { validatePasscodeFormat } from "@/lib/passcode";
+import type { ParentStatus } from "@/types/api";
 
 /**
  * Puerta de la zona de adultos.
  *
  * - Si no hay codigo, se pide crearlo (nunca hay un PIN fijo en el codigo).
- * - Si lo hay, se pide una vez y se recuerda durante 30 minutos.
- * - Sin WebCrypto (navegadores muy antiguos) se explica el motivo.
+ * - Si lo hay, se pide una vez y se recuerda durante 30 minutos (cookie
+ *   httpOnly firmada por el servidor; el navegador nunca ve el hash).
+ * - Los intentos fallidos los limita el servidor: no se puede fuerza bruta.
  */
 export function ParentGate({ children }: { children: ReactNode }) {
-  const auth = useSyncExternalStore(
-    subscribeParentAuth,
-    getParentAuthSnapshot,
-    () => SERVER_PARENT_AUTH,
-  );
-
-  const [passcode, setPasscodeValue] = useState("");
-  const [confirm, setConfirm] = useState("");
+  const [auth, setAuth] = useState<ParentStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const [passcode, setPasscode] = useState("");
+  const [confirm, setConfirm] = useState("");
   const [busy, setBusy] = useState(false);
   const [attempts, setAttempts] = useState(0);
 
-  if (!auth.supported) {
+  useEffect(() => {
+    void api
+      .get<ParentStatus>("/parent/status")
+      .then((status) => setAuth(status))
+      .catch(() => setAuth({ hasPasscode: false, unlocked: false }));
+  }, []);
+
+  if (auth === null) {
     return (
-      <StatusMessage tone="warning" title="Este navegador no puede proteger la zona de adultos">
-        <p>
-          Falta el soporte de cifrado del navegador (WebCrypto), necesario para guardar el codigo
-          sin exponerlo. Prueba con una version reciente de Chrome, Edge, Firefox o Safari.
-        </p>
-      </StatusMessage>
+      <div className="flex min-h-40 items-center justify-center">
+        <Spinner size={28} label="Cargando zona de adultos" />
+      </div>
     );
   }
 
@@ -57,10 +51,15 @@ export function ParentGate({ children }: { children: ReactNode }) {
         <Button
           variant="secondary"
           icon="lock"
-          onClick={() => {
-            revokeParentUnlock();
-            setPasscodeValue("");
-            setAttempts(0);
+          onClick={async () => {
+            try {
+              await api.post("/parent/lock");
+              setAuth({ ...auth, unlocked: false });
+              setPasscode("");
+              setAttempts(0);
+            } catch {
+              /* el servidor puede haberse ido; la siguiente peticion volvera a probar */
+            }
           }}
         >
           Bloquear la zona de adultos
@@ -82,13 +81,13 @@ export function ParentGate({ children }: { children: ReactNode }) {
 
     setBusy(true);
     try {
-      await setPasscode(passcode);
-      grantParentUnlock();
+      await api.post("/parent/setup", { passcode });
+      setAuth({ hasPasscode: true, unlocked: true });
       setError(null);
-      setPasscodeValue("");
+      setPasscode("");
       setConfirm("");
-    } catch {
-      setError("No pudimos guardar el codigo. Intentalo otra vez.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No pudimos guardar el codigo.");
     } finally {
       setBusy(false);
     }
@@ -102,17 +101,16 @@ export function ParentGate({ children }: { children: ReactNode }) {
 
     setBusy(true);
     try {
-      const ok = await verifyPasscode(passcode);
-      if (ok) {
-        grantParentUnlock();
-        setError(null);
-        setPasscodeValue("");
-        setAttempts(0);
-      } else {
-        setAttempts((previous) => previous + 1);
-        setError("Ese codigo no es correcto.");
-        setPasscodeValue("");
-      }
+      await api.post("/parent/unlock", { passcode });
+      setAuth({ ...auth, unlocked: true });
+      setError(null);
+      setPasscode("");
+      setAttempts(0);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Ese codigo no es correcto.";
+      setAttempts((previous) => previous + 1);
+      setError(message);
+      setPasscode("");
     } finally {
       setBusy(false);
     }
@@ -142,7 +140,7 @@ export function ParentGate({ children }: { children: ReactNode }) {
           inputMode="text"
           autoComplete="off"
           value={passcode}
-          onChange={(event) => setPasscodeValue(event.target.value)}
+          onChange={(event) => setPasscode(event.target.value)}
           className="border-cream-300 text-cream-900 min-h-12 w-full rounded-xl border-2 bg-white px-4 text-lg font-semibold tracking-widest outline-none focus:border-sky-500"
         />
         <p className="text-cream-600 text-xs">

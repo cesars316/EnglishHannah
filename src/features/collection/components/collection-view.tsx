@@ -1,5 +1,7 @@
 "use client";
 
+import { useMemo } from "react";
+
 import { VocabularyVisualView } from "@/components/activities/vocabulary-visual";
 import { AvatarIllustration } from "@/components/ui/avatar-illustration";
 import { Card } from "@/components/ui/card";
@@ -13,10 +15,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { getAvatar } from "@/config/avatars";
 import { ALL_VOCABULARY, BADGES } from "@/content";
 import { useGameState } from "@/features/progress/use-game-state";
-import {
-  useProgressSummary,
-  useVocabularyProgress,
-} from "@/features/progress/use-progress-summary";
+import { useProgressSummary } from "@/features/progress/use-progress-summary";
 import { useProfiles } from "@/features/profile/profile-context";
 import { cn } from "@/lib/cn";
 import type { MasteryStatus } from "@/types/domain";
@@ -38,7 +37,14 @@ export function CollectionView() {
   const { ready, activeProfile } = useProfiles();
   const gameState = useGameState(activeProfile?.id ?? null);
   const summary = useProgressSummary(activeProfile?.id ?? null);
-  const vocabularyProgress = useVocabularyProgress(activeProfile?.id ?? null);
+
+  const vocabularyProgress = useMemo(() => {
+    const map: Record<string, MasteryStatus> = {};
+    for (const record of summary?.vocabulary ?? []) {
+      map[record.entityId] = record.status;
+    }
+    return map;
+  }, [summary]);
 
   if (!ready) {
     return (
@@ -152,7 +158,7 @@ export function CollectionView() {
 
         <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {ALL_VOCABULARY.map((item) => {
-            const status: MasteryStatus = vocabularyProgress[item.id]?.status ?? "new";
+            const status: MasteryStatus = vocabularyProgress[item.id] ?? "new";
             return (
               <li
                 key={item.id}

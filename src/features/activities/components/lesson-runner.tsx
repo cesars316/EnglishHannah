@@ -12,49 +12,33 @@ import { Pill } from "@/components/ui/pill";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { Spinner } from "@/components/ui/spinner";
 import { StatusMessage } from "@/components/ui/status-message";
-import { evaluateAnswer } from "@/features/activities/actions";
 import {
   EMPTY_ATTEMPT,
   reduceAttempt,
   type AttemptProgress,
 } from "@/features/activities/engine/attempt";
 import { useProfiles } from "@/features/profile/profile-context";
-import { completeLesson, recordAttempt } from "@/features/progress/session";
-import type { ActivityResponse, PublicActivity, Skill } from "@/types/content";
-
-/**
- * Flujo completo de una sesion de juego: introduccion, actividades con
- * correccion amable y resumen con recompensas.
- *
- * Este componente NUNCA conoce el `answerKey`: envia la respuesta a una Server
- * Action y pinta lo que le devuelve (ADR 0004).
- */
+import { applyGameState, invalidateSummary } from "@/features/progress/remote-store";
+import { api } from "@/features/api/client";
+import type { AnswerActivityResult, CompleteLessonResult } from "@/types/api";
+import type { ActivityResponse, PublicActivity } from "@/types/content";
 
 export type LessonRunnerProps = {
   lessonId: string;
-  worldId: string;
   title: string;
   subtitle?: string;
   objectives: readonly string[];
   activities: readonly PublicActivity[];
-  /** El bloque viene del repaso de palabras dificiles. */
   isReview?: boolean;
-  /** A donde volver al terminar la sesion. */
   completeHref: string;
   completeLabel?: string;
 };
 
 type Outcome = {
-  activityId: string;
-  activityType: string;
-  skill: Skill;
   correct: boolean;
-  selfReported: boolean;
-  hintUsed: boolean;
   xp: number;
   coins: number;
   durationMs: number;
-  vocabularyIds: readonly string[];
 };
 
 type Completion = {
@@ -139,9 +123,15 @@ function reducer(state: State, action: Action): State {
   }
 }
 
+function randomId(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return `id-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
 export function LessonRunner({
   lessonId,
-  worldId,
   title,
   subtitle,
   objectives,
@@ -156,71 +146,65 @@ export function LessonRunner({
   const total = activities.length;
   const current = activities[state.index] ?? null;
 
-  const finishActivity = useCallback(
-    (outcome: Outcome) => {
-      if (!activeProfile) return;
+  const completeLesson = useCallback(
+    async (last: boolean) => {
+      if (!activeProfile || !last) return null;
 
-      recordAttempt({
-        profileId: activeProfile.id,
-        activityId: outcome.activityId,
-        activityType: outcome.activityType,
-        lessonId,
-        worldId,
-        skill: outcome.skill,
-        vocabularyIds: outcome.vocabularyIds,
-        correct: outcome.correct,
-        selfReported: outcome.selfReported,
-        durationMs: outcome.durationMs,
-        hintUsed: outcome.hintUsed,
-        xpAwarded: outcome.xp,
-        coinsAwarded: outcome.coins,
-        isReview,
-      });
+      try {
+        const result = await api.post<CompleteLessonResult>(
+          `/lessons/${lessonId}/complete`,
+          { profileId: activeProfile.id, clientAttemptId: randomId() },
+        );
+        applyGameState(activeProfile.id, result.gameState);
+        invalidateSummary(activeProfile.id);
+        return {
+          duplicate: result.duplicate,
+          xpAwarded: result.xpAwarded,
+          coinsAwarded: result.coinsAwarded,
+        };
+      } catch {
+        return null;
+      }
+    },
+    [activeProfile, lessonId],
+  );
 
-      const isLast = state.index + 1 >= total;
-      // El repaso no es una leccion del mapa: no debe marcarse como completada.
-      const completion = isLast && !isReview ? completeLesson(activeProfile.id, lessonId) : null;
+  const handleAdvance = useCallback(() => {
+    if (!current) return;
+
+    const last = state.index + 1 >= total;
+    const shouldComplete = last && !isReview;
+
+    void (async () => {
+      let completion: Completion | null = null;
+      if (shouldComplete) {
+        const result = await completeLesson(true);
+        completion = result
+          ? { duplicate: result.duplicate, xpAwarded: result.xpAwarded, coinsAwarded: result.coinsAwarded }
+          : null;
+      }
 
       dispatch({
         type: "next",
-        finished: isLast,
-        completion: completion
-          ? {
-              duplicate: completion.duplicate,
-              xpAwarded: completion.xpAwarded,
-              coinsAwarded: completion.coinsAwarded,
-            }
-          : null,
+        finished: last,
+        completion,
       });
-    },
-    [activeProfile, isReview, lessonId, state.index, total, worldId],
-  );
+    })();
+  }, [current, total, state.index, isReview, completeLesson]);
 
   const outcomeFor = useCallback(
-    (attempt: AttemptProgress, activity: PublicActivity, solved: boolean): Outcome => ({
-      activityId: activity.id,
-      activityType: activity.type,
-      skill: activity.skill,
+    (attempt: AttemptProgress, solved: boolean): Outcome => ({
       correct: solved,
-      selfReported: attempt.evaluation?.selfReported === true,
-      hintUsed: attempt.hintUsed,
       xp: attempt.xp,
       coins: attempt.coins,
       durationMs: Date.now() - state.activityStartedAt,
-      vocabularyIds: activity.vocabularyIds,
     }),
     [state.activityStartedAt],
   );
 
   const handleSubmit = useCallback(
     async (response: ActivityResponse) => {
-      if (
-        !current ||
-        !activeProfile ||
-        state.busy ||
-        state.attempt.solved ||
-        state.attempt.revealed
-      ) {
+      if (!current || !activeProfile || state.busy || state.attempt.solved || state.attempt.revealed) {
         return;
       }
 
@@ -228,17 +212,29 @@ export function LessonRunner({
       dispatch({ type: "submit-start" });
 
       try {
-        const result = await evaluateAnswer({
-          activityId: current.id,
+        const result = await api.post<AnswerActivityResult>(
+          `/activities/${current.id}/answer`,
+          {
+            profileId: activeProfile.id,
+            clientAttemptId: randomId(),
+            response,
+            attemptNumber,
+            durationMs: Date.now() - state.activityStartedAt,
+            hintUsed: state.attempt.hintUsed,
+            isReview,
+          },
+        );
+
+        const nextAttempt = reduceAttempt(state.attempt, {
+          activity: current,
           response,
-          attemptNumber,
-          hintUsed: state.attempt.hintUsed,
-          isReview,
+          result,
         });
 
-        const nextAttempt = reduceAttempt(state.attempt, { activity: current, response, result });
-        const outcome = nextAttempt.solved ? outcomeFor(nextAttempt, current, true) : null;
+        applyGameState(activeProfile.id, result.gameState);
+        invalidateSummary(activeProfile.id);
 
+        const outcome = nextAttempt.solved ? outcomeFor(nextAttempt, true) : null;
         dispatch({ type: "submit-result", attempt: nextAttempt, outcome });
       } catch {
         dispatch({
@@ -247,13 +243,8 @@ export function LessonRunner({
         });
       }
     },
-    [activeProfile, current, isReview, outcomeFor, state.attempt, state.busy],
+    [activeProfile, current, isReview, outcomeFor, state.attempt, state.busy, state.activityStartedAt],
   );
-
-  const handleAdvance = useCallback(() => {
-    if (!current) return;
-    finishActivity(outcomeFor(state.attempt, current, state.attempt.solved));
-  }, [current, finishActivity, outcomeFor, state.attempt]);
 
   if (!ready) {
     return (
@@ -326,12 +317,7 @@ export function LessonRunner({
         )}
 
         <div className="flex flex-wrap items-center gap-3">
-          <Button
-            variant="primary"
-            size="lg"
-            icon="play"
-            onClick={() => dispatch({ type: "start" })}
-          >
+          <Button variant="primary" size="lg" icon="play" onClick={() => dispatch({ type: "start" })}>
             Empezar
           </Button>
           <Pill tone="neutral" icon={<Icon name="clock" size={16} />}>
@@ -360,9 +346,7 @@ export function LessonRunner({
             <Mascot name="mia" mood="cheering" size={104} />
           </div>
           <div className="space-y-1">
-            <h1 className="text-cream-900 text-2xl font-extrabold sm:text-3xl">
-              ¡Mision cumplida!
-            </h1>
+            <h1 className="text-cream-900 text-2xl font-extrabold sm:text-3xl">¡Mision cumplida!</h1>
             <p className="text-cream-700 text-sm leading-relaxed sm:text-base">
               Practicaste {total} {total === 1 ? "actividad" : "actividades"} en unos {minutes}{" "}
               {minutes === 1 ? "minuto" : "minutos"} y acertaste {correct} sin ayuda.
@@ -393,8 +377,7 @@ export function LessonRunner({
 
         <StatusMessage tone="success" title="Tu progreso esta guardado">
           <p>
-            Puedes seguir cuando quieras: aqui no hay tiempo limite ni rachas que perder. Repetir
-            una mision siempre suma.
+            Puedes seguir cuando quieras: aqui no hay tiempo limite ni rachas que perder. Repetir una mision siempre suma.
           </p>
         </StatusMessage>
       </div>
@@ -467,8 +450,7 @@ export function LessonRunner({
           <StatusMessage tone="info" title="Aqui esta la respuesta">
             <div className="space-y-3">
               <p>
-                No pasa nada: aprender tambien es ver la solucion y seguir. Ya te llevas tus monedas
-                por intentarlo.
+                No pasa nada: aprender tambien es ver la solucion y seguir. Ya te llevas tus monedas por intentarlo.
               </p>
               <Button variant="primary" icon="arrowRight" onClick={handleAdvance}>
                 Continuar

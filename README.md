@@ -27,17 +27,10 @@ Documentacion completa en [`docs/`](./docs):
 
 ## Puesta en marcha (desde cero)
 
-### Camino rapido (sin base de datos, Fase 2)
+MongoDB es necesario: el servidor es la autoridad del progreso y los perfiles
+(ADR 0003/0004). La API responde `503 DB_UNAVAILABLE` si no hay base de datos.
 
-La app funciona por completo en local: el progreso se guarda en este dispositivo.
-No hace falta MongoDB, ni `.env.local`, para jugar los cuatro mundos MVP.
-
-```bash
-npm install   # 1. Instalar dependencias
-npm run dev   # 2. Arrancar en desarrollo -> http://localhost:3000
-```
-
-### Con MongoDB (a partir de la Fase 3)
+### MongoDB local con Docker (recomendado)
 
 ```bash
 # 1. Instalar dependencias
@@ -51,7 +44,10 @@ node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"
 # 3. Levantar MongoDB local (Docker)
 npm run db:up
 
-# 4. Arrancar en desarrollo
+# 4. Crear indices y contenido de referencia (idempotente)
+npm run seed
+
+# 5. Arrancar en desarrollo
 npm run dev
 #   -> http://localhost:3000
 ```
@@ -62,11 +58,11 @@ En Windows PowerShell el comando de copia es:
 Copy-Item .env.example .env.local
 ```
 
-> El paso de creacion de indices y datos iniciales (`scripts/seed.ts`) y los
-> endpoints `/api/v1` se incorporan en la Fase 3. Hoy la app funciona sin
-> MongoDB (modo local descrito arriba).
+> `AUTH_SECRET` es obligatorio en produccion. Si falta, el servidor usa un
+> secreto efimero por proceso y avisa por consola (las sesiones no sobreviven a
+> un reinicio). `MONGODB_URI` tambien debe estar definido.
 
-### Recorrido de la Fase 2
+### Recorrido de la app
 
 1. `/` - portada; pulsa **Empezar la aventura**.
 2. `/empezar` - crea un perfil (alias + avatar).
@@ -75,7 +71,8 @@ Copy-Item .env.example .env.local
 5. `/jugar/mundo/hello-village` -> **Jugar la mision** -> `/jugar/leccion/hello-01`.
 6. Resuelve las actividades, mira el feedback y el resumen con XP y monedas.
 7. `/jugar/practicar` - repaso espaciado; `/coleccion` - insignias y palabras.
-8. `/padres` - zona de adultos (crea un codigo la primera vez).
+8. `/padres` - zona de adultos (crea un codigo la primera vez); desde ahi puedes
+   ver el progreso de cada perfil, exportar o borrar datos y cambiar el codigo.
 
 ### Comprobacion completa
 
@@ -105,11 +102,12 @@ No se necesitan mas cambios de codigo.
 | `npm run test`                      | Pruebas unitarias y de componentes (Vitest)       |
 | `npm run test:watch`                | Vitest en modo watch                              |
 | `npm run test:coverage`             | Vitest con cobertura                              |
-| `npm run test:integration`          | Pruebas de integracion (requiere MongoDB, Fase 3) |
+| `npm run test:integration`          | Pruebas de integracion (requiere MongoDB)         |
 | `npm run test:e2e`                  | Playwright E2E (navegadores en Fase 6)            |
 | `npm run validate:content`          | Valida el contenido pedagogico                    |
+| `npm run seed`                      | Crea indices y datos de referencia (idempotente)  |
 | `npm run verify`                    | Contenido + lint + tipos + pruebas + build        |
-| `npm run db:up` / `npm run db:down` | MongoDB local con Docker (Fase 3)                 |
+| `npm run db:up` / `npm run db:down` | MongoDB local con Docker                          |
 
 ## Rutas
 
@@ -131,28 +129,31 @@ No se necesitan mas cambios de codigo.
 Ver [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md). Resumen:
 
 ```
-src/app        rutas y pantallas (App Router)
+src/app        rutas y pantallas (App Router) + API `/api/v1`
 src/components componentes de UI
 src/features   dominio: actividades, progreso, recompensas, speech, camara
 src/content    contenido pedagogico (fuente de verdad)
 src/config     XP, monedas, umbrales y limites
 src/lib        utilidades (texto, aleatoriedad, almacenamiento, formato)
-src/types      contratos compartidos
-scripts/       validate-content.ts (seed.ts llega en la Fase 3)
-src/server     db, repositorios, servicios, casos de uso (Fase 3)
+src/types      contratos compartidos (incl. `api.ts` para el cable)
+src/server     env, db, repositorios, casos de uso, auth y http de la API
+scripts/       validate-content.ts, seed.ts
 docs/          documentacion y ADRs
-tests/         unit, components (integration y e2e en fases siguientes)
+tests/         unit, components, integration (e2e en fases siguientes)
 ```
 
 ## Estado del proyecto
 
 Ver el checklist vivo en [`docs/IMPLEMENTATION_PLAN.md`](./docs/IMPLEMENTATION_PLAN.md).
 
-- **Fase 0** (documentacion y arquitectura), **Fase 1** (fundacion) y **Fase 2**
-  (contenido + rebanada vertical jugable) estan completadas.
-- Hoy el progreso se guarda en el dispositivo (`localStorage`). MongoDB y la API
-  `/api/v1` llegan en la Fase 3 sin cambiar la interfaz.
-- Limitaciones conocidas al final de `docs/IMPLEMENTATION_PLAN.md`.
+- **Fase 0** (documentacion y arquitectura), **Fase 1** (fundacion), **Fase 2**
+  (contenido + rebanada vertical jugable) y **Fase 3** (API `/api/v1` + MongoDB)
+  estan completadas.
+- Hoy el progreso vive en MongoDB y el **servidor es la autoridad**: el navegador
+  solo guarda que perfil esta activo (`localStorage`).
+- Limitaciones conocidas al final de `docs/IMPLEMENTATION_PLAN.md` (por ejemplo,
+  la imagen `mongo:8.0` de Docker no se pudo descargar en este entorno; se valido
+  contra un MongoDB 7.0 local).
 
 ## Privacidad
 

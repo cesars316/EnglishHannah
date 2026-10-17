@@ -244,6 +244,12 @@ export function summarizeProgress(input: SummaryInput): ProgressSummary {
     worldsCompleted: gameState.completedWorldIds.length,
     vocabularySeen: vocabularyRecords.filter((record) => record.seenCount > 0).length,
     vocabularyMastered: vocabularyRecords.filter((record) => record.status === "mastered").length,
+    vocabulary: vocabularyRecords.map((record) => ({
+      entityId: record.entityId,
+      status: record.status,
+      seenCount: record.seenCount,
+      correctCount: record.correctCount,
+    })),
     bySkill,
     reviewSuggestions,
     recentActivity,

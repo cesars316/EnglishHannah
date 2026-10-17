@@ -1,26 +1,36 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi, type Mock } from "vitest";
 
-import { ALL_ACTIVITIES } from "@/content";
-import { toPublicActivities } from "@/features/activities/engine/public-activity";
-import { LessonRunner } from "@/features/activities/components/lesson-runner";
 import { DEFAULT_AVATAR_ID } from "@/config/avatars";
-import { createProfile, setActiveProfileId } from "@/features/profile/local-store";
+import { ALL_ACTIVITIES } from "@/content";
+import { LessonRunner } from "@/features/activities/components/lesson-runner";
+import { toPublicActivities } from "@/features/activities/engine/public-activity";
 import { ProfileProvider } from "@/features/profile/profile-context";
-import type { PublicActivity } from "@/types/content";
+import { resetProfileStore } from "@/features/profile/remote-store";
+import { resetProgressStore } from "@/features/progress/remote-store";
+import type { AnswerActivityResult, CompleteLessonResult } from "@/types/api";
+import type { ActivityResponse, PublicActivity } from "@/types/content";
+import type { GameState, Profile } from "@/types/domain";
 
 /**
  * Prueba de componente del flujo completo de una sesion.
  *
- * La Server Action se sustituye por un doble: aqui se comprueba la ORQUESTACION
- * (fases, feedback, recompensas, resumen), no la correccion, que ya tiene sus
- * propias pruebas unitarias.
+ * La API se sustituye por un doble: aqui se comprueba la ORQUESTACION (fases,
+ * feedback, recompensas, resumen), no la correccion, que ya tiene sus propias
+ * pruebas unitarias y de integracion contra MongoDB.
  */
 
-vi.mock("@/features/activities/actions", () => ({
-  evaluateAnswer: vi.fn(),
+vi.mock("@/features/api/client", () => ({
+  ApiClientError: class ApiClientError extends Error {},
+  isAuthError: () => false,
+  api: {
+    get: vi.fn(),
+    post: vi.fn(),
+    patch: vi.fn(),
+    delete: vi.fn(),
+  },
 }));
 
 vi.mock("next/link", () => ({
@@ -31,9 +41,100 @@ vi.mock("next/link", () => ({
   ),
 }));
 
-import { evaluateAnswer } from "@/features/activities/actions";
+import { api } from "@/features/api/client";
 
-const evaluateAnswerMock = vi.mocked(evaluateAnswer);
+type ApiMock = {
+  get: Mock;
+  post: Mock;
+  patch: Mock;
+  delete: Mock;
+};
+
+const mockedApi = api as unknown as ApiMock;
+
+const PROFILE_ID = "profile-1";
+
+function makeProfile(): Profile {
+  return {
+    id: PROFILE_ID,
+    displayName: "Ana",
+    avatarId: DEFAULT_AVATAR_ID,
+    locale: "es",
+    targetLanguage: "en",
+    settings: {
+      microphoneEnabled: false,
+      cameraEnabled: false,
+      soundEnabled: true,
+      reducedMotion: false,
+    },
+    createdAt: "2026-01-01T00:00:00.000Z",
+    updatedAt: "2026-01-01T00:00:00.000Z",
+  };
+}
+
+function makeGameState(): GameState {
+  return {
+    profileId: PROFILE_ID,
+    xp: 0,
+    coins: 0,
+    currentWorldId: null,
+    unlockedWorldIds: [],
+    completedLessonIds: [],
+    completedWorldIds: [],
+    earnedBadgeIds: [],
+    activityCount: 0,
+    lastActivityAt: null,
+    updatedAt: "2026-01-01T00:00:00.000Z",
+  };
+}
+
+function answerResult(params: { correct: boolean; xp: number; coins?: number }): AnswerActivityResult {
+  return {
+    duplicate: false,
+    evaluation: { isCorrect: params.correct, correctOptionIds: [] },
+    feedback: params.correct
+      ? { es: "¡Perfecto a la primera!", en: "Well done!" }
+      : { es: "Casi. Prueba otra vez.", en: "Try again." },
+    xpAwarded: params.xp,
+    coinsAwarded: params.coins ?? 1,
+    attemptNumber: 1,
+    solved: params.correct,
+    revealed: false,
+    totalAttempts: 1,
+    gameState: makeGameState(),
+    earnedBadgeIds: [],
+  };
+}
+
+function completionResult(xp: number): CompleteLessonResult {
+  return {
+    duplicate: false,
+    lessonId: "hello-01",
+    xpAwarded: xp,
+    coinsAwarded: 0,
+    newlyCompletedWorldIds: [],
+    gameState: makeGameState(),
+    earnedBadgeIds: [],
+  };
+}
+
+/** Enruta las peticiones POST del runner a respuestas canonicas. */
+function mockPostRoutes(options: {
+  answer: AnswerActivityResult | "reject";
+  complete?: CompleteLessonResult;
+}): void {
+  mockedApi.post.mockImplementation(((path: string) => {
+    if (path.includes("/answer")) {
+      return options.answer === "reject"
+        ? Promise.reject(new Error("sin conexion"))
+        : Promise.resolve(options.answer);
+    }
+    if (path.includes("/complete")) {
+      return Promise.resolve(options.complete ?? completionResult(0));
+    }
+    return Promise.reject(new Error(`Ruta inesperada: ${path}`));
+  }) as unknown as typeof api.post);
+}
 
 function imageChoiceActivities(): PublicActivity[] {
   const activities = ALL_ACTIVITIES.filter((activity) => activity.type === "image-choice").slice(
@@ -55,7 +156,6 @@ function renderRunner(activities: PublicActivity[]) {
     <ProfileProvider>
       <LessonRunner
         lessonId="hello-01"
-        worldId="hello-village"
         title="Mision de prueba"
         subtitle="Una mision corta"
         objectives={["Objetivo uno"]}
@@ -84,13 +184,15 @@ async function startAndPlayFirstOption(container: HTMLElement): Promise<void> {
 
 beforeEach(() => {
   window.localStorage.clear();
-  evaluateAnswerMock.mockReset();
-  const profile = createProfile({ displayName: "Ana", avatarId: DEFAULT_AVATAR_ID });
-  setActiveProfileId(profile.id);
+  resetProfileStore();
+  resetProgressStore();
+  vi.clearAllMocks();
+  mockedApi.get.mockResolvedValue({ profiles: [makeProfile()] });
 });
 
 describe("LessonRunner", () => {
   it("muestra la introduccion y empieza al pulsar Empezar", async () => {
+    mockPostRoutes({ answer: answerResult({ correct: true, xp: 10 }) });
     renderRunner(imageChoiceActivities());
 
     expect(await screen.findByRole("heading", { name: /mision de prueba/i })).toBeInTheDocument();
@@ -102,17 +204,12 @@ describe("LessonRunner", () => {
   });
 
   it("resuelve una actividad correcta, muestra el feedback y pasa a la siguiente", async () => {
-    evaluateAnswerMock.mockResolvedValue({
-      evaluation: { isCorrect: true, correctOptionIds: [] },
-      feedback: { es: "¡Perfecto a la primera!", en: "Well done!" },
-      xpAwarded: 15,
-      coinsAwarded: 1,
-    });
+    mockPostRoutes({ answer: answerResult({ correct: true, xp: 15 }) });
 
     const { container } = renderRunner(imageChoiceActivities());
     await startAndPlayFirstOption(container);
 
-    await waitFor(() => expect(evaluateAnswerMock).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(mockedApi.post).toHaveBeenCalledTimes(1));
     expect(await screen.findByText(/perfecto a la primera/i)).toBeInTheDocument();
 
     await userEvent.click(screen.getByRole("button", { name: /continuar/i }));
@@ -120,11 +217,9 @@ describe("LessonRunner", () => {
   });
 
   it("termina la sesion con un resumen que incluye el bonus de leccion", async () => {
-    evaluateAnswerMock.mockResolvedValue({
-      evaluation: { isCorrect: true, correctOptionIds: [] },
-      feedback: { es: "¡Muy bien!", en: "Great job!" },
-      xpAwarded: 10,
-      coinsAwarded: 1,
+    mockPostRoutes({
+      answer: answerResult({ correct: true, xp: 10 }),
+      complete: completionResult(20),
     });
 
     const { container } = renderRunner(firstActivity());
@@ -138,7 +233,7 @@ describe("LessonRunner", () => {
   });
 
   it("avisa cuando no se pudo comprobar la respuesta sin cerrar la actividad", async () => {
-    evaluateAnswerMock.mockRejectedValue(new Error("sin conexion"));
+    mockPostRoutes({ answer: "reject" });
 
     const { container } = renderRunner(imageChoiceActivities());
     await startAndPlayFirstOption(container);
@@ -148,10 +243,31 @@ describe("LessonRunner", () => {
   });
 
   it("pide elegir un perfil cuando no hay ninguno activo", async () => {
-    window.localStorage.clear();
+    mockedApi.get.mockResolvedValue({ profiles: [] });
 
     renderRunner(imageChoiceActivities());
 
     expect(await screen.findByText(/primero elige un perfil/i)).toBeInTheDocument();
+  });
+
+  it("envia el intento con el perfil activo y el numero de intento correcto", async () => {
+    mockPostRoutes({ answer: answerResult({ correct: true, xp: 10 }) });
+
+    const activities = imageChoiceActivities();
+    const { container } = renderRunner(activities);
+    await startAndPlayFirstOption(container);
+
+    await waitFor(() => expect(mockedApi.post).toHaveBeenCalledTimes(1));
+
+    const [path, body] = mockedApi.post.mock.calls[0] as [string, Record<string, unknown>];
+    expect(path).toBe(`/activities/${activities[0]?.id}/answer`);
+    expect(body).toMatchObject({
+      profileId: PROFILE_ID,
+      attemptNumber: 1,
+      hintUsed: false,
+      isReview: false,
+    });
+    expect(typeof body.clientAttemptId).toBe("string");
+    expect((body.response as ActivityResponse).kind).toBe("choice");
   });
 });

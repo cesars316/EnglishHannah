@@ -1,25 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Modal } from "@/components/ui/modal";
 import { StatusMessage } from "@/components/ui/status-message";
-import { clearAllLocalData, exportLocalData } from "@/features/privacy/local-data";
-import {
-  setPasscode,
-  validatePasscodeFormat,
-  verifyPasscode,
-} from "@/features/parent/local-passcode";
+import { api } from "@/features/api/client";
+import { invalidateSummary } from "@/features/progress/remote-store";
 import { useProfiles } from "@/features/profile/profile-context";
-import { clearProfileProgress } from "@/features/progress/local-progress";
+import { validatePasscodeFormat } from "@/lib/passcode";
+import type { ExportBundle } from "@/types/api";
 
 /**
  * Ajustes de la zona de adultos: cambiar el codigo, descargar o borrar los
  * datos del dispositivo.
  *
- * Ninguna accion se ejecuta sin una confirmacion explicita.
+ * Ninguna accion se ejecuta sin una confirmacion explicita. El servidor es la
+ * autoridad: el codigo viaja solo como valor temporal y nunca se guarda aqui.
  */
 
 type PendingAction =
@@ -28,7 +26,7 @@ type PendingAction =
   | null;
 
 export function ParentSettings() {
-  const { profiles } = useProfiles();
+  const { profiles, deleteProfile } = useProfiles();
 
   const [current, setCurrent] = useState("");
   const [next, setNext] = useState("");
@@ -40,7 +38,7 @@ export function ParentSettings() {
   const changePasscode = async (): Promise<void> => {
     const format = validatePasscodeFormat(next);
     if (!format.ok) {
-      setCodeMessage({ ok: false, text: format.message ?? "Codigo no valido." });
+      setCodeMessage({ ok: false, text: format.message });
       return;
     }
     if (next !== confirm) {
@@ -48,43 +46,71 @@ export function ParentSettings() {
       return;
     }
 
-    const isCurrentValid = await verifyPasscode(current);
-    if (!isCurrentValid) {
-      setCodeMessage({ ok: false, text: "El codigo actual no es correcto." });
-      return;
+    try {
+      await api.post("/parent/passcode", { currentPasscode: current, nextPasscode: next });
+      setCurrent("");
+      setNext("");
+      setConfirm("");
+      setCodeMessage({ ok: true, text: "Codigo actualizado." });
+    } catch (err) {
+      setCodeMessage({
+        ok: false,
+        text: err instanceof Error ? err.message : "No pudimos cambiar el codigo.",
+      });
     }
-
-    await setPasscode(next);
-    setCurrent("");
-    setNext("");
-    setConfirm("");
-    setCodeMessage({ ok: true, text: "Codigo actualizado." });
   };
 
-  const downloadData = (): void => {
-    const payload = JSON.stringify(exportLocalData(), null, 2);
-    const blob = new Blob([payload], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `english-quest-datos-${new Date().toISOString().slice(0, 10)}.json`;
-    link.click();
-    URL.revokeObjectURL(url);
-    setDone("Se ha descargado una copia de los datos de este dispositivo.");
-  };
+  const downloadData = useCallback(async () => {
+    try {
+      const entries: ExportBundle[] = [];
+      for (const profile of profiles) {
+        entries.push(await api.get<ExportBundle>(`/profiles/${profile.id}/export`));
+      }
+      const payload = JSON.stringify(
+        { exportedAt: new Date().toISOString(), profiles: entries },
+        null,
+        2,
+      );
+      const blob = new Blob([payload], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `english-quest-datos-${new Date().toISOString().slice(0, 10)}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+      setDone("Se ha descargado una copia de los datos.");
+    } catch {
+      setDone(
+        "No pudimos descargar los datos. Asegurate de que la zona de adultos esta desbloqueada.",
+      );
+    }
+  }, [profiles]);
 
-  const runPending = (): void => {
+  const runPending = async (): Promise<void> => {
     if (!pending) return;
 
-    if (pending.kind === "clear-progress") {
-      clearProfileProgress(pending.profileId);
-      setDone(`Se ha borrado el progreso de ${pending.displayName}.`);
-    } else {
-      clearAllLocalData();
-      setDone("Se han borrado todos los datos de este dispositivo.");
+    try {
+      if (pending.kind === "clear-progress") {
+        await api.delete(`/profiles/${pending.profileId}/progress`);
+        invalidateSummary(pending.profileId);
+        setDone(`Se ha borrado el progreso de ${pending.displayName}.`);
+      } else {
+        for (const profile of profiles) {
+          try {
+            await deleteProfile(profile.id);
+          } catch {
+            /* si uno falla seguimos con el resto */
+          }
+        }
+        setDone("Se han borrado todos los perfiles y su progreso.");
+      }
+    } catch {
+      setDone(
+        "No se pudo completar la operacion. Comprueba que la zona de adultos esta desbloqueada.",
+      );
+    } finally {
+      setPending(null);
     }
-
-    setPending(null);
   };
 
   return (
@@ -156,10 +182,10 @@ export function ParentSettings() {
       <Card className="space-y-3">
         <h2 className="text-cream-900 text-lg font-extrabold">Tus datos</h2>
         <p className="text-cream-700 text-sm leading-relaxed">
-          Todo se guarda en este dispositivo. Puedes descargar una copia o borrarlo por completo
-          cuando quieras. No hay copias ocultas en ningun servidor.
+          El progreso se guarda en el servidor local. Puedes descargar una copia o borrarlo por
+          completo cuando quieras. No hay copias ocultas en ningun otro sitio.
         </p>
-        <Button variant="secondary" icon="download" onClick={downloadData}>
+        <Button variant="secondary" icon="download" onClick={() => void downloadData()}>
           Descargar una copia
         </Button>
       </Card>
@@ -168,7 +194,7 @@ export function ParentSettings() {
         <h2 className="text-cream-900 text-lg font-extrabold">Borrar progreso</h2>
         <p className="text-cream-700 text-sm leading-relaxed">
           Borrar el progreso de un perfil no elimina el perfil. Para borrar el perfil entero, usa la
-          pantalla de perfiles.
+          opcion de al lado.
         </p>
         <ul className="space-y-2">
           {profiles.map((profile) => (
@@ -190,6 +216,21 @@ export function ParentSettings() {
                 }
               >
                 Borrar su progreso
+              </Button>
+              <Button
+                variant="danger"
+                size="sm"
+                icon="trash"
+                onClick={async () => {
+                  try {
+                    await deleteProfile(profile.id);
+                    setDone(`Se ha borrado el perfil ${profile.displayName}.`);
+                  } catch {
+                    setDone("No pudimos borrar el perfil. Necesita la zona de adultos desbloqueada.");
+                  }
+                }}
+              >
+                Borrar perfil
               </Button>
             </li>
           ))}
@@ -215,7 +256,7 @@ export function ParentSettings() {
         title="Confirmar borrado"
         footer={
           <>
-            <Button variant="danger" icon="trash" onClick={runPending}>
+            <Button variant="danger" icon="trash" onClick={() => void runPending()}>
               Si, borrar
             </Button>
             <Button variant="secondary" onClick={() => setPending(null)}>
@@ -231,8 +272,8 @@ export function ParentSettings() {
           </p>
         ) : (
           <p>
-            Se borraran todos los perfiles, el progreso y el codigo de adulto de este dispositivo.
-            Esta accion no se puede deshacer.
+            Se borraran todos los perfiles y su progreso de este dispositivo. Esta accion no se
+            puede deshacer.
           </p>
         )}
       </Modal>

@@ -1,27 +1,24 @@
 "use client";
 
-import { GAME } from "@/config/game";
 import { getVocabularyItem } from "@/content";
 import { LessonRunner } from "@/features/activities/components/lesson-runner";
-import { toPublicActivities } from "@/features/activities/engine/public-activity";
-import { selectReviewActivities } from "@/features/activities/select";
-import { useProgressSummary } from "@/features/progress/use-progress-summary";
+import { useReviewPlan } from "@/features/progress/use-progress-summary";
 import { useProfiles } from "@/features/profile/profile-context";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LinkButton } from "@/components/ui/link-button";
 import { Spinner } from "@/components/ui/spinner";
 
 /**
- * Sesion de repaso: se construye con las palabras que el motor marca como
- * pendientes de practicar y las actividades que ya existen en el contenido.
+ * Sesion de repaso: el servidor elige las palabras que conviene practicar y
+ * devuelve las actividades ya montadas (sin `answerKey`).
  *
  * Si no hay nada pendiente, se dice con claridad en vez de inventar ejercicios.
  */
 export function ReviewSession() {
   const { ready, activeProfile } = useProfiles();
-  const summary = useProgressSummary(activeProfile?.id ?? null);
+  const plan = useReviewPlan(activeProfile?.id ?? null);
 
-  if (!ready || summary === null) {
+  if (!ready || (activeProfile !== null && plan === null)) {
     return (
       <div className="flex min-h-40 items-center justify-center">
         <Spinner size={28} label="Preparando el repaso" />
@@ -44,11 +41,7 @@ export function ReviewSession() {
     );
   }
 
-  const targetIds = summary.reviewSuggestions
-    .map((suggestion) => suggestion.entityId)
-    .filter((id) => getVocabularyItem(id) !== null);
-
-  const activities = selectReviewActivities(targetIds, GAME.activitiesPerSession);
+  const activities = plan?.activities ?? [];
 
   if (activities.length === 0) {
     return (
@@ -65,18 +58,17 @@ export function ReviewSession() {
     );
   }
 
-  const words = targetIds
+  const words = (plan?.vocabularyIds ?? [])
     .map((id) => getVocabularyItem(id)?.word)
     .filter((word): word is string => word !== undefined);
 
   return (
     <LessonRunner
       lessonId="review"
-      worldId={activities[0]?.worldId ?? ""}
       title="Repaso de palabras"
       subtitle={`Vamos a recordar estas palabras: ${words.slice(0, 8).join(", ")}.`}
       objectives={["Recordar palabras que ya practicaste", "Escuchar, leer y escribir un poco mas"]}
-      activities={toPublicActivities(activities)}
+      activities={activities}
       isReview
       completeHref="/jugar"
       completeLabel="Volver al inicio"

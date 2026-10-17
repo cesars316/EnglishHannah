@@ -23,6 +23,7 @@
     "test:integration": "vitest run --config vitest.integration.config.ts",
     "test:e2e": "playwright test",
     "validate:content": "tsx scripts/validate-content.ts",
+    "seed": "tsx scripts/seed.ts",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
     "verify": "npm run validate:content && npm run lint && npm run typecheck && npm run test && npm run build"

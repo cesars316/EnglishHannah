@@ -34,7 +34,6 @@ export default async function LessonPage({ params }: PageProps) {
 
       <LessonRunner
         lessonId={lesson.id}
-        worldId={lesson.worldId}
         title={lesson.title.es}
         subtitle={lesson.intro.es}
         objectives={lesson.objectives}

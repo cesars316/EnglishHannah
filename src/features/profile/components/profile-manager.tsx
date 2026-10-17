@@ -7,7 +7,6 @@ import { AvatarIllustration } from "@/components/ui/avatar-illustration";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
-import { Icon } from "@/components/ui/icon";
 import { Modal } from "@/components/ui/modal";
 import { Pill } from "@/components/ui/pill";
 import { StatusMessage } from "@/components/ui/status-message";
@@ -176,6 +175,7 @@ export function ProfileManager() {
   const [form, setForm] = useState<FormState>(CLOSED_FORM);
   const [error, setError] = useState<string | null>(null);
   const [pendingDelete, setPendingDelete] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const canAddMore = profiles.length < LIMITS.maxProfilesPerOwner;
 
@@ -199,22 +199,26 @@ export function ProfileManager() {
     });
   };
 
-  const submit = (): void => {
+  const submit = async (): Promise<void> => {
     const displayName = form.displayName.trim();
     if (displayName.length < LIMITS.displayNameMin) {
       setError("Escribe al menos una letra para el nombre.");
       return;
     }
 
-    if (form.profileId) {
-      updateProfile(form.profileId, { displayName, avatarId: form.avatarId });
-    } else {
-      const created = createProfile({ displayName, avatarId: form.avatarId });
-      selectProfile(created.id);
-    }
+    try {
+      if (form.profileId) {
+        await updateProfile(form.profileId, { displayName, avatarId: form.avatarId });
+      } else {
+        const created = await createProfile({ displayName, avatarId: form.avatarId });
+        selectProfile(created.id);
+      }
 
-    setForm(CLOSED_FORM);
-    setError(null);
+      setForm(CLOSED_FORM);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No pudimos guardar el perfil.");
+    }
   };
 
   const play = (profileId: string): void => {
@@ -222,9 +226,18 @@ export function ProfileManager() {
     router.push("/jugar");
   };
 
-  const confirmDelete = (): void => {
-    if (pendingDelete) {
-      deleteProfile(pendingDelete);
+  const confirmDelete = async (): Promise<void> => {
+    if (!pendingDelete) return;
+    try {
+      await deleteProfile(pendingDelete);
+      setDeleteError(null);
+    } catch (err) {
+      setDeleteError(
+        err instanceof Error
+          ? err.message
+          : "No pudimos borrar el perfil. Pide a un adulto que entre en la zona de adultos.",
+      );
+    } finally {
       setPendingDelete(null);
     }
   };
@@ -255,7 +268,10 @@ export function ProfileManager() {
               isActive={profile.id === activeProfile?.id}
               onPlay={() => play(profile.id)}
               onEdit={() => openEdit(profile.id)}
-              onDelete={() => setPendingDelete(profile.id)}
+              onDelete={() => {
+                setDeleteError(null);
+                setPendingDelete(profile.id);
+              }}
             />
           ))}
         </ul>
@@ -265,13 +281,19 @@ export function ProfileManager() {
         <ProfileForm
           state={form}
           onChange={update}
-          onSubmit={submit}
+          onSubmit={() => void submit()}
           onCancel={() => {
             setForm(CLOSED_FORM);
             setError(null);
           }}
           error={error}
         />
+      )}
+
+      {deleteError && (
+        <StatusMessage tone="error" title="No se pudo borrar el perfil">
+          <p>{deleteError}</p>
+        </StatusMessage>
       )}
 
       {!form.open && profiles.length > 0 && (
@@ -294,7 +316,7 @@ export function ProfileManager() {
         title="Borrar este perfil"
         footer={
           <>
-            <Button variant="danger" icon="close" onClick={confirmDelete}>
+            <Button variant="danger" icon="close" onClick={() => void confirmDelete()}>
               Si, borrar
             </Button>
             <Button variant="secondary" onClick={() => setPendingDelete(null)}>
@@ -310,18 +332,10 @@ export function ProfileManager() {
           </strong>
           : misiones completadas, monedas, insignias y palabras practicadas.
         </p>
-        <p className="mt-2">
-          Esta accion no se puede deshacer. Los demas perfiles no se ven afectados.
+        <p className="text-cream-700 mt-3 text-sm">
+          Esta accion la tiene que aprobar un adulto desde la zona de adultos.
         </p>
       </Modal>
-
-      <p className="text-cream-700 flex items-start gap-2 text-sm">
-        <Icon name="shield" size={18} className="mt-0.5 shrink-0 text-sky-600" />
-        <span>
-          Los perfiles y el progreso se guardan solo en este dispositivo. No se envia nada a
-          internet y no se recogen datos de menores.
-        </span>
-      </p>
     </div>
   );
 }

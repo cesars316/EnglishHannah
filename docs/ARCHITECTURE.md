@@ -57,7 +57,7 @@ english-quest/
 │   │   └── globals.css
 │   ├── components/{ui,activities,layout}
 │   ├── features/{worlds,activities,progress,rewards,speech,camera,profile,parent,collection,privacy}
-│   ├── server/{db,repositories,services,use-cases,auth,validation,http}   # Fase 3
+│   ├── server/{db,repositories,services,use-cases,auth,validation,http}
 │   ├── content/{worlds,vocabulary,lessons,activities,index.ts,validate.ts}
 │   ├── config/
 │   ├── lib/
@@ -108,16 +108,36 @@ Cada actividad declara: `id`, `type`, `skill`, `prompt` (es/en), `content`,
 
 ## 6. Persistencia y estado en cliente
 
-- Los datos de juego se obtienen de la API `/api/v1` (Server Components + `fetch`
-  sin cache para progreso).
-- React `useState`/`useReducer` para estado de sesion en curso.
-- Sin libreria de estado global en el MVP.
-- Si la red falla, el progreso se marca como "pendiente" y se ofrece reintento.
+El **servidor es la autoridad** (ADR 0003/0004). El cliente nunca calcula XP,
+dominio ni desbloqueos: los pide a `/api/v1` y los cachea.
+
+- Cada pantalla pide los datos que necesita (Server Components cuando es estatico;
+  `src/features/api/client.ts` en el cliente).
+- Los stores de cliente (`src/features/*/remote-store.ts`) son almacenes externos
+  en memoria, leidos con `useSyncExternalStore`. `getSnapshot` devuelve siempre la
+  misma referencia mientras el dato no cambie.
+- Las respuestas de jugar (`POST .../answer`, `POST .../complete`) ya traen el
+  `gameState` actualizado: se aplica sin una segunda peticion
+  (`applyGameState`) y se invalida el resumen (`invalidateSummary`).
+- `localStorage` guarda **unicamente** la preferencia `eq.activeProfileId` (que
+  perfil esta activo en este dispositivo). No hay progreso ni codigo parental en
+  el navegador.
+- El codigo parental se verifica siempre en el servidor (scrypt); la comprobacion
+  de formato en el cliente es solo para dar feedback inmediato.
+- React `useState`/`useReducer` para el estado de la sesion en curso.
 
 ## 7. Seguridad
 
-- `AUTH_SECRET` valida al arrancar (`src/server/env.ts`).
-- Cookie de sesion firmada (HMAC). Verificacion de pertenencia en cada operacion.
+- `AUTH_SECRET` firma la cookie de sesion; si falta, se usa un secreto efimero por
+  proceso con aviso por consola.
+- Cookie `eq_session` firmada (HMAC-SHA256, httpOnly, 180 dias): el servidor
+  **nunca** confia en un `ownerId` enviado por el navegador.
+- Cookie `eq_parent` (httpOnly, 30 min) para las acciones sensibles: borrar,
+  ajustes, exportar y cambiar el codigo.
+- Codigo parental con `scrypt(codigo, sal)`; nunca se guarda en claro. Limite de
+  intentos (`/parent/unlock`: 5 cada 5 min).
+- Verificacion de pertenencia del perfil en cada operacion (404 si no es del
+  `ownerId`).
 - Validacion Zod de body/params; limite de tamaño; rate limiting en endpoints
   sensibles; sin stack traces en respuestas.
 - Cabeceras de seguridad y CSP documentada.

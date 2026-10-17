@@ -7,59 +7,65 @@ import {
   useEffect,
   useMemo,
   useSyncExternalStore,
+  type ReactNode,
 } from "react";
 
 import {
   createProfile as createProfileInStore,
   deleteProfile as deleteProfileInStore,
+  getActiveProfileId,
   getProfileSnapshot,
-  revalidateProfiles,
-  SERVER_PROFILE_SNAPSHOT,
+  getProfilesError,
+  getProfilesStatus,
+  loadProfiles,
   setActiveProfileId as setActiveProfileIdInStore,
+  SERVER_PROFILE_SNAPSHOT,
   subscribeProfiles,
   updateProfile as updateProfileInStore,
-  type CreateProfileInput,
-} from "@/features/profile/local-store";
-import { clearProfileProgress } from "@/features/progress/local-progress";
-import type { Profile, ProfileSettings } from "@/types/domain";
+  type ProfilePatch,
+} from "@/features/profile/remote-store";
+import type { Profile } from "@/types/domain";
 
 /**
  * Estado de perfiles en el cliente.
  *
- * La fuente de verdad es `localStorage`, expuesto como almacen externo para
- * `useSyncExternalStore`: el servidor usa una instantanea vacia y el cliente
- * adopta los datos reales tras la hidratacion, sin desajustes ni `setState`
- * dentro de un efecto.
- *
- * `ready` distingue "aun hidratando" de "no hay perfiles" para evitar
- * parpadeos y redirecciones incorrectas.
+ * El servidor es la autoridad (ADR 0003): los perfiles se leen de `/api/v1` y
+ * se cachean en un almacen externo. `ready` sigue el estado de la carga para
+ * distinguir "aun cargando" de "no hay perfiles" y evitar parpadeos.
  */
+export type CreateProfileInput = {
+  displayName: string;
+  avatarId?: string;
+};
+
 export type ProfileContextValue = {
   ready: boolean;
+  error: string | null;
   profiles: Profile[];
   activeProfile: Profile | null;
   selectProfile: (profileId: string | null) => void;
-  createProfile: (input: CreateProfileInput) => Profile;
-  updateProfile: (
-    profileId: string,
-    patch: Partial<Pick<Profile, "displayName" | "avatarId">> & {
-      settings?: Partial<ProfileSettings>;
-    },
-  ) => Profile | null;
-  deleteProfile: (profileId: string) => void;
-  refresh: () => void;
+  createProfile: (input: CreateProfileInput) => Promise<Profile>;
+  updateProfile: (profileId: string, patch: ProfilePatch) => Promise<Profile>;
+  deleteProfile: (profileId: string) => Promise<void>;
+  refresh: () => Promise<void>;
 };
 
 const ProfileContext = createContext<ProfileContextValue | null>(null);
 
 const getServerSnapshot = (): typeof SERVER_PROFILE_SNAPSHOT => SERVER_PROFILE_SNAPSHOT;
-const getHydratedOnClient = (): boolean => true;
-const getHydratedOnServer = (): boolean => false;
+const getServerStatus = (): "idle" | "loading" | "ready" | "error" => "idle";
+const getServerError = (): string | null => null;
 
-export function ProfileProvider({ children }: { children: React.ReactNode }) {
+export function ProfileProvider({ children }: { children: ReactNode }) {
   const snapshot = useSyncExternalStore(subscribeProfiles, getProfileSnapshot, getServerSnapshot);
-  // `useSyncExternalStore` devuelve `false` en servidor y `true` en el cliente.
-  const ready = useSyncExternalStore(subscribeProfiles, getHydratedOnClient, getHydratedOnServer);
+  const status = useSyncExternalStore(subscribeProfiles, getProfilesStatus, getServerStatus);
+  const error = useSyncExternalStore(subscribeProfiles, getProfilesError, getServerError);
+
+  // La carga se dispara desde un efecto (nunca durante el render) y el almacen
+  // avisa a los suscriptores cuando termina.
+  useEffect(() => {
+    void loadProfiles();
+  }, []);
 
   const { profiles, activeId } = snapshot;
 
@@ -67,17 +73,17 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     setActiveProfileIdInStore(profileId);
   }, []);
 
-  const handleCreate = useCallback((input: CreateProfileInput) => createProfileInStore(input), []);
-
-  const handleUpdate = useCallback<ProfileContextValue["updateProfile"]>(
-    (profileId, patch) => updateProfileInStore(profileId, patch),
+  const handleCreate = useCallback(
+    (input: CreateProfileInput) => createProfileInStore(input),
     [],
   );
 
-  const handleDelete = useCallback((profileId: string) => {
-    clearProfileProgress(profileId);
-    deleteProfileInStore(profileId);
-  }, []);
+  const handleUpdate = useCallback(
+    (profileId: string, patch: ProfilePatch) => updateProfileInStore(profileId, patch),
+    [],
+  );
+
+  const handleDelete = useCallback((profileId: string) => deleteProfileInStore(profileId), []);
 
   const activeProfile = useMemo(
     () => profiles.find((profile) => profile.id === activeId) ?? null,
@@ -96,16 +102,17 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo<ProfileContextValue>(
     () => ({
-      ready,
+      ready: status === "ready" || status === "error",
+      error,
       profiles,
       activeProfile,
       selectProfile,
       createProfile: handleCreate,
       updateProfile: handleUpdate,
       deleteProfile: handleDelete,
-      refresh: revalidateProfiles,
+      refresh: loadProfiles,
     }),
-    [ready, profiles, activeProfile, selectProfile, handleCreate, handleUpdate, handleDelete],
+    [status, error, profiles, activeProfile, selectProfile, handleCreate, handleUpdate, handleDelete],
   );
 
   return <ProfileContext.Provider value={value}>{children}</ProfileContext.Provider>;
@@ -118,3 +125,5 @@ export function useProfiles(): ProfileContextValue {
   }
   return context;
 }
+
+export { getActiveProfileId };

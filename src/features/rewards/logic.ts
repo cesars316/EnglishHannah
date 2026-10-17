@@ -1,6 +1,6 @@
 import { REWARDS } from "@/config/rewards";
 import { ALL_LESSONS, BADGES, PUBLISHED_WORLDS } from "@/content";
-import type { GameState } from "@/types/domain";
+import type { ActivityAttempt, GameState, ProgressRecord } from "@/types/domain";
 
 /**
  * Reglas de recompensa y desbloqueo. Logica pura y centralizada: no hay
@@ -132,4 +132,42 @@ export const WORD_COLLECTOR_THRESHOLD = 20;
 
 export function uniqueIds(ids: readonly string[]): string[] {
   return [...new Set(ids)];
+}
+
+export function countDistinctVocabulary(records: readonly ProgressRecord[]): number {
+  return uniqueIds(
+    records
+      .filter((record) => record.entityType === "vocabulary" && record.seenCount > 0)
+      .map((record) => record.entityId),
+  ).length;
+}
+
+export function hasSpokenPractice(attempts: readonly ActivityAttempt[]): boolean {
+  return attempts.some((attempt) => attempt.skill === "speaking" && attempt.result !== "incorrect");
+}
+
+/**
+ * Fusiona el resultado de `computeUnlocks` con el estado guardado.
+ *
+ * `computeUnlocks` devuelve siempre el conjunto COMPLETO que corresponde al
+ * progreso actual, por eso la fusion es una union: asi nunca se pierden
+ * insignias ni desbloqueos historicos aunque el contenido crezca.
+ */
+export function applyUnlocks(
+  gameState: GameState,
+  records: readonly ProgressRecord[],
+  attempts: readonly ActivityAttempt[],
+): GameState {
+  const unlocks = computeUnlocks({
+    gameState,
+    practicedVocabularyCount: countDistinctVocabulary(records),
+    spokenPractice: hasSpokenPractice(attempts),
+  });
+
+  return {
+    ...gameState,
+    unlockedWorldIds: uniqueIds([...gameState.unlockedWorldIds, ...unlocks.availableWorldIds]),
+    completedWorldIds: uniqueIds([...gameState.completedWorldIds, ...unlocks.completedWorldIds]),
+    earnedBadgeIds: uniqueIds([...gameState.earnedBadgeIds, ...unlocks.earnedBadgeIds]),
+  };
 }
