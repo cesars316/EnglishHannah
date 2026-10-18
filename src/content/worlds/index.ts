@@ -126,6 +126,46 @@ export const WORLDS: readonly World[] = [
     contentVersion: CONTENT_VERSION,
     published: true,
   },
+  {
+    id: "my-house",
+    title: { es: "Mi Casa", en: "My House" },
+    order: 7,
+    description: {
+      es: "La casa esta desordenada. Coloca cada mueble en su habitacion.",
+      en: "The house is a mess. Put every piece of furniture in its room.",
+    },
+    goal: {
+      es: 'Nombrar habitaciones y muebles, y usar "Where is...?" con "It is in/on..."',
+      en: 'Name rooms and furniture, and use "Where is...?" with "It is in/on..."',
+    },
+    level: "A1",
+    prerequisites: ["family-home"],
+    lessonIds: ["house-01", "house-02", "house-03"],
+    badgeId: "house-key",
+    theme: { primary: "#2f7d8f", soft: "#e4f4f7", emoji: "🏡" },
+    contentVersion: CONTENT_VERSION,
+    published: true,
+  },
+  {
+    id: "clothes-street",
+    title: { es: "Calle Ropa", en: "Clothes Street" },
+    order: 8,
+    description: {
+      es: "Los escaparates estan vacios. Viste cada tienda y prepara el desfile.",
+      en: "The shop windows are empty. Dress every shop and get the parade ready.",
+    },
+    goal: {
+      es: 'Nombrar tu ropa, decir sus colores y usar "I am wearing..."',
+      en: 'Name your clothes, say their colours and use "I am wearing..."',
+    },
+    level: "A1",
+    prerequisites: ["food-market"],
+    lessonIds: ["clothes-01", "clothes-02", "clothes-03"],
+    badgeId: "parade-star",
+    theme: { primary: "#0f766e", soft: "#e2f6f3", emoji: "👕" },
+    contentVersion: CONTENT_VERSION,
+    published: true,
+  },
 ] as const;
 
 export const WORLDS_BY_ID: Readonly<Record<string, World>> = Object.fromEntries(

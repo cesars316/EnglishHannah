@@ -69,6 +69,28 @@ export const BADGES: readonly Badge[] = [
     worldId: "food-market",
   },
   {
+    id: "house-key",
+    kind: "world",
+    title: { es: "Llave de casa", en: "House Key" },
+    description: {
+      es: "Nombras habitaciones y muebles y preguntas donde estan las cosas.",
+      en: "You name rooms and furniture and ask where things are.",
+    },
+    emoji: "🔑",
+    worldId: "my-house",
+  },
+  {
+    id: "parade-star",
+    kind: "world",
+    title: { es: "Estrella del desfile", en: "Parade Star" },
+    description: {
+      es: "Nombras tu ropa y dices lo que llevas puesto en ingles.",
+      en: "You name your clothes and say what you are wearing in English.",
+    },
+    emoji: "👕",
+    worldId: "clothes-street",
+  },
+  {
     id: "first-steps",
     kind: "milestone",
     title: { es: "Primeros pasos", en: "First Steps" },

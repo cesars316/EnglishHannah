@@ -1,20 +1,26 @@
 import { ANIMAL_PARK_ACTIVITIES } from "@/content/activities/animal-park";
+import { CLOTHES_STREET_ACTIVITIES } from "@/content/activities/clothes-street";
 import { COLOR_FOREST_ACTIVITIES } from "@/content/activities/color-forest";
 import { FAMILY_HOME_ACTIVITIES } from "@/content/activities/family-home";
 import { FOOD_MARKET_ACTIVITIES } from "@/content/activities/food-market";
 import { HELLO_VILLAGE_ACTIVITIES } from "@/content/activities/hello-village";
+import { MY_HOUSE_ACTIVITIES } from "@/content/activities/my-house";
 import { NUMBER_BEACH_ACTIVITIES } from "@/content/activities/number-beach";
 import { ANIMAL_PARK_LESSONS } from "@/content/lessons/animal-park";
+import { CLOTHES_STREET_LESSONS } from "@/content/lessons/clothes-street";
 import { COLOR_FOREST_LESSONS } from "@/content/lessons/color-forest";
 import { FAMILY_HOME_LESSONS } from "@/content/lessons/family-home";
 import { FOOD_MARKET_LESSONS } from "@/content/lessons/food-market";
 import { HELLO_VILLAGE_LESSONS } from "@/content/lessons/hello-village";
+import { MY_HOUSE_LESSONS } from "@/content/lessons/my-house";
 import { NUMBER_BEACH_LESSONS } from "@/content/lessons/number-beach";
 import { ANIMAL_PARK_VOCABULARY } from "@/content/vocabulary/animal-park";
+import { CLOTHES_STREET_VOCABULARY } from "@/content/vocabulary/clothes-street";
 import { COLOR_FOREST_VOCABULARY } from "@/content/vocabulary/color-forest";
 import { FAMILY_HOME_VOCABULARY } from "@/content/vocabulary/family-home";
 import { FOOD_MARKET_VOCABULARY } from "@/content/vocabulary/food-market";
 import { HELLO_VILLAGE_VOCABULARY } from "@/content/vocabulary/hello-village";
+import { MY_HOUSE_VOCABULARY } from "@/content/vocabulary/my-house";
 import { NUMBER_BEACH_VOCABULARY } from "@/content/vocabulary/number-beach";
 import { BADGES } from "@/content/badges";
 import { PUBLISHED_WORLDS, WORLDS, WORLDS_BY_ID } from "@/content/worlds";
@@ -33,6 +39,8 @@ export const ALL_VOCABULARY: readonly VocabularyItem[] = [
   ...ANIMAL_PARK_VOCABULARY,
   ...FAMILY_HOME_VOCABULARY,
   ...FOOD_MARKET_VOCABULARY,
+  ...MY_HOUSE_VOCABULARY,
+  ...CLOTHES_STREET_VOCABULARY,
 ];
 
 export const ALL_LESSONS: readonly Lesson[] = [
@@ -42,6 +50,8 @@ export const ALL_LESSONS: readonly Lesson[] = [
   ...ANIMAL_PARK_LESSONS,
   ...FAMILY_HOME_LESSONS,
   ...FOOD_MARKET_LESSONS,
+  ...MY_HOUSE_LESSONS,
+  ...CLOTHES_STREET_LESSONS,
 ];
 
 export const ALL_ACTIVITIES: readonly Activity[] = [
@@ -51,6 +61,8 @@ export const ALL_ACTIVITIES: readonly Activity[] = [
   ...ANIMAL_PARK_ACTIVITIES,
   ...FAMILY_HOME_ACTIVITIES,
   ...FOOD_MARKET_ACTIVITIES,
+  ...MY_HOUSE_ACTIVITIES,
+  ...CLOTHES_STREET_ACTIVITIES,
 ];
 
 function indexById<T extends { id: string }>(items: readonly T[]): Readonly<Record<string, T>> {
