@@ -11,6 +11,23 @@ export const GAME = {
   maxReviewSuggestions: 8,
 } as const;
 
+/**
+ * Umbrales del ajuste de dificultad segun progreso (Fase 7).
+ *
+ * Son aproximaciones pedagogicas, no evaluaciones cientificas: deciden que
+ * tan retadora es la proxima sesion de repaso. El contenido no cambia; lo que
+ * cambia es que actividades de dificultad 1, 2 o 3 se eligen primero.
+ */
+export const DIFFICULTY = {
+  /** Intentos minimos antes de salir del nivel inicial (1 = mas suave). */
+  minAttemptsToAdapt: 8,
+  /** Precision (0-1) por debajo de la cual se baja a nivel inicial. */
+  gentleAccuracy: 0.6,
+  /** Precision minima y palabras dominadas para el nivel retador (3). */
+  championAccuracy: 0.85,
+  championMasteredWords: 12,
+} as const;
+
 export const LIMITS = {
   displayNameMin: 1,
   displayNameMax: 20,

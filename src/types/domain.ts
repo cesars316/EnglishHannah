@@ -1,8 +1,31 @@
 /** Entidades de dominio persistidas en MongoDB. */
 
-import type { Skill } from "./content";
+import type { Difficulty, LocalizedText, Skill } from "./content";
 
 export type MasteryStatus = "new" | "learning" | "practicing" | "review" | "mastered";
+
+export type ChallengeLevel = "gentle" | "steady" | "champion";
+
+/**
+ * Ajuste de dificultad calculado a partir del progreso (Fase 7).
+ *
+ * El contenido es codigo versionado y NO cambia en ejecucion: lo que se adapta
+ * es que actividades de repaso (dificultad 1, 2 o 3) se proponen primero.
+ * Nunca se persiste; se deriva de registros e intentos en cada lectura.
+ */
+export type Challenge = {
+  level: ChallengeLevel;
+  /** Dificultad de las actividades que conviene practicar ahora. */
+  preferredDifficulty: Difficulty;
+  /** Etiqueta amable del nivel, para la interfaz. */
+  label: LocalizedText;
+  /** Motivo del nivel elegido, en frases amables y sin notas. */
+  reason: LocalizedText;
+  /** Precision sobre intentos con respuesta (0-1); `null` sin datos. */
+  accuracy: number | null;
+  attemptedActivities: number;
+  masteredWords: number;
+};
 
 export type ProgressEntityType = "vocabulary" | "skill" | "world" | "lesson";
 
@@ -88,6 +111,8 @@ export type Avatar = {
 
 /** Resumen agregado para el panel parental. */
 export type ProgressSummary = {
+  /** Nivel de reto vigente para la sesion de repaso. */
+  challenge: Challenge;
   xp: number;
   coins: number;
   activitiesCompleted: number;

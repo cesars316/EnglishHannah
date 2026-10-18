@@ -12,6 +12,7 @@ import type {
 } from "./content";
 import type {
   ActivityAttempt,
+  Challenge,
   GameState,
   Profile,
   ProgressRecord,
@@ -79,10 +80,12 @@ export type ProfileView = { profile: Profile };
 
 export type ProgressSummaryView = { summary: ProgressSummary };
 
-/** Plan de repaso: palabras prioritarias y actividades ya listas para jugar. */
+/** Plan de repaso: palabras prioritarias, nivel de reto y actividades listas. */
 export type ReviewPlan = {
   vocabularyIds: string[];
   activities: PublicActivity[];
+  /** Nivel de reto elegido segun el progreso del perfil (Fase 7). */
+  challenge: Challenge;
 };
 
 export type RewardsView = {

@@ -168,10 +168,15 @@ export function ParentDashboard() {
               <Pill tone="success">{summary.vocabularyMastered} palabras dominadas</Pill>
               <Pill tone="neutral">{summary.worldsVisited} mundos visitados</Pill>
               <Pill tone="brand">{summary.worldsCompleted} mundos completados</Pill>
+              <Pill tone="purple">Reto de repaso: {summary.challenge.label.es}</Pill>
             </div>
             <p className="text-cream-700 text-sm leading-relaxed">
               El Â«dominioÂ» es una estimacion: sube al acertar en varias sesiones y con distintos
               tipos de actividad. No es una nota ni una comparacion con otros niÃ±os.
+            </p>
+            <p className="text-cream-700 text-sm leading-relaxed">
+              El nivel de reto ajusta la dificultad de las sesiones de repaso segun el progreso.
+              Motivo actual: {summary.challenge.reason.es}
             </p>
           </Card>
 

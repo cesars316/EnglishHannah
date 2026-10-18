@@ -1,5 +1,6 @@
 import { MASTERY, REVIEW_INTERVAL_DAYS } from "@/config/rewards";
 import { getVocabularyItem, PUBLISHED_WORLDS } from "@/content";
+import { computeChallenge } from "@/features/difficulty/logic";
 import type {
   ActivityAttempt,
   GameState,
@@ -236,6 +237,7 @@ export function summarizeProgress(input: SummaryInput): ProgressSummary {
     }));
 
   return {
+    challenge: computeChallenge({ records, attempts }),
     xp: gameState.xp,
     coins: gameState.coins,
     activitiesCompleted: attempts.length,

@@ -7,8 +7,8 @@
 (rebanada vertical jugable en local) · Fase 3 completada (API `/api/v1` + MongoDB;
 el servidor es la autoridad) · Fase 4 completada (progreso y panel parental) ·
 Fase 5 completada (voz y camara opcionales) · Fase 6 completada (calidad y guia de
-despliegue, sin publicar) · Fase 7 en curso (los 12 mundos y sus historias
-estan entregados; faltan el ajuste de dificultad y el offline parcial).
+despliegue, sin publicar) · Fase 7 en curso (los 12 mundos, sus historias y el
+ajuste de dificultad estan entregados; falta valorar el offline parcial).
 
 ## Decisiones del propietario
 
@@ -150,7 +150,14 @@ filtra respuestas correctas. ✅
       188 actividades, 129 palabras, 16 insignias, 0 avisos de validacion.
 - [x] Mini-historias + quiz (`story-quiz`, motor, vista y contenido en los cuatro
       mundos MVP; cada mundo nuevo incluira su propia historia final).
-- [ ] Ajuste de dificultad segun progreso.
+- [x] Ajuste de dificultad segun progreso. — el contenido NO cambia en
+      ejecucion: `computeChallenge` (`src/features/difficulty/logic.ts`) deriva
+      un nivel amable (`gentle`/`steady`/`champion`) del progreso persistido
+      (intentos, precision y palabras dominadas) y `selectReviewActivities`
+      ordena la sesion de repaso para acercarse a ese nivel (dificultad 1, 2
+      o 3). Umbrales centralizados en `DIFFICULTY` (`src/config/game.ts`); el
+      nivel y su motivo se muestran en la sesion de repaso y en el panel
+      parental. Nunca sube solo por tiempo transcurrido ni con pocos intentos.
 - [ ] PWA / offline parcial si es viable.
 
 ## Checklist de aceptacion final (documento maestro, seccion 21)

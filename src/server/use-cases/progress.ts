@@ -2,6 +2,7 @@ import { GAME } from "@/config/game";
 import { getBadge, getVocabularyItem } from "@/content";
 import { toPublicActivities } from "@/features/activities/engine/public-activity";
 import { selectReviewActivities } from "@/features/activities/select";
+import { computeChallenge } from "@/features/difficulty/logic";
 import { pickReviewTargets, summarizeProgress } from "@/features/progress/logic";
 import { toAttempt, toGameState, toProgressRecord } from "@/server/db/mappers";
 import { listAttempts } from "@/server/repositories/attempts";
@@ -45,14 +46,25 @@ export async function getReviewPlan(
 ): Promise<ReviewPlan> {
   const { db } = await profileContext(ownerId, profileId);
 
-  const records = (await listProgress(db, profileId)).map(toProgressRecord);
+  const [progressRows, attemptRows] = await Promise.all([
+    listProgress(db, profileId),
+    listAttempts(db, profileId),
+  ]);
+  const records = progressRows.map(toProgressRecord);
+  const attempts = attemptRows.map(toAttempt);
+
+  // Ajuste de dificultad (Fase 7): el nivel sale del progreso persistido.
+  const challenge = computeChallenge({ records, attempts });
+
   const targets = pickReviewTargets(records, now, GAME.maxReviewSuggestions);
   const vocabularyIds = targets.map((record) => record.entityId);
 
-  // El repaso se limita a una sesion corta y rota por tipo de actividad.
-  const activities = selectReviewActivities(vocabularyIds, GAME.activitiesPerSession);
+  // La sesion es corta, rota por tipo y se acerca al nivel que conviene.
+  const activities = selectReviewActivities(vocabularyIds, GAME.activitiesPerSession, {
+    preferredDifficulty: challenge.preferredDifficulty,
+  });
 
-  return { vocabularyIds, activities: toPublicActivities(activities) };
+  return { vocabularyIds, activities: toPublicActivities(activities), challenge };
 }
 
 export async function getRewards(ownerId: string, profileId: string): Promise<RewardsView> {

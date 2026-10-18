@@ -44,6 +44,48 @@ describe("selectReviewActivities", () => {
       expect(ALL_ACTIVITIES.some((item) => item.id === activity.id)).toBe(true);
     }
   });
+
+  describe("ajuste de dificultad (preferredDifficulty)", () => {
+    const ids = ALL_VOCABULARY.map((item) => item.id);
+
+    const difficultySum = (items: readonly { difficulty: number }[]): number =>
+      items.reduce((total, item) => total + item.difficulty, 0);
+
+    it("sin preferencia el orden es identico al comportamiento anterior", () => {
+      const legacy = selectReviewActivities(ids, 6);
+      const explicit = selectReviewActivities(ids, 6, {});
+      expect(explicit).toEqual(legacy);
+    });
+
+    it("prefiere actividades suaves cuando el nivel pedido es 1", () => {
+      const gentle = selectReviewActivities(ids, 6, { preferredDifficulty: 1 });
+      const champion = selectReviewActivities(ids, 6, { preferredDifficulty: 3 });
+
+      expect(gentle).toHaveLength(6);
+      expect(champion).toHaveLength(6);
+      expect(difficultySum(gentle)).toBeLessThan(difficultySum(champion));
+      expect(gentle[0]?.difficulty).toBe(1);
+      expect(champion[0]?.difficulty).toBe(3);
+    });
+
+    it("mantiene la rotacion por tipos y el limite pedido", () => {
+      const selected = selectReviewActivities(ids, 5, { preferredDifficulty: 3 });
+      const types = selected.map((activity) => activity.type);
+      expect(selected).toHaveLength(5);
+      expect(new Set(types).size).toBeGreaterThan(1);
+    });
+
+    it("sigue eligiendo solo actividades que practican las palabras objetivo", () => {
+      const target = ALL_VOCABULARY.find((item) => item.word === "red") ?? ALL_VOCABULARY[0];
+      if (!target) throw new Error("El contenido no tiene vocabulario");
+
+      const selected = selectReviewActivities([target.id], 4, { preferredDifficulty: 2 });
+      expect(selected.length).toBeGreaterThan(0);
+      for (const activity of selected) {
+        expect(activity.vocabularyIds).toContain(target.id);
+      }
+    });
+  });
 });
 
 describe("worldIdForActivity", () => {

@@ -76,6 +76,10 @@ Reglas:
 - `hints` en español, amables y utiles.
 - `skill` ∈ `listening | reading | vocabulary | speaking | writing`.
 - Cada mundo: al menos 1 actividad de listening y 1 de lectura/seleccion.
+- `difficulty` (1-3) se deriva del orden de la leccion (`difficultyFor`): es la
+  senal que usa el **ajuste de dificultad** para ordenar la sesion de repaso
+  segun el progreso. No cambia el contenido; solo que actividades se
+  proponen primero. Puede forzarse con `difficulty` en el `defineActivity`.
 
 ### Mini-historias (`story-quiz`)
 

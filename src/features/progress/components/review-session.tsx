@@ -62,12 +62,18 @@ export function ReviewSession() {
     .map((id) => getVocabularyItem(id)?.word)
     .filter((word): word is string => word !== undefined);
 
+  const challenge = plan?.challenge;
+
   return (
     <LessonRunner
       lessonId="review"
       title="Repaso de palabras"
-      subtitle={`Vamos a recordar estas palabras: ${words.slice(0, 8).join(", ")}.`}
-      objectives={["Recordar palabras que ya practicaste", "Escuchar, leer y escribir un poco mas"]}
+      subtitle={`Nivel de hoy: ${challenge?.label.es ?? "Normal"}. Vamos a recordar estas palabras: ${words.slice(0, 8).join(", ")}.`}
+      objectives={[
+        "Recordar palabras que ya practicaste",
+        "Escuchar, leer y escribir un poco mas",
+        ...(challenge ? [challenge.reason.es] : []),
+      ]}
       activities={activities}
       isReview
       completeHref="/jugar"
