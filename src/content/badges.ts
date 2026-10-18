@@ -47,6 +47,28 @@ export const BADGES: readonly Badge[] = [
     worldId: "animal-park",
   },
   {
+    id: "family-heart",
+    kind: "world",
+    title: { es: "Corazon familiar", en: "Family Heart" },
+    description: {
+      es: "Nombras a tu familia en ingles y dices que la quieres.",
+      en: "You name your family in English and tell them you love them.",
+    },
+    emoji: "🏠",
+    worldId: "family-home",
+  },
+  {
+    id: "market-basket",
+    kind: "world",
+    title: { es: "Cesta del mercado", en: "Market Basket" },
+    description: {
+      es: "Pides comida en ingles y dices lo que te gusta.",
+      en: "You ask for food in English and say what you like.",
+    },
+    emoji: "🍎",
+    worldId: "food-market",
+  },
+  {
     id: "first-steps",
     kind: "milestone",
     title: { es: "Primeros pasos", en: "First Steps" },
@@ -84,8 +106,8 @@ export const BADGES: readonly Badge[] = [
     kind: "milestone",
     title: { es: "Exploradora de la isla", en: "Island Explorer" },
     description: {
-      es: "Terminaste los cuatro mundos del primer mapa.",
-      en: "You finished all four worlds on the first map.",
+      es: "Terminaste todos los mundos publicados de la isla.",
+      en: "You finished every published world on the island.",
     },
     emoji: "🏝️",
     worldId: null,

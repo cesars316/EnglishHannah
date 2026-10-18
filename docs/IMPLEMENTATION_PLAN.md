@@ -142,7 +142,9 @@ filtra respuestas correctas. ✅
 
 ## Fase 7 - Expansion de contenido
 
-- [ ] Mundos 5-12.
+- [ ] Mundos 5-12. — en curso: **5. Family Home** y **6. Food Market** entregados
+      (objetivos, 3 lecciones cada uno, 10 palabras, 15 actividades, insignia e
+      historia final); quedan 7-12.
 - [x] Mini-historias + quiz (`story-quiz`, motor, vista y contenido en los cuatro
       mundos MVP; cada mundo nuevo incluira su propia historia final).
 - [ ] Ajuste de dificultad segun progreso.

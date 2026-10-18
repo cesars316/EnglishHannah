@@ -2,8 +2,8 @@ import { CONTENT_VERSION } from "@/config/game";
 import type { World } from "@/types/content";
 
 /**
- * Ruta de mundos. El MVP entrega los cuatro primeros; el resto llega en Fase 7.
- * Cada mundo declara objetivos, prerrequisitos y su insignia.
+ * Ruta de mundos. Los mundos 5-12 llegan con la expansion de contenido de la
+ * Fase 7. Cada mundo declara objetivos, prerrequisitos y su insignia.
  */
 export const WORLDS: readonly World[] = [
   {
@@ -83,6 +83,46 @@ export const WORLDS: readonly World[] = [
     lessonIds: ["animal-01", "animal-02", "animal-03", "animal-04"],
     badgeId: "animal-friend",
     theme: { primary: "#1c7149", soft: "#ecfaf3", emoji: "🐾" },
+    contentVersion: CONTENT_VERSION,
+    published: true,
+  },
+  {
+    id: "family-home",
+    title: { es: "Casa de la Familia", en: "Family Home" },
+    order: 5,
+    description: {
+      es: "La casa esta vacia. Presenta a tu familia y llena de voces cada habitacion.",
+      en: "The house is empty. Introduce your family and fill every room with voices.",
+    },
+    goal: {
+      es: 'Nombrar a tu familia, decir "This is my..." y "I love my family".',
+      en: 'Name your family, say "This is my..." and "I love my family".',
+    },
+    level: "A1",
+    prerequisites: ["hello-village"],
+    lessonIds: ["family-01", "family-02", "family-03"],
+    badgeId: "family-heart",
+    theme: { primary: "#b83280", soft: "#fce7f3", emoji: "🏠" },
+    contentVersion: CONTENT_VERSION,
+    published: true,
+  },
+  {
+    id: "food-market",
+    title: { es: "Mercado de Comida", en: "Food Market" },
+    order: 6,
+    description: {
+      es: "Los puestos del mercado estan mezclados. Ordena la fruta y la comida.",
+      en: "The market stalls are mixed up. Put the fruit and the food in order.",
+    },
+    goal: {
+      es: 'Nombrar comida, pedir con "Can I have...?" y decir "I like...".',
+      en: 'Name food, ask with "Can I have...?" and say "I like...".',
+    },
+    level: "A1",
+    prerequisites: ["family-home"],
+    lessonIds: ["food-01", "food-02", "food-03"],
+    badgeId: "market-basket",
+    theme: { primary: "#b45309", soft: "#fef0dc", emoji: "🍎" },
     contentVersion: CONTENT_VERSION,
     published: true,
   },
