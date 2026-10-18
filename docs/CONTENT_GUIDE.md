@@ -55,15 +55,18 @@ Reglas:
 
 ## 4. Actividades
 
-Tipos del MVP y forma del `answerKey`:
+Tipos y forma del `answerKey`:
 
-| Tipo                  | `content`                                | `answerKey`                        |
-| --------------------- | ---------------------------------------- | ---------------------------------- |
-| `listen-and-choose`   | `stimulus` (audio/texto) + `options[]`   | `{ optionId }`                     |
-| `image-choice`        | `options[]`                              | `{ optionId }`                     |
-| `matching-pairs`      | `pairs[]` (left/right)                   | `{ pairs: { leftId, rightId }[] }` |
-| `word-builder`        | `tokens[]`, `mode: 'letters' \| 'words'` | `{ text }`                         |
-| `sentence-completion` | `sentence` con `___` + `options[]`       | `{ optionId }`                     |
+| Tipo                  | `content`                                 | `answerKey`                            |
+| --------------------- | ----------------------------------------- | -------------------------------------- |
+| `listen-and-choose`   | `stimulus` (audio/texto) + `options[]`    | `{ optionId }`                         |
+| `image-choice`        | `options[]`                               | `{ optionId }`                         |
+| `matching-pairs`      | `pairs[]` (left/right)                    | `{ pairs: { leftId, rightId }[] }`     |
+| `word-builder`        | `tokens[]`, `mode: 'letters' \| 'words'`  | `{ text }`                             |
+| `sentence-completion` | `sentence` con `___` + `options[]`        | `{ optionId }`                         |
+| `speak-and-check`     | `target`, `acceptedAnswers[]`             | `{ acceptedAnswers[] }`                |
+| `camera-hunt`         | `target`, `why`, `fallbackOptions[]`      | `{ optionId }`                         |
+| `story-quiz`          | `title`, `sentences[]`, `questions[]`     | `{ questions: { questionId, optionId }[] }` |
 
 Reglas:
 
@@ -73,6 +76,21 @@ Reglas:
 - `hints` en español, amables y utiles.
 - `skill` ∈ `listening | reading | vocabulary | speaking | writing`.
 - Cada mundo: al menos 1 actividad de listening y 1 de lectura/seleccion.
+
+### Mini-historias (`story-quiz`)
+
+Una historia corta con 3-4 preguntas de comprension. Refuerza la lectura sin
+depender de audio ni microfono, y cierra cada mision final.
+
+- `sentences`: frases breves en ingles con su apoyo en español (se muestra solo
+  si el perfil tiene activada la ayuda).
+- `questions[].prompt`: pregunta en ambos idiomas; opciones con `textOption`.
+- Los `id` de opciones deben ser **unicos en toda la historia**: la interfaz
+  resalta la solucion a partir de `evaluation.correctOptionIds`.
+- La solucion vive **solo** en `answerKey.questions`, nunca dentro de `content`
+  (ADR 0004). `buildStoryQuiz` se ocupa de eso.
+- La respuesta del jugador es `{ kind: 'quiz', answers: [{ questionId, optionId }] }`;
+  el motor corrige pregunta por pregunta y solo da por bueno el quiz completo.
 
 ## 5. Lecciones
 

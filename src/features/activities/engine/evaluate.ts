@@ -23,7 +23,7 @@ export function expectedResponseKind(activity: Activity): ResponseKind {
     case "speak-and-check":
       return "speech";
     case "story-quiz":
-      return "self-report";
+      return "quiz";
     default:
       return "self-report";
   }
@@ -109,9 +109,22 @@ function evaluateStoryQuiz(
   activity: Extract<Activity, { type: "story-quiz" }>,
   response: ActivityResponse,
 ): ActivityEvaluation {
-  const correctOptionIds = activity.answerKey.questions.map((question) => question.optionId);
+  const expected = activity.answerKey.questions;
+  const correctOptionIds = expected.map((question) => question.optionId);
   if (response.kind === "self-report") return selfReported(correctOptionIds);
-  return incorrect(correctOptionIds);
+  if (response.kind !== "quiz") return incorrect(correctOptionIds);
+
+  const given = new Map(response.answers.map((answer) => [answer.questionId, answer.optionId]));
+  const quizResults = expected.map((question) => {
+    const optionId = given.get(question.questionId) ?? "";
+    return { questionId: question.questionId, optionId, isCorrect: optionId === question.optionId };
+  });
+
+  return {
+    isCorrect: quizResults.every((result) => result.isCorrect),
+    correctOptionIds,
+    quizResults,
+  };
 }
 
 export function evaluateActivity(

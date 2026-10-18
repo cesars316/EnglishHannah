@@ -78,6 +78,7 @@ export const ANIMAL_PARK_LESSONS: readonly Lesson[] = [
     objectives: [
       "Escuchar, leer y escribir animales",
       'Decir lo que te gusta con "I like..."',
+      "Leer una mini-historia y responder preguntas",
       "Completar el mundo Animal Park",
     ],
     vocabularyIds: ["dog", "cat", "horse", "duck", "lion", "monkey"],
@@ -87,6 +88,7 @@ export const ANIMAL_PARK_LESSONS: readonly Lesson[] = [
       "animal-04-pairs",
       "animal-04-build",
       "animal-04-complete",
+      "animal-04-story",
     ],
     estimatedMinutes: 11,
     isFinalMission: true,

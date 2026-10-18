@@ -59,6 +59,7 @@ export const COLOR_FOREST_LESSONS: readonly Lesson[] = [
     objectives: [
       "Reconocer black, white y brown",
       'Responder "What color is it?"',
+      "Leer una mini-historia y responder preguntas",
       "Repasar todos los colores del bosque",
     ],
     vocabularyIds: ["black", "white", "brown", "green", "yellow"],
@@ -68,6 +69,7 @@ export const COLOR_FOREST_LESSONS: readonly Lesson[] = [
       "color-03-pairs",
       "color-03-build",
       "color-03-complete",
+      "color-03-story",
     ],
     estimatedMinutes: 10,
     isFinalMission: true,

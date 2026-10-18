@@ -74,7 +74,13 @@ export function correctResponse(activity: Activity): ActivityResponse {
         transcript: activity.answerKey.acceptedAnswers[0] ?? activity.content.target,
       };
     case "story-quiz":
-      return { kind: "self-report", practiced: true };
+      return {
+        kind: "quiz",
+        answers: activity.answerKey.questions.map((question) => ({
+          questionId: question.questionId,
+          optionId: question.optionId,
+        })),
+      };
     default:
       return { kind: "self-report", practiced: true };
   }

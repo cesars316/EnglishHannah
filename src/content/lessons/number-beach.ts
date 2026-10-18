@@ -57,6 +57,7 @@ export const NUMBER_BEACH_LESSONS: readonly Lesson[] = [
     objectives: [
       "Reconocer los numeros 11 a 20",
       'Decir tu edad con "I\'m nine"',
+      "Leer una mini-historia y responder preguntas",
       "Repasar los numeros de la playa",
     ],
     vocabularyIds: ["eleven", "twelve", "fifteen", "twenty", "thirteen", "nine"],
@@ -66,6 +67,7 @@ export const NUMBER_BEACH_LESSONS: readonly Lesson[] = [
       "number-03-pairs",
       "number-03-build",
       "number-03-complete",
+      "number-03-story",
     ],
     estimatedMinutes: 10,
     isFinalMission: true,

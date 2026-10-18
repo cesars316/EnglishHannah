@@ -94,7 +94,6 @@ export type QuizQuestion = {
   id: string;
   prompt: LocalizedText;
   options: ChoiceOption[];
-  answerKey: { optionId: string };
 };
 
 type ActivityBase = {
@@ -261,13 +260,15 @@ export type Badge = {
 /* -------------------------------------------------------------------------- */
 
 export type ChoiceResponse = { kind: "choice"; optionId: string };
+export type QuizAnswer = { questionId: string; optionId: string };
+export type QuizResponse = { kind: "quiz"; answers: QuizAnswer[] };
 export type PairsResponse = { kind: "pairs"; pairs: { leftId: string; rightId: string }[] };
 export type TextResponse = { kind: "text"; text: string };
 export type SpeechResponse = { kind: "speech"; transcript: string | null };
 export type SelfReportResponse = { kind: "self-report"; practiced: boolean };
 
 export type ActivityResponse =
-  ChoiceResponse | PairsResponse | TextResponse | SpeechResponse | SelfReportResponse;
+  ChoiceResponse | QuizResponse | PairsResponse | TextResponse | SpeechResponse | SelfReportResponse;
 
 /** Tipo de respuesta que espera cada actividad. */
 export type ResponseKind = ActivityResponse["kind"];
@@ -280,6 +281,16 @@ export type ActivityEvaluation = {
   expectedText?: string;
   /** Pares correctos cuando aplica (matching-pairs). */
   correctPairs?: { leftId: string; rightId: string }[];
+  /** Resultado por pregunta de una historia (story-quiz). */
+  quizResults?: QuizAnswerResult[];
   /** Indica que la actividad se completo por autoevaluacion (sin penalizacion). */
   selfReported?: boolean;
+};
+
+/** Correccion de una pregunta concreta de una historia. */
+export type QuizAnswerResult = {
+  questionId: string;
+  /** Opcion elegida por el jugador (cadena vacia si no respondio). */
+  optionId: string;
+  isCorrect: boolean;
 };

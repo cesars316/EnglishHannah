@@ -446,43 +446,46 @@ export function validateContent(bundle: ContentBundle, options: ValidateOptions)
       }
       case "story-quiz": {
         const questions = activity.content.questions;
+        const declaredAnswers = activity.answerKey.questions;
         if (questions.length === 0) {
           error("EMPTY_STORY_QUIZ", `La actividad "${activity.id}" no tiene preguntas.`);
         }
-        if (activity.answerKey.questions.length !== questions.length) {
+        if (declaredAnswers.length !== questions.length) {
           error(
             "QUIZ_COUNT_MISMATCH",
-            `La actividad "${activity.id}" declara ${activity.answerKey.questions.length} respuestas para ${questions.length} preguntas.`,
+            `La actividad "${activity.id}" declara ${declaredAnswers.length} respuestas para ${questions.length} preguntas.`,
           );
         }
+        const allOptionIds: string[] = [];
         for (const question of questions) {
           const ids = optionIds(question.options);
+          allOptionIds.push(...ids);
           if (ids.length < GAME.minOptionsPerActivity || ids.length > GAME.maxOptionsPerActivity) {
             error(
               "INVALID_OPTION_COUNT",
               `La pregunta "${question.id}" de "${activity.id}" tiene ${ids.length} opciones.`,
             );
           }
-          if (!ids.includes(question.answerKey.optionId)) {
-            error(
-              "ANSWER_NOT_IN_OPTIONS",
-              `La pregunta "${question.id}" de "${activity.id}" no incluye su respuesta.`,
-            );
-          }
-          const declared = activity.answerKey.questions.find(
-            (item) => item.questionId === question.id,
-          );
+          const declared = declaredAnswers.find((item) => item.questionId === question.id);
           if (!declared) {
             error(
               "QUIZ_ANSWER_MISSING",
               `La actividad "${activity.id}" no declara respuesta para la pregunta "${question.id}".`,
             );
-          } else if (declared.optionId !== question.answerKey.optionId) {
+          } else if (!ids.includes(declared.optionId)) {
             error(
-              "QUIZ_ANSWER_MISMATCH",
-              `La respuesta declarada de "${question.id}" no coincide con la de la actividad "${activity.id}".`,
+              "ANSWER_NOT_IN_OPTIONS",
+              `La pregunta "${question.id}" de "${activity.id}" no incluye su respuesta.`,
             );
           }
+        }
+        // Los identificadores deben ser unicos en toda la historia: la interfaz
+        // resalta la solucion a partir de `evaluation.correctOptionIds`.
+        if (findDuplicates(allOptionIds).length > 0) {
+          error(
+            "DUPLICATE_OPTION_ID",
+            `La actividad "${activity.id}" repite identificadores de opcion entre sus preguntas.`,
+          );
         }
         break;
       }

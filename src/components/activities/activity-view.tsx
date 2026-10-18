@@ -6,6 +6,7 @@ import { ListenAndChooseView } from "@/components/activities/listen-and-choose-v
 import { MatchingPairsView } from "@/components/activities/matching-pairs-view";
 import { SentenceCompletionView } from "@/components/activities/sentence-completion-view";
 import { SpeakAndCheckView } from "@/components/activities/speak-and-check-view";
+import { StoryQuizView } from "@/components/activities/story-quiz-view";
 import type { ActivityViewBase } from "@/components/activities/types";
 import { WordBuilderView } from "@/components/activities/word-builder-view";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -22,9 +23,8 @@ export type ActivityViewProps = ActivityViewBase & {
 /**
  * Elige la vista adecuada segun el tipo de actividad.
  *
- * `speak-and-check` y `camera-hunt` (Fase 5) tienen vista con alternativa
- * manual; `story-quiz` aun no, y se muestra como "proximamente" en vez de
- * romper la sesion.
+ * `speak-and-check`, `camera-hunt` (Fase 5) y `story-quiz` (Fase 7) tienen su
+ * propia vista; el resto son de eleccion, parejas o escritura.
  */
 export function ActivityView({
   activity,
@@ -48,6 +48,8 @@ export function ActivityView({
       return <SpeakAndCheckView activity={activity} microphoneEnabled={microphoneEnabled} {...base} />;
     case "camera-hunt":
       return <CameraHuntView activity={activity} cameraEnabled={cameraEnabled} {...base} />;
+    case "story-quiz":
+      return <StoryQuizView activity={activity} {...base} />;
     default:
       return (
         <EmptyState

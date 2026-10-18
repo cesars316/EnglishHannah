@@ -57,6 +57,7 @@ export const HELLO_VILLAGE_LESSONS: readonly Lesson[] = [
     objectives: [
       "Responder yes y no",
       'Presentarte con "My name is..."',
+      "Leer una mini-historia y responder preguntas",
       "Unir todo lo aprendido en Hello Village",
     ],
     vocabularyIds: ["yes", "no", "hello", "hi", "thank-you"],
@@ -66,6 +67,7 @@ export const HELLO_VILLAGE_LESSONS: readonly Lesson[] = [
       "hello-03-build",
       "hello-03-pairs",
       "hello-03-choice",
+      "hello-03-story",
     ],
     estimatedMinutes: 10,
     isFinalMission: true,

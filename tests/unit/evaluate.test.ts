@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { ALL_ACTIVITIES, getActivity } from "@/content";
 import { evaluateActivity, expectedResponseKind } from "@/features/activities/engine/evaluate";
 import { isPublicActivity, toPublicActivity } from "@/features/activities/engine/public-activity";
-import type { Activity } from "@/types/content";
+import type { Activity, PublicActivity } from "@/types/content";
 
 /**
  * Se prueba el motor contra el CONTENIDO REAL: si el contenido deja de cubrir un
@@ -31,7 +31,89 @@ describe("expectedResponseKind", () => {
     expect(expectedResponseKind({ type: "matching-pairs" } as Activity)).toBe("pairs");
     expect(expectedResponseKind({ type: "word-builder" } as Activity)).toBe("text");
     expect(expectedResponseKind({ type: "speak-and-check" } as Activity)).toBe("speech");
-    expect(expectedResponseKind({ type: "story-quiz" } as Activity)).toBe("self-report");
+    expect(expectedResponseKind({ type: "story-quiz" } as Activity)).toBe("quiz");
+  });
+});
+
+function wrongOptionFor(
+  activity: Extract<Activity, { type: "story-quiz" }>,
+  questionId: string,
+): string {
+  const question = activity.content.questions.find((item) => item.id === questionId);
+  if (!question) throw new Error(`La pregunta "${questionId}" no existe`);
+  const expected = activity.answerKey.questions.find((item) => item.questionId === questionId);
+  if (!expected) throw new Error(`La actividad no declara respuesta para "${questionId}"`);
+  const wrong = question.options.find((option) => option.id !== expected.optionId);
+  if (!wrong) throw new Error("La pregunta no tiene opciones incorrectas de prueba");
+  return wrong.id;
+}
+
+function quizAnswers(
+  activity: Extract<Activity, { type: "story-quiz" }>,
+  options: { skipFirst?: boolean } = {},
+) {
+  return activity.answerKey.questions.map((question, index) => ({
+    questionId: question.questionId,
+    optionId:
+      options.skipFirst && index === 0
+        ? wrongOptionFor(activity, question.questionId)
+        : question.optionId,
+  }));
+}
+
+describe("evaluateActivity - historia", () => {
+  it("corrige pregunta por pregunta y solo da por bueno el quiz completo", () => {
+    const activity = firstOfType("story-quiz");
+    const total = activity.answerKey.questions.length;
+
+    const solved = evaluateActivity(activity, { kind: "quiz", answers: quizAnswers(activity) });
+    expect(solved.isCorrect).toBe(true);
+    expect(solved.quizResults).toHaveLength(total);
+    expect(solved.quizResults?.every((result) => result.isCorrect)).toBe(true);
+
+    const partial = evaluateActivity(activity, {
+      kind: "quiz",
+      answers: quizAnswers(activity, { skipFirst: true }),
+    });
+    expect(partial.isCorrect).toBe(false);
+    expect(partial.quizResults?.[0]?.isCorrect).toBe(false);
+    expect(partial.quizResults?.slice(1).every((result) => result.isCorrect)).toBe(true);
+    // La solucion completa se devuelve para poder mostrarla tras agotar intentos.
+    expect(partial.correctOptionIds).toEqual(
+      activity.answerKey.questions.map((question) => question.optionId),
+    );
+  });
+
+  it("trata una respuesta incompleta o de otro tipo como incorrecta", () => {
+    const activity = firstOfType("story-quiz");
+    const firstQuestionId = activity.answerKey.questions[0]?.questionId ?? "";
+    expect(
+      evaluateActivity(activity, { kind: "quiz", answers: [{ questionId: firstQuestionId, optionId: "" }] })
+        .isCorrect,
+    ).toBe(false);
+    expect(evaluateActivity(activity, { kind: "choice", optionId: "lo-que-sea" }).isCorrect).toBe(
+      false,
+    );
+  });
+
+  it("acepta la autoevaluacion sin corregir la historia", () => {
+    const activity = firstOfType("story-quiz");
+    const evaluation = evaluateActivity(activity, { kind: "self-report", practiced: true });
+    expect(evaluation.isCorrect).toBe(true);
+    expect(evaluation.selfReported).toBe(true);
+  });
+
+  it("no filtra la solucion de la historia al cliente", () => {
+    const activity = firstOfType("story-quiz");
+    const publicActivity = toPublicActivity(activity);
+    expect(JSON.stringify(publicActivity)).not.toContain("answerKey");
+
+    const questions = (publicActivity as Extract<PublicActivity, { type: "story-quiz" }>)
+      .content.questions;
+    expect(questions.length).toBeGreaterThan(0);
+    for (const question of questions) {
+      expect("answerKey" in question).toBe(false);
+    }
   });
 });
 

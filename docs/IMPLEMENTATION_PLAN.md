@@ -7,7 +7,8 @@
 (rebanada vertical jugable en local) · Fase 3 completada (API `/api/v1` + MongoDB;
 el servidor es la autoridad) · Fase 4 completada (progreso y panel parental) ·
 Fase 5 completada (voz y camara opcionales) · Fase 6 completada (calidad y guia de
-despliegue, sin publicar) · Fase 7 pendiente.
+despliegue, sin publicar) · Fase 7 en curso (mini-historias entregadas; faltan los
+mundos 5-12, el ajuste de dificultad y el offline parcial).
 
 ## Decisiones del propietario
 
@@ -142,7 +143,8 @@ filtra respuestas correctas. ✅
 ## Fase 7 - Expansion de contenido
 
 - [ ] Mundos 5-12.
-- [ ] Mini-historias + quiz.
+- [x] Mini-historias + quiz (`story-quiz`, motor, vista y contenido en los cuatro
+      mundos MVP; cada mundo nuevo incluira su propia historia final).
 - [ ] Ajuste de dificultad segun progreso.
 - [ ] PWA / offline parcial si es viable.
 
@@ -163,7 +165,7 @@ filtra respuestas correctas. ✅
 - [x] El panel parental muestra informacion util y real (datos del servidor).
 - [x] El perfil y sus datos se pueden borrar con autorizacion.
 - [x] El microfono es opcional (Fase 5) y hoy no se usa.
-- [ ] La camara es opcional, se activa explicitamente y se apaga al salir. (Fase 5)
+- [x] La camara es opcional, se activa explicitamente y se apaga al salir. (Fase 5)
 - [x] No se almacenan audio, fotos ni video.
 - [x] Los secretos no estan versionados.
 - [x] Validacion de contenido y pruebas automatizadas funcionan.

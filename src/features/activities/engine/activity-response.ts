@@ -15,6 +15,13 @@ export const optionIdSchema = z.string().min(1).max(120);
 export const activityResponseSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("choice"), optionId: optionIdSchema }),
   z.object({
+    kind: z.literal("quiz"),
+    answers: z
+      .array(z.object({ questionId: optionIdSchema, optionId: optionIdSchema }))
+      .min(1)
+      .max(10),
+  }),
+  z.object({
     kind: z.literal("pairs"),
     pairs: z
       .array(z.object({ leftId: optionIdSchema, rightId: optionIdSchema }))

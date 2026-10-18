@@ -3,6 +3,7 @@ import {
   buildListenAndChoose,
   buildMatchingPairs,
   buildSentenceCompletion,
+  buildStoryQuiz,
   buildWordBuilder,
   imageVisual,
   textOption,
@@ -235,5 +236,52 @@ export const ANIMAL_PARK_ACTIVITIES: readonly Activity[] = [
     options: [textOption("lion", "lion"), textOption("duck", "duck"), textOption("fish", "fish")],
     answerId: "lion",
     hints: [{ es: "Es el rey de la selva.", en: "It is the king of the jungle." }],
+  }),
+  buildStoryQuiz({
+    id: "animal-04-story",
+    worldId: "animal-park",
+    lessonId: "animal-04",
+    order: 6,
+    vocabularyIds: ["dog", "bird", "cat", "horse"],
+    difficulty: 2,
+    title: { es: "El desfile de animales", en: "The animal parade" },
+    sentences: [
+      { en: "It is time for the animal parade!", es: "¡Es hora del desfile de animales!" },
+      { en: "The dog runs first.", es: "El perro corre primero." },
+      { en: "The cat walks after the dog.", es: "El gato camina despues del perro." },
+      { en: "The horse and the bird join the parade.", es: "El caballo y el pajaro se unen al desfile." },
+    ],
+    questions: [
+      {
+        id: "animal-story-q1",
+        prompt: { es: "¿Quien corre primero?", en: "Who runs first?" },
+        options: [
+          textOption("animal-story-q1-dog", "The dog"),
+          textOption("animal-story-q1-cat", "The cat"),
+          textOption("animal-story-q1-bird", "The bird"),
+        ],
+        answerId: "animal-story-q1-dog",
+      },
+      {
+        id: "animal-story-q2",
+        prompt: { es: "¿Quien camina despues del perro?", en: "Who walks after the dog?" },
+        options: [
+          textOption("animal-story-q2-cat", "The cat"),
+          textOption("animal-story-q2-horse", "The horse"),
+          textOption("animal-story-q2-fish", "The fish"),
+        ],
+        answerId: "animal-story-q2-cat",
+      },
+      {
+        id: "animal-story-q3",
+        prompt: { es: "¿Quien se une al desfile?", en: "Who joins the parade?" },
+        options: [
+          textOption("animal-story-q3-horse-bird", "The horse and the bird"),
+          textOption("animal-story-q3-dog-fish", "The dog and the fish"),
+          textOption("animal-story-q3-cat-monkey", "The cat and the monkey"),
+        ],
+        answerId: "animal-story-q3-horse-bird",
+      },
+    ],
   }),
 ] as const;

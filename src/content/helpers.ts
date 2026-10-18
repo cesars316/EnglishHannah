@@ -9,9 +9,12 @@ import type {
   LocalizedText,
   MatchingPair,
   MatchingPairsActivity,
+  QuizQuestion,
   SentenceCompletionActivity,
   Skill,
   SpeakAndCheckActivity,
+  StoryQuizActivity,
+  StorySentence,
   VocabularyVisual,
   WordBuilderActivity,
 } from "@/types/content";
@@ -266,6 +269,65 @@ export type CameraHuntInput = BaseInput & {
   fallbackOptions: ChoiceOption[];
   answerId: string;
 };
+
+/** Una pregunta de comprension de una mini-historia. */
+export type StoryQuizQuestionInput = {
+  id: string;
+  prompt: LocalizedText;
+  options: ChoiceOption[];
+  answerId: string;
+};
+
+export type StoryQuizInput = BaseInput & {
+  title: LocalizedText;
+  /** Frases de la historia, en orden. El ingles siempre es visible. */
+  sentences: StorySentence[];
+  questions: StoryQuizQuestionInput[];
+};
+
+/**
+ * `story-quiz`: una mini-historia seguida de preguntas de comprension.
+ *
+ * Refuerza la lectura sin depender de audio ni microfono. La solucion vive
+ * unicamente en `answerKey.questions` (nunca dentro de `content`), de modo que
+ * no se filtra al navegador al proyectar la actividad publica (ADR 0004).
+ */
+export function buildStoryQuiz(input: StoryQuizInput): StoryQuizActivity {
+  const questions: QuizQuestion[] = input.questions.map((question) => ({
+    id: question.id,
+    prompt: question.prompt,
+    options: question.options,
+  }));
+
+  return {
+    ...base({
+      ...input,
+      skill: input.skill ?? "reading",
+      prompt:
+        input.prompt ?? {
+          es: "Lee la historia y responde a las preguntas.",
+          en: "Read the story and answer the questions.",
+        },
+      instructions:
+        input.instructions ?? {
+          es: "Lee con calma. Puedes volver a leerla todas las veces que quieras.",
+          en: "Read carefully. You can read it again as many times as you like.",
+        },
+    }),
+    type: "story-quiz",
+    content: {
+      title: input.title,
+      sentences: input.sentences,
+      questions,
+    },
+    answerKey: {
+      questions: input.questions.map((question) => ({
+        questionId: question.id,
+        optionId: question.answerId,
+      })),
+    },
+  };
+}
 
 /**
  * `camera-hunt`: buscar un objeto real con una vista previa temporal.

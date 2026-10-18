@@ -5,6 +5,7 @@ import {
   buildMatchingPairs,
   buildSentenceCompletion,
   buildSpeakAndCheck,
+  buildStoryQuiz,
   buildWordBuilder,
   colorVisual,
   textOption,
@@ -212,5 +213,55 @@ export const COLOR_FOREST_ACTIVITIES: readonly Activity[] = [
     ],
     answerId: "yellow",
     hints: [{ es: "¿De que color es el sol?", en: "What colour is the sun?" }],
+  }),
+  buildStoryQuiz({
+    id: "color-03-story",
+    worldId: "color-forest",
+    lessonId: "color-03",
+    order: 6,
+    vocabularyIds: ["green", "yellow", "black"],
+    difficulty: 2,
+    title: { es: "El bosque gris", en: "The grey forest" },
+    sentences: [
+      { en: "The forest is grey.", es: "El bosque esta gris." },
+      { en: "Lina paints the leaves green.", es: "Lina pinta las hojas de verde." },
+      { en: "She paints the sun yellow.", es: "Ella pinta el sol de amarillo." },
+      { en: "Now the forest is colourful.", es: "Ahora el bosque tiene color." },
+    ],
+    questions: [
+      {
+        id: "color-story-q1",
+        prompt: {
+          es: "¿De que color esta el bosque al principio?",
+          en: "What colour is the forest at the start?",
+        },
+        options: [
+          textOption("color-story-q1-grey", "Grey"),
+          textOption("color-story-q1-green", "Green"),
+          textOption("color-story-q1-yellow", "Yellow"),
+        ],
+        answerId: "color-story-q1-grey",
+      },
+      {
+        id: "color-story-q2",
+        prompt: { es: "¿Que pinta Lina de verde?", en: "What does Lina paint green?" },
+        options: [
+          textOption("color-story-q2-leaves", "The leaves"),
+          textOption("color-story-q2-sun", "The sun"),
+          textOption("color-story-q2-door", "The door"),
+        ],
+        answerId: "color-story-q2-leaves",
+      },
+      {
+        id: "color-story-q3",
+        prompt: { es: "¿De que color pinta el sol?", en: "What colour does she paint the sun?" },
+        options: [
+          textOption("color-story-q3-yellow", "Yellow"),
+          textOption("color-story-q3-blue", "Blue"),
+          textOption("color-story-q3-black", "Black"),
+        ],
+        answerId: "color-story-q3-yellow",
+      },
+    ],
   }),
 ] as const;

@@ -3,6 +3,7 @@ import {
   buildListenAndChoose,
   buildMatchingPairs,
   buildSentenceCompletion,
+  buildStoryQuiz,
   buildWordBuilder,
   imageVisual,
   textOption,
@@ -251,6 +252,53 @@ export const HELLO_VILLAGE_ACTIVITIES: readonly Activity[] = [
     answerId: "no",
     hints: [
       { es: "Es la respuesta negativa: el circulo rojo con una cruz.", en: "The negative answer." },
+    ],
+  }),
+  buildStoryQuiz({
+    id: "hello-03-story",
+    worldId: "hello-village",
+    lessonId: "hello-03",
+    order: 6,
+    vocabularyIds: ["hello", "hi", "thank-you"],
+    difficulty: 2,
+    title: { es: "El primer dia de Pip", en: "Pip's first day" },
+    sentences: [
+      { en: "Pip is new in Hello Village.", es: "Pip es nuevo en el Pueblo Hola." },
+      { en: 'He says: "Hello, I am Pip."', es: "El dice: «Hola, soy Pip»." },
+      { en: 'Lina says: "Hi, Pip! How are you?"', es: "Lina dice: «¡Hola, Pip! ¿Como estas?»" },
+      { en: 'Pip says: "I am fine, thank you."', es: "Pip dice: «Estoy bien, gracias»." },
+    ],
+    questions: [
+      {
+        id: "hello-story-q1",
+        prompt: { es: "¿Quien es nuevo en el pueblo?", en: "Who is new in the village?" },
+        options: [
+          textOption("hello-story-q1-pip", "Pip"),
+          textOption("hello-story-q1-lina", "Lina"),
+          textOption("hello-story-q1-sam", "Sam"),
+        ],
+        answerId: "hello-story-q1-pip",
+      },
+      {
+        id: "hello-story-q2",
+        prompt: { es: "¿Que dice Pip primero?", en: "What does Pip say first?" },
+        options: [
+          textOption("hello-story-q2-hello", "Hello"),
+          textOption("hello-story-q2-goodbye", "Goodbye"),
+          textOption("hello-story-q2-no", "No"),
+        ],
+        answerId: "hello-story-q2-hello",
+      },
+      {
+        id: "hello-story-q3",
+        prompt: { es: "¿Como esta Pip?", en: "How is Pip?" },
+        options: [
+          textOption("hello-story-q3-fine", "Fine"),
+          textOption("hello-story-q3-sad", "Sad"),
+          textOption("hello-story-q3-tired", "Tired"),
+        ],
+        answerId: "hello-story-q3-fine",
+      },
     ],
   }),
 ] as const;

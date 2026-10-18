@@ -39,6 +39,10 @@ export type SentenceCompletionViewProps = ActivityViewBase & {
   activity: Extract<PublicActivity, { type: "sentence-completion" }>;
 };
 
+export type StoryQuizViewProps = ActivityViewBase & {
+  activity: Extract<PublicActivity, { type: "story-quiz" }>;
+};
+
 export type MatchingPairsViewProps = ActivityViewBase & {
   activity: Extract<PublicActivity, { type: "matching-pairs" }>;
   /** Parejas ya acertadas en intentos anteriores (quedan fijadas). */

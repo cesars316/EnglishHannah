@@ -3,6 +3,7 @@ import {
   buildListenAndChoose,
   buildMatchingPairs,
   buildSentenceCompletion,
+  buildStoryQuiz,
   buildWordBuilder,
   countVisual,
   textOption,
@@ -195,5 +196,52 @@ export const NUMBER_BEACH_ACTIVITIES: readonly Activity[] = [
     options: [textOption("nine", "nine"), textOption("one", "one"), textOption("ten", "ten")],
     answerId: "nine",
     hints: [{ es: "Responde con un numero: el tuyo es 9.", en: "Answer with a number." }],
+  }),
+  buildStoryQuiz({
+    id: "number-03-story",
+    worldId: "number-beach",
+    lessonId: "number-03",
+    order: 6,
+    vocabularyIds: ["three", "ten", "thirteen"],
+    difficulty: 2,
+    title: { es: "Conchas en la playa", en: "Shells on the beach" },
+    sentences: [
+      { en: "Bloop finds shells on the beach.", es: "Bloop encuentra conchas en la playa." },
+      { en: "He counts: one, two, three shells.", es: "Cuenta: una, dos, tres conchas." },
+      { en: "Then he finds ten more.", es: "Luego encuentra diez mas." },
+      { en: "Now Bloop has thirteen shells!", es: "¡Ahora Bloop tiene trece conchas!" },
+    ],
+    questions: [
+      {
+        id: "number-story-q1",
+        prompt: { es: "¿Cuantas conchas cuenta primero?", en: "How many shells does he count first?" },
+        options: [
+          textOption("number-story-q1-three", "Three"),
+          textOption("number-story-q1-two", "Two"),
+          textOption("number-story-q1-five", "Five"),
+        ],
+        answerId: "number-story-q1-three",
+      },
+      {
+        id: "number-story-q2",
+        prompt: { es: "¿Cuantas mas encuentra despues?", en: "How many more does he find then?" },
+        options: [
+          textOption("number-story-q2-ten", "Ten"),
+          textOption("number-story-q2-one", "One"),
+          textOption("number-story-q2-twenty", "Twenty"),
+        ],
+        answerId: "number-story-q2-ten",
+      },
+      {
+        id: "number-story-q3",
+        prompt: { es: "¿Cuantas conchas tiene ahora?", en: "How many shells does he have now?" },
+        options: [
+          textOption("number-story-q3-thirteen", "Thirteen"),
+          textOption("number-story-q3-twelve", "Twelve"),
+          textOption("number-story-q3-fifteen", "Fifteen"),
+        ],
+        answerId: "number-story-q3-thirteen",
+      },
+    ],
   }),
 ] as const;
