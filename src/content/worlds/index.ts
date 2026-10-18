@@ -206,6 +206,46 @@ export const WORLDS: readonly World[] = [
     contentVersion: CONTENT_VERSION,
     published: true,
   },
+  {
+    id: "school-hobbies",
+    title: { es: "Escuela y Hobbies", en: "School & Hobbies" },
+    order: 11,
+    description: {
+      es: "Suena el timbre: conoce el aula y ensena a tus amigos lo que sabes hacer.",
+      en: "The bell rings: meet the classroom and show your friends what you can do.",
+    },
+    goal: {
+      es: 'Nombrar objetos de clase y hobbies, y usar "I can..." con "I like to..."',
+      en: 'Name classroom objects and hobbies, and use "I can..." with "I like to..."',
+    },
+    level: "A1",
+    prerequisites: ["feelings-garden", "weather-mountain"],
+    lessonIds: ["school-01", "school-02", "school-03"],
+    badgeId: "skill-star",
+    theme: { primary: "#c2410c", soft: "#fdeee5", emoji: "🎒" },
+    contentVersion: CONTENT_VERSION,
+    published: true,
+  },
+  {
+    id: "english-castle",
+    title: { es: "Castillo Ingles", en: "English Castle" },
+    order: 12,
+    description: {
+      es: "El gran final: recorre el castillo recuperando todo lo aprendido.",
+      en: "The grand finale: tour the castle recalling everything you learned.",
+    },
+    goal: {
+      es: "Repasar los doce mundos: presentarse, describir, preguntar y contar preferencias",
+      en: "Review the twelve worlds: introduce yourself, describe, ask and tell preferences",
+    },
+    level: "A1",
+    prerequisites: ["school-hobbies"],
+    lessonIds: ["castle-01", "castle-02", "castle-03"],
+    badgeId: "crown-keeper",
+    theme: { primary: "#7c5cbf", soft: "#f1ecfb", emoji: "🏰" },
+    contentVersion: CONTENT_VERSION,
+    published: true,
+  },
 ] as const;
 
 export const WORLDS_BY_ID: Readonly<Record<string, World>> = Object.fromEntries(

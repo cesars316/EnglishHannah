@@ -150,10 +150,10 @@ Ver el checklist vivo en [`docs/IMPLEMENTATION_PLAN.md`](./docs/IMPLEMENTATION_P
   (contenido + rebanada vertical jugable), **Fase 3** (API `/api/v1` + MongoDB),
   **Fase 4** (panel parental y privacidad), **Fase 5** (voz y camara opcionales) y
   **Fase 6** (calidad: pruebas, accesibilidad, CI y guia de despliegue) estan
-  completadas. La **Fase 7** (expansion de contenido) esta en marcha: ya hay
-  **10 mundos**, **31 lecciones**, **156 actividades** y **111 palabras**, con
-  mini-historias (`story-quiz`) en la mision final de cada mundo; faltan los
-  mundos 11-12, el ajuste de dificultad y el offline parcial.
+  completadas. La **Fase 7** (expansion de contenido) esta completa en contenido:
+  **12 mundos**, **37 lecciones**, **188 actividades** y **129 palabras**, con
+  mini-historias (`story-quiz`) en la mision final de cada mundo; quedan el
+  ajuste de dificultad y el offline parcial.
 - Hoy el progreso vive en MongoDB y el **servidor es la autoridad**: el navegador
   solo guarda que perfil esta activo (`localStorage`).
 - Calidad: `npm run validate:content`, `typecheck`, `lint`, pruebas unitarias/de

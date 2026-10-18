@@ -1,32 +1,38 @@
 import { ANIMAL_PARK_ACTIVITIES } from "@/content/activities/animal-park";
 import { CLOTHES_STREET_ACTIVITIES } from "@/content/activities/clothes-street";
 import { COLOR_FOREST_ACTIVITIES } from "@/content/activities/color-forest";
+import { ENGLISH_CASTLE_ACTIVITIES } from "@/content/activities/english-castle";
 import { FAMILY_HOME_ACTIVITIES } from "@/content/activities/family-home";
 import { FEELINGS_GARDEN_ACTIVITIES } from "@/content/activities/feelings-garden";
 import { FOOD_MARKET_ACTIVITIES } from "@/content/activities/food-market";
 import { HELLO_VILLAGE_ACTIVITIES } from "@/content/activities/hello-village";
 import { MY_HOUSE_ACTIVITIES } from "@/content/activities/my-house";
 import { NUMBER_BEACH_ACTIVITIES } from "@/content/activities/number-beach";
+import { SCHOOL_HOBBIES_ACTIVITIES } from "@/content/activities/school-hobbies";
 import { WEATHER_MOUNTAIN_ACTIVITIES } from "@/content/activities/weather-mountain";
 import { ANIMAL_PARK_LESSONS } from "@/content/lessons/animal-park";
 import { CLOTHES_STREET_LESSONS } from "@/content/lessons/clothes-street";
 import { COLOR_FOREST_LESSONS } from "@/content/lessons/color-forest";
+import { ENGLISH_CASTLE_LESSONS } from "@/content/lessons/english-castle";
 import { FAMILY_HOME_LESSONS } from "@/content/lessons/family-home";
 import { FEELINGS_GARDEN_LESSONS } from "@/content/lessons/feelings-garden";
 import { FOOD_MARKET_LESSONS } from "@/content/lessons/food-market";
 import { HELLO_VILLAGE_LESSONS } from "@/content/lessons/hello-village";
 import { MY_HOUSE_LESSONS } from "@/content/lessons/my-house";
 import { NUMBER_BEACH_LESSONS } from "@/content/lessons/number-beach";
+import { SCHOOL_HOBBIES_LESSONS } from "@/content/lessons/school-hobbies";
 import { WEATHER_MOUNTAIN_LESSONS } from "@/content/lessons/weather-mountain";
 import { ANIMAL_PARK_VOCABULARY } from "@/content/vocabulary/animal-park";
 import { CLOTHES_STREET_VOCABULARY } from "@/content/vocabulary/clothes-street";
 import { COLOR_FOREST_VOCABULARY } from "@/content/vocabulary/color-forest";
+import { ENGLISH_CASTLE_VOCABULARY } from "@/content/vocabulary/english-castle";
 import { FAMILY_HOME_VOCABULARY } from "@/content/vocabulary/family-home";
 import { FEELINGS_GARDEN_VOCABULARY } from "@/content/vocabulary/feelings-garden";
 import { FOOD_MARKET_VOCABULARY } from "@/content/vocabulary/food-market";
 import { HELLO_VILLAGE_VOCABULARY } from "@/content/vocabulary/hello-village";
 import { MY_HOUSE_VOCABULARY } from "@/content/vocabulary/my-house";
 import { NUMBER_BEACH_VOCABULARY } from "@/content/vocabulary/number-beach";
+import { SCHOOL_HOBBIES_VOCABULARY } from "@/content/vocabulary/school-hobbies";
 import { WEATHER_MOUNTAIN_VOCABULARY } from "@/content/vocabulary/weather-mountain";
 import { BADGES } from "@/content/badges";
 import { PUBLISHED_WORLDS, WORLDS, WORLDS_BY_ID } from "@/content/worlds";
@@ -49,6 +55,8 @@ export const ALL_VOCABULARY: readonly VocabularyItem[] = [
   ...CLOTHES_STREET_VOCABULARY,
   ...FEELINGS_GARDEN_VOCABULARY,
   ...WEATHER_MOUNTAIN_VOCABULARY,
+  ...SCHOOL_HOBBIES_VOCABULARY,
+  ...ENGLISH_CASTLE_VOCABULARY,
 ];
 
 export const ALL_LESSONS: readonly Lesson[] = [
@@ -62,6 +70,8 @@ export const ALL_LESSONS: readonly Lesson[] = [
   ...CLOTHES_STREET_LESSONS,
   ...FEELINGS_GARDEN_LESSONS,
   ...WEATHER_MOUNTAIN_LESSONS,
+  ...SCHOOL_HOBBIES_LESSONS,
+  ...ENGLISH_CASTLE_LESSONS,
 ];
 
 export const ALL_ACTIVITIES: readonly Activity[] = [
@@ -75,6 +85,8 @@ export const ALL_ACTIVITIES: readonly Activity[] = [
   ...CLOTHES_STREET_ACTIVITIES,
   ...FEELINGS_GARDEN_ACTIVITIES,
   ...WEATHER_MOUNTAIN_ACTIVITIES,
+  ...SCHOOL_HOBBIES_ACTIVITIES,
+  ...ENGLISH_CASTLE_ACTIVITIES,
 ];
 
 function indexById<T extends { id: string }>(items: readonly T[]): Readonly<Record<string, T>> {

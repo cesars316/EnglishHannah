@@ -7,9 +7,8 @@
 (rebanada vertical jugable en local) · Fase 3 completada (API `/api/v1` + MongoDB;
 el servidor es la autoridad) · Fase 4 completada (progreso y panel parental) ·
 Fase 5 completada (voz y camara opcionales) · Fase 6 completada (calidad y guia de
-despliegue, sin publicar) · Fase 7 en curso (10 de 12 mundos entregados con
-mini-historias; faltan los mundos 11-12, el ajuste de dificultad y el offline
-parcial).
+despliegue, sin publicar) · Fase 7 en curso (los 12 mundos y sus historias
+estan entregados; faltan el ajuste de dificultad y el offline parcial).
 
 ## Decisiones del propietario
 
@@ -143,11 +142,12 @@ filtra respuestas correctas. ✅
 
 ## Fase 7 - Expansion de contenido
 
-- [ ] Mundos 5-12. — en curso: entregados **5. Family Home**, **6. Food Market**,
-      **7. My House**, **8. Clothes Street**, **9. Feelings Garden** y
-      **10. Weather Mountain** (cada uno con objetivos, 3 lecciones, 10-11
-      palabras, 15-16 actividades, insignia propia e historia final); quedan 11.
-      School & Hobbies y 12. English Castle.
+- [x] Mundos 5-12. — entregados **5. Family Home**, **6. Food Market**,
+      **7. My House**, **8. Clothes Street**, **9. Feelings Garden**,
+      **10. Weather Mountain**, **11. School & Hobbies** y **12. English Castle**
+      (cada uno con objetivos, 3 lecciones, 8-11 palabras, 15-16 actividades,
+      insignia propia e historia final). Total: 12 mundos, 37 lecciones,
+      188 actividades, 129 palabras, 16 insignias, 0 avisos de validacion.
 - [x] Mini-historias + quiz (`story-quiz`, motor, vista y contenido en los cuatro
       mundos MVP; cada mundo nuevo incluira su propia historia final).
 - [ ] Ajuste de dificultad segun progreso.

@@ -113,6 +113,28 @@ export const BADGES: readonly Badge[] = [
     worldId: "weather-mountain",
   },
   {
+    id: "skill-star",
+    kind: "world",
+    title: { es: "Estrella de hobbies", en: "Hobby Star" },
+    description: {
+      es: "Dices lo que sabes hacer y lo que te gusta jugar en ingles.",
+      en: "You say what you can do and what you like to play in English.",
+    },
+    emoji: "🎨",
+    worldId: "school-hobbies",
+  },
+  {
+    id: "crown-keeper",
+    kind: "world",
+    title: { es: "Guardiana de la corona", en: "Crown Keeper" },
+    description: {
+      es: "Repasaste toda la aventura y ganaste la corona del castillo.",
+      en: "You reviewed the whole adventure and won the castle crown.",
+    },
+    emoji: "👑",
+    worldId: "english-castle",
+  },
+  {
     id: "first-steps",
     kind: "milestone",
     title: { es: "Primeros pasos", en: "First Steps" },
