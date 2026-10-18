@@ -91,6 +91,28 @@ export const BADGES: readonly Badge[] = [
     worldId: "clothes-street",
   },
   {
+    id: "garden-heart",
+    kind: "world",
+    title: { es: "Corazon del jardin", en: "Garden Heart" },
+    description: {
+      es: "Nombras emociones y dices como te sientes en ingles.",
+      en: "You name emotions and say how you feel in English.",
+    },
+    emoji: "🌸",
+    worldId: "feelings-garden",
+  },
+  {
+    id: "weather-watch",
+    kind: "world",
+    title: { es: "Guardiana del tiempo", en: "Weather Watch" },
+    description: {
+      es: "Cuentas como esta el clima y nombras sol, lluvia, nieve y tormenta.",
+      en: "You report the weather and name sun, rain, snow and storm.",
+    },
+    emoji: "🌤️",
+    worldId: "weather-mountain",
+  },
+  {
     id: "first-steps",
     kind: "milestone",
     title: { es: "Primeros pasos", en: "First Steps" },

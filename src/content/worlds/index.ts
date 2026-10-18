@@ -166,6 +166,46 @@ export const WORLDS: readonly World[] = [
     contentVersion: CONTENT_VERSION,
     published: true,
   },
+  {
+    id: "feelings-garden",
+    title: { es: "Jardin de los Sentimientos", en: "Feelings Garden" },
+    order: 9,
+    description: {
+      es: "El jardin pierde color si nadie dice lo que siente. ¡Dilo en ingles!",
+      en: "The garden loses colour if nobody says how they feel. Say it in English!",
+    },
+    goal: {
+      es: 'Nombrar emociones y preguntar "How do you feel? I feel..."',
+      en: 'Name emotions and ask "How do you feel? I feel..."',
+    },
+    level: "A1",
+    prerequisites: ["my-house"],
+    lessonIds: ["feel-01", "feel-02", "feel-03"],
+    badgeId: "garden-heart",
+    theme: { primary: "#a3478f", soft: "#fbeaf7", emoji: "🌸" },
+    contentVersion: CONTENT_VERSION,
+    published: true,
+  },
+  {
+    id: "weather-mountain",
+    title: { es: "Montaña del Tiempo", en: "Weather Mountain" },
+    order: 10,
+    description: {
+      es: "La montana cambia a cada hora. Cuenta el clima como una reportera.",
+      en: "The mountain changes every hour. Report the weather like a broadcaster.",
+    },
+    goal: {
+      es: 'Preguntar "What is the weather like?" y responder "It is sunny/hot/cold."',
+      en: 'Ask "What is the weather like?" and answer "It is sunny/hot/cold."',
+    },
+    level: "A1",
+    prerequisites: ["clothes-street"],
+    lessonIds: ["weather-01", "weather-02", "weather-03"],
+    badgeId: "weather-watch",
+    theme: { primary: "#3b6fb6", soft: "#e8f0fb", emoji: "🏔️" },
+    contentVersion: CONTENT_VERSION,
+    published: true,
+  },
 ] as const;
 
 export const WORLDS_BY_ID: Readonly<Record<string, World>> = Object.fromEntries(
