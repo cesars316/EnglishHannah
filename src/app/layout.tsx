@@ -30,6 +30,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es">
       <body className="antialiased">
+        <a
+          href="#contenido"
+          className="sr-only-focusable shadow-float absolute top-2 left-2 z-50 rounded-xl bg-white px-4 py-2 font-bold"
+        >
+          Saltar al contenido
+        </a>
         <MotionPreference />
         <ProfileProvider>{children}</ProfileProvider>
       </body>

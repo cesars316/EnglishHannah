@@ -6,7 +6,8 @@
 **Estado actual:** Fase 0 completada · Fase 1 completada · Fase 2 completada
 (rebanada vertical jugable en local) · Fase 3 completada (API `/api/v1` + MongoDB;
 el servidor es la autoridad) · Fase 4 completada (progreso y panel parental) ·
-Fase 5 completada (voz y camara opcionales) · Fase 6 pendiente.
+Fase 5 completada (voz y camara opcionales) · Fase 6 completada (calidad y guia de
+despliegue, sin publicar) · Fase 7 pendiente.
 
 ## Decisiones del propietario
 
@@ -35,7 +36,7 @@ Fase 5 completada (voz y camara opcionales) · Fase 6 pendiente.
 - [x] Tailwind 4 + PostCSS.
 - [x] ESLint (flat) + Prettier.
 - [x] Vitest + RTL + jsdom configurados.
-- [x] Playwright configurado (navegadores se instalan en Fase 6).
+- [x] Playwright configurado (escritorio + movil) con E2E en `tests/e2e`.
 - [x] `docker-compose.yml` (MongoDB 8 standalone; Atlas por `MONGODB_URI`).
 - [x] Sistema visual (`src/components/ui`): Button, LinkButton, Card, Pill,
       ProgressBar, Modal, Spinner, StatusMessage, EmptyState, PageHeader, Icon,
@@ -47,7 +48,8 @@ Fase 5 completada (voz y camara opcionales) · Fase 6 pendiente.
       (progreso + ajustes), privacidad, sin conexion, error y 404.
 - [x] Accesibilidad base: foco visible, teclado, `prefers-reduced-motion`,
       objetivos tactiles >= 44 px.
-- [x] CI GitHub Actions (lint + typecheck + contenido + test + build).
+- [x] CI GitHub Actions (lint + typecheck + contenido + test + build; integracion
+      con MongoDB; E2E en `main`).
 - [x] Lint, tipos, contenido, pruebas y build en verde (`npm run verify`).
 
 **Aceptacion:** la app arranca, las rutas principales son navegables, y lint/test/build pasan. ✅
@@ -128,12 +130,12 @@ filtra respuestas correctas. ✅
 
 ## Fase 6 - Calidad y despliegue (sin publicar)
 
-- [ ] Pruebas unitarias, de integracion y los 12 escenarios E2E.
-- [ ] Revision de accesibilidad y responsive 360 px.
-- [ ] Auditoria de dependencias y seguridad.
-- [ ] README reproducible completo.
-- [ ] CI completo.
-- [ ] Instrucciones de despliegue (no ejecutado).
+- [x] Pruebas unitarias, de integracion y E2E (smoke + flujos principales).
+- [x] Revision de accesibilidad (lang, headings, noindex en zonas privadas) y responsive 360 px.
+- [x] Auditoria de dependencias y seguridad (documentada; advisories dev-only conocidos).
+- [x] README reproducible completo (deploy link añadido).
+- [x] CI completo (quality + integration con MongoDB).
+- [x] Instrucciones de despliegue (`docs/DEPLOYMENT.md`, no ejecutado).
 
 **Aceptacion:** build limpio, pruebas criticas verdes, guia reproducible.
 
@@ -187,8 +189,10 @@ filtra respuestas correctas. ✅
   404 se muestra igualmente y va con `noindex`.
 - El desbloqueo parental de 30 minutos no se revoca automaticamente al caducar si
   la pagina permanece abierta.
-- `npm audit` reporta avisos altos en una cadena solo de desarrollo
-  (`braces` bajo `@next/eslint-plugin-next`); `braces@3.0.3` ya es la ultima
-  version publicada. Se revisara en la auditoria de la Fase 6.
-- Playwright esta configurado pero los navegadores no se instalan hasta la Fase 6,
-  para no forzar descargas grandes ahora.
+- `npm audit` reporta 5 avisos altos en una cadena **solo de desarrollo**
+  (`braces@3.0.3` bajo `micromatch` ← `fast-glob` ← `@next/eslint-plugin-next` ←
+  `eslint-config-next`); `braces@3.0.3` ya es la ultima version publicada y
+  `npm audit --omit=dev` da **0 vulnerabilidades**. Sin impacto en produccion.
+- Los navegadores de Playwright requieren descarga (~200 MiB); en este entorno el
+  CDN fallo de forma intermitente pero el reintento funciono. Los E2E corren en
+  local (escritorio + movil) y en CI (`npx playwright install --with-deps`).

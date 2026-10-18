@@ -90,24 +90,24 @@ No se necesitan mas cambios de codigo.
 
 ## Scripts
 
-| Comando                             | Descripcion                                       |
-| ----------------------------------- | ------------------------------------------------- |
-| `npm run dev`                       | Servidor de desarrollo                            |
-| `npm run build`                     | Build de produccion                               |
-| `npm run start`                     | Servir el build                                   |
-| `npm run lint`                      | ESLint                                            |
-| `npm run lint:fix`                  | ESLint con autocorreccion                         |
-| `npm run format`                    | Prettier                                          |
-| `npm run typecheck`                 | TypeScript sin emitir                             |
-| `npm run test`                      | Pruebas unitarias y de componentes (Vitest)       |
-| `npm run test:watch`                | Vitest en modo watch                              |
-| `npm run test:coverage`             | Vitest con cobertura                              |
-| `npm run test:integration`          | Pruebas de integracion (requiere MongoDB)         |
-| `npm run test:e2e`                  | Playwright E2E (navegadores en Fase 6)            |
-| `npm run validate:content`          | Valida el contenido pedagogico                    |
-| `npm run seed`                      | Crea indices y datos de referencia (idempotente)  |
-| `npm run verify`                    | Contenido + lint + tipos + pruebas + build        |
-| `npm run db:up` / `npm run db:down` | MongoDB local con Docker                          |
+| Comando                             | Descripcion                                        |
+| ----------------------------------- | -------------------------------------------------- |
+| `npm run dev`                       | Servidor de desarrollo                             |
+| `npm run build`                     | Build de produccion                                |
+| `npm run start`                     | Servir el build                                    |
+| `npm run lint`                      | ESLint                                             |
+| `npm run lint:fix`                  | ESLint con autocorreccion                          |
+| `npm run format`                    | Prettier                                           |
+| `npm run typecheck`                 | TypeScript sin emitir                              |
+| `npm run test`                      | Pruebas unitarias y de componentes (Vitest)        |
+| `npm run test:watch`                | Vitest en modo watch                               |
+| `npm run test:coverage`             | Vitest con cobertura                               |
+| `npm run test:integration`          | Pruebas de integracion (requiere MongoDB)          |
+| `npm run test:e2e`                  | Playwright E2E (navegadores instalados localmente) |
+| `npm run validate:content`          | Valida el contenido pedagogico                     |
+| `npm run seed`                      | Crea indices y datos de referencia (idempotente)   |
+| `npm run verify`                    | Contenido + lint + tipos + pruebas + build         |
+| `npm run db:up` / `npm run db:down` | MongoDB local con Docker                           |
 
 ## Rutas
 
@@ -139,7 +139,7 @@ src/types      contratos compartidos (incl. `api.ts` para el cable)
 src/server     env, db, repositorios, casos de uso, auth y http de la API
 scripts/       validate-content.ts, seed.ts
 docs/          documentacion y ADRs
-tests/         unit, components, integration (e2e en fases siguientes)
+tests/         unit, components, integration, e2e
 ```
 
 ## Estado del proyecto
@@ -147,10 +147,15 @@ tests/         unit, components, integration (e2e en fases siguientes)
 Ver el checklist vivo en [`docs/IMPLEMENTATION_PLAN.md`](./docs/IMPLEMENTATION_PLAN.md).
 
 - **Fase 0** (documentacion y arquitectura), **Fase 1** (fundacion), **Fase 2**
-  (contenido + rebanada vertical jugable) y **Fase 3** (API `/api/v1` + MongoDB)
-  estan completadas.
+  (contenido + rebanada vertical jugable), **Fase 3** (API `/api/v1` + MongoDB),
+  **Fase 4** (panel parental y privacidad), **Fase 5** (voz y camara opcionales) y
+  **Fase 6** (calidad: pruebas, accesibilidad, CI y guia de despliegue) estan
+  completadas.
 - Hoy el progreso vive en MongoDB y el **servidor es la autoridad**: el navegador
   solo guarda que perfil esta activo (`localStorage`).
+- Calidad: `npm run validate:content`, `typecheck`, `lint`, pruebas unitarias/de
+  componentes, pruebas de integracion (MongoDB) y **E2E de Playwright**
+  (`npm run test:e2e`, escritorio + movil). CI en `.github/workflows/ci.yml`.
 - Limitaciones conocidas al final de `docs/IMPLEMENTATION_PLAN.md` (por ejemplo,
   la imagen `mongo:8.0` de Docker no se pudo descargar en este entorno; se valido
   contra un MongoDB 7.0 local).
@@ -163,5 +168,5 @@ accion explicita y **nunca** se guardan grabaciones, fotos ni video.
 
 ## Despliegue
 
-Instrucciones en `docs/DEPLOYMENT.md` (pendiente, Fase 6). **No desplegar sin
+Instrucciones en [`docs/DEPLOYMENT.md`](./docs/DEPLOYMENT.md). **No desplegar sin
 autorizacion explicita del propietario.**
