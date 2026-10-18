@@ -18,9 +18,15 @@ import { summarizeIssues, validateContent, type ContentIssue } from "../src/cont
 
 const PUBLIC_DIR = join(process.cwd(), "public");
 
+/**
+ * Comprueba que un asset referenciado con ruta web (`/images/...`) existe en
+ * `public/`. Se construye la ruta por segmentos para que funcione igual en
+ * Windows y en Linux (el separador `\` rompia la validacion en CI).
+ */
 function fileExists(publicPath: string): boolean {
-  const normalized = publicPath.replace(/^\/+/, "").replace(/\//g, "\\");
-  return existsSync(join(PUBLIC_DIR, normalized));
+  const segments = publicPath.replace(/^\/+/, "").split("/").filter(Boolean);
+  if (segments.length === 0) return false;
+  return existsSync(join(PUBLIC_DIR, ...segments));
 }
 
 const FORMAT = {
