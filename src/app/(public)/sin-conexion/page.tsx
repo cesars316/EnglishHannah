@@ -14,7 +14,7 @@ export default function OfflinePage() {
     <div className="space-y-6">
       <PageHeader
         title="Parece que no hay conexion"
-        subtitle="Algunas partes del juego necesitan internet. Otras, como repasar tus palabras, siguen funcionando."
+        subtitle="Para jugar y guardar tu progreso hace falta internet."
       />
 
       <EmptyState

@@ -44,7 +44,7 @@ componentes de React**.
 
 ```
 english-quest/
-├── public/                      # SVG originales, manifest
+├── public/                      # SVG originales, iconos PWA y sw.js
 ├── src/
 │   ├── app/
 │   │   ├── (public)/            # landing, privacidad, onboarding
@@ -54,6 +54,7 @@ english-quest/
 │   │   ├── layout.tsx
 │   │   ├── error.tsx
 │   │   ├── not-found.tsx
+│   │   ├── manifest.ts          # manifiesto PWA (instalable)
 │   │   └── globals.css
 │   ├── components/{ui,activities,layout}
 │   ├── features/{worlds,activities,progress,rewards,speech,camera,profile,parent,collection,privacy}

@@ -150,12 +150,14 @@ Ver el checklist vivo en [`docs/IMPLEMENTATION_PLAN.md`](./docs/IMPLEMENTATION_P
   (contenido + rebanada vertical jugable), **Fase 3** (API `/api/v1` + MongoDB),
   **Fase 4** (panel parental y privacidad), **Fase 5** (voz y camara opcionales) y
   **Fase 6** (calidad: pruebas, accesibilidad, CI y guia de despliegue) estan
-  completadas. La **Fase 7** (expansion de contenido) esta completa en contenido:
+  completadas. La **Fase 7** (expansion de contenido) esta completada:
   **12 mundos**, **37 lecciones**, **188 actividades** y **129 palabras**, con
   mini-historias (`story-quiz`) en la mision final de cada mundo y **ajuste de
   dificultad** en el repaso (un nivel amable `gentle`/`steady`/`champion` se
-  deriva del progreso y ordena la sesion; el contenido no cambia); queda
-  valorar el offline parcial.
+  deriva del progreso y ordena la sesion; el contenido no cambia). Ademas la
+  **PWA es instalable**: manifiesto con iconos de Pip y service worker que solo
+  cachea recursos publicos y muestra una pagina de respaldo sin conexion (el
+  juego sin conexion queda para V2).
 - Hoy el progreso vive en MongoDB y el **servidor es la autoridad**: el navegador
   solo guarda que perfil esta activo (`localStorage`).
 - Calidad: `npm run validate:content`, `typecheck`, `lint`, pruebas unitarias/de

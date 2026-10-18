@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 
 import { MotionPreference } from "@/components/layout/motion-preference";
+import { ServiceWorkerRegistration } from "@/components/layout/service-worker-registration";
 import { ProfileProvider } from "@/features/profile/profile-context";
 import { SITE } from "@/config/game";
 
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Saltar al contenido
         </a>
         <MotionPreference />
+        <ServiceWorkerRegistration />
         <ProfileProvider>{children}</ProfileProvider>
       </body>
     </html>

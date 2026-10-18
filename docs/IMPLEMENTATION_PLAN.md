@@ -7,8 +7,9 @@
 (rebanada vertical jugable en local) · Fase 3 completada (API `/api/v1` + MongoDB;
 el servidor es la autoridad) · Fase 4 completada (progreso y panel parental) ·
 Fase 5 completada (voz y camara opcionales) · Fase 6 completada (calidad y guia de
-despliegue, sin publicar) · Fase 7 en curso (los 12 mundos, sus historias y el
-ajuste de dificultad estan entregados; falta valorar el offline parcial).
+despliegue, sin publicar) · Fase 7 completada (12 mundos, historias y repaso
+espaciado, ajuste de dificultad y PWA instalable con respaldo offline; sin juego
+sin conexion, reservado a V2 del documento maestro).
 
 ## Decisiones del propietario
 
@@ -158,7 +159,17 @@ filtra respuestas correctas. ✅
       o 3). Umbrales centralizados en `DIFFICULTY` (`src/config/game.ts`); el
       nivel y su motivo se muestran en la sesion de repaso y en el panel
       parental. Nunca sube solo por tiempo transcurrido ni con pocos intentos.
-- [ ] PWA / offline parcial si es viable.
+- [x] PWA / offline parcial si es viable. — evaluado y entregado lo viable:
+      manifiesto instalable (`src/app/manifest.ts`, servido en
+      `/manifest.webmanifest`, con iconos SVG de Pip) y service worker
+      (`public/sw.js`) que cachea unicamente recursos publicos (trozos
+      estaticos de Next, imagenes y la pagina `/sin-conexion`) y **nunca**
+      `/api/v1`, respetando la privacidad y la autoridad del servidor
+      (ADR 0004). Sin conexion, abrir la app muestra la pagina de respaldo en
+      vez del error del navegador; el worker se registra solo en produccion.
+      El JUEGO sin conexion no es viable sin romper la regla de no enviar las
+      claves de respuesta al cliente ni montar una cola de sincronizacion de
+      progreso: queda para V2.
 
 ## Checklist de aceptacion final (documento maestro, seccion 21)
 
@@ -210,3 +221,6 @@ filtra respuestas correctas. ✅
 - Los navegadores de Playwright requieren descarga (~200 MiB); en este entorno el
   CDN fallo de forma intermitente pero el reintento funciono. Los E2E corren en
   local (escritorio + movil) y en CI (`npx playwright install --with-deps`).
+- La PWA no ofrece juego sin conexion (solo instalacion y respaldo offline;
+  ver Fase 7). Los iconos del manifiesto son SVG: los iconos PNG y el
+  `apple-touch-icon` de iOS se anadiran al desplegar.

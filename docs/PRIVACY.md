@@ -35,6 +35,11 @@ publicidad/rastreadores de terceros.
 - **localStorage del navegador**: **unicamente** la preferencia `eq.activeProfileId`
   (que perfil esta activo en este dispositivo). No contiene progreso ni ningun dato
   del menor, y se puede borrar en cualquier momento.
+- **Caché del service worker** (solo en produccion): guarda recursos publicos ya
+  vistos (paginas estaticas, imagenes del contenido y trozos de Next) para abrir
+  la app y mostrar la pagina de respaldo sin conexion. **Nunca** almacena
+  respuestas de `/api/v1` (progreso, intentos ni zona parental) y se limpia al
+  actualizar el worker.
 
 > El servidor es la autoridad del progreso (ADR 0003/0004). El navegador nunca
 > calcula XP, monedas, dominio ni desbloqueos: los pide a `/api/v1`.

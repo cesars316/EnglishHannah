@@ -91,7 +91,9 @@ Esto ejecuta: `validate:content` + `lint` + `typecheck` + `test` + `build`. Todo
 4. Jugar una actividad corta (hello-01 / color-01) → feedback y resumen funcionan
 5. Zona `/padres`: configurar código la primera vez; desbloquear y ver panel
 6. Privacidad `/privacidad` visible
-7. Limpiar perfil de prueba desde `/padres` si es entorno de staging
+7. PWA: `/manifest.webmanifest` responde JSON y `/sw.js` responde JavaScript (en
+   producción el navegador registra el service worker automáticamente)
+8. Limpiar perfil de prueba desde `/padres` si es entorno de staging
 
 Smoke rápido con PowerShell (ejemplo local/prod):
 
@@ -117,6 +119,7 @@ Existe pipeline en `.github/workflows/ci.yml`:
 - `ownerId` firmado con HMAC-SHA256; nunca se confía en cliente
 - Cabeceras `X-Robots-Tag: noindex,nofollow,nocache` en rutas `/padres*` y `/perfiles*` (y política de indexación en privacidad)
 - Revisar `npm audit` periódicamente (advisories dev-only conocidos, documentados)
+- Service worker (PWA): se registra solo en producción y **nunca** cachea `/api/v1`; requiere HTTPS (obligatorio en producción). Si cambia la página de respaldo sin conexión, sube `CACHE_VERSION` en `public/sw.js`
 
 ## 8. Limitaciones conocidas
 
@@ -124,6 +127,7 @@ Existe pipeline en `.github/workflows/ci.yml`:
 - `mongo:8.0` en `docker-compose.yml` puede no descargarse en algunos entornos (CDN). En local se validó con MongoDB 7.0.
 - Playwright browsers requieren descarga (pueden fallar en entornos con restricciones DNS/proxy). En CI se instalan según configuración.
 - Secret efímero si falta `AUTH_SECRET` en producción → sesiones no persisten entre reinicios (advertencia en logs).
+- La PWA no juega lecciones sin conexión: el service worker solo sirve recursos públicos y la página de respaldo. Jugando sin conexión exigiría enviar las claves de respuesta al cliente (prohibido por el documento maestro, ver ADR 0004) y una cola de sincronización de progreso.
 
 ## 9. Rollback y limpieza
 

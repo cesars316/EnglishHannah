@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <title>English Quest</title>
+  <!-- Variante maskable: fondo a sangre y Pip dentro de la zona segura (80%). -->
+  <rect width="512" height="512" fill="#ffe3d3"/>
+  <g transform="translate(121 148) scale(2.25)">
+    <path d="M26 34 22 8l24 14z" fill="#ea5a28"/>
+    <path d="M94 34 98 8 74 22z" fill="#ea5a28"/>
+    <path d="M60 20c22 0 34 15 34 32S78 88 60 88 26 69 26 52 38 20 60 20z" fill="#ea5a28"/>
+    <path d="M46 76q14 12 28 0-14 6-28 0z" fill="#ffe3d3"/>
+    <circle cx="46" cy="50" r="7" fill="#ffffff"/>
+    <circle cx="74" cy="50" r="7" fill="#ffffff"/>
+    <circle cx="47" cy="51" r="3.4" fill="#221b16"/>
+    <circle cx="75" cy="51" r="3.4" fill="#221b16"/>
+    <ellipse cx="60" cy="66" rx="5" ry="3.6" fill="#221b16"/>
+    <circle cx="22" cy="18" r="4" fill="#f5b32b"/>
+    <circle cx="100" cy="24" r="3" fill="#f17fa6"/>
+    <circle cx="88" cy="10" r="3.5" fill="#4ba9f2"/>
+  </g>
+</svg>

@@ -27,4 +27,24 @@ test.describe("English Quest - smoke", () => {
     await page.goto("/empezar");
     await expect(page.getByRole("heading", { level: 1 })).toContainText(/perfil/i);
   });
+
+  test("PWA: manifest and service worker are served", async ({ page }) => {
+    await page.goto("/");
+
+    const manifestLink = page.locator('link[rel="manifest"]');
+    await expect(manifestLink).toHaveCount(1);
+    const manifestHref = await manifestLink.getAttribute("href");
+    expect(manifestHref).toBeTruthy();
+
+    const manifestResponse = await page.request.get(manifestHref ?? "/manifest.webmanifest");
+    expect(manifestResponse.ok()).toBeTruthy();
+    expect(manifestResponse.headers()["content-type"]).toContain("manifest+json");
+    const manifestBody = await manifestResponse.json();
+    expect(manifestBody.name).toContain("English Quest");
+    expect(manifestBody.icons.length).toBeGreaterThan(0);
+
+    const workerResponse = await page.request.get("/sw.js");
+    expect(workerResponse.ok()).toBeTruthy();
+    expect(workerResponse.headers()["content-type"]).toContain("javascript");
+  });
 });
