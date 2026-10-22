@@ -141,8 +141,21 @@ dominio ni desbloqueos: los pide a `/api/v1` y los cachea.
   `ownerId`).
 - Validacion Zod de body/params; limite de tamaño; rate limiting en endpoints
   sensibles; sin stack traces en respuestas.
-- Cabeceras de seguridad y CSP documentada.
-- `noindex` en zona parental y perfiles.
+- Cabeceras de seguridad en `next.config.ts`: `X-Content-Type-Options`,
+  `X-Frame-Options`, `Referrer-Policy`, `X-DNS-Prefetch-Control`,
+  `Permissions-Policy` y `Content-Security-Policy`.
+- CSP sin `nonce` (decision consciente). Un `nonce` exige `middleware` y render
+  dinamico en todas las rutas; aqui no aporta: no hay terceros, ni contenido de
+  usuarios, ni recursos externos. En su lugar la CSP cierra todo lo posible con
+  `'self'`, `object-src 'none'`, `base-uri 'self'` y `frame-ancestors 'none'`.
+  `script-src` mantiene `'unsafe-inline'` porque Next inyecta scripts de
+  hidratacion inline y no ofrece una via estable sin nonce o hash. En desarrollo
+  se añaden `'unsafe-eval'` y `ws: wss:` para el HMR; en produccion, no.
+  Se cubre con `tests/config/security-headers.test.ts`.
+- `noindex` en zona parental y perfiles, via `metadata.robots` y cabecera
+  `X-Robots-Tag` en `/padres/:path*`.
+- El service worker **no** cachea `/api/v1` y aplica red-primero a las
+  navegaciones (ver `docs/PRIVACY.md`).
 
 ## 8. Calidad
 

@@ -102,7 +102,8 @@ publicidad/rastreadores de terceros.
 ## 9. Recomendaciones antes de publicar
 
 1. Crear el cluster con region cercana y backup segun politica de borrado.
-2. Forzar HTTPS y revisar las cabeceras de seguridad y la CSP.
+2. Forzar HTTPS y revisar las cabeceras de seguridad y la CSP (ya definidas en
+   `next.config.ts`; `docs/ARCHITECTURE.md` explica por que no se usa `nonce`).
 3. Revisar terminos y condiciones de cada plan gratuito.
 4. Añadir un aviso de consentimiento parental previo al primer uso en produccion.
 5. Migrar a OAuth si la app deja de ser de uso familiar y pasa a multiusuario publico.
