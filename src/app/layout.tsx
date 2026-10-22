@@ -14,6 +14,20 @@ export const metadata: Metadata = {
   },
   description: SITE.description,
   applicationName: SITE.name,
+  // Iconos: los SVG cubren navegadores modernos; los PNG (npm run icons) son
+  // para iOS, que no acepta SVG ni el `apple-touch-icon` generado por Next.
+  icons: {
+    icon: [
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/images/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  appleWebApp: {
+    capable: true,
+    title: SITE.name,
+    statusBarStyle: "default",
+  },
   // La aplicacion no se publica todavia y contiene zonas privadas:
   // se mantiene fuera de los motores de busqueda (docs/PRIVACY.md).
   robots: { index: false, follow: false, nocache: true },

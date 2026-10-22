@@ -161,7 +161,8 @@ filtra respuestas correctas. ✅
       parental. Nunca sube solo por tiempo transcurrido ni con pocos intentos.
 - [x] PWA / offline parcial si es viable. — evaluado y entregado lo viable:
       manifiesto instalable (`src/app/manifest.ts`, servido en
-      `/manifest.webmanifest`, con iconos SVG de Pip) y service worker
+      `/manifest.webmanifest`, con iconos SVG de Pip y PNG generados con
+      `npm run icons` para iOS, que no acepta SVG) y service worker
       (`public/sw.js`) que cachea unicamente recursos publicos (trozos
       estaticos de Next, imagenes y la pagina `/sin-conexion`) y **nunca**
       `/api/v1`, respetando la privacidad y la autoridad del servidor

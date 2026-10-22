@@ -105,7 +105,7 @@ No se necesitan mas cambios de codigo.
 | `npm run test:integration`          | Pruebas de integracion (requiere MongoDB)          |
 | `npm run test:e2e`                  | Playwright E2E (navegadores instalados localmente) |
 | `npm run validate:content`          | Valida el contenido pedagogico                     |
-| `npm run seed`                      | Crea indices y datos de referencia (idempotente)   |
+| `npm run icons`                     | Regenera los iconos PNG de la PWA desde los SVG    |     | `npm run seed` | Crea indices y datos de referencia (idempotente) |
 | `npm run verify`                    | Contenido + lint + tipos + pruebas + build         |
 | `npm run db:up` / `npm run db:down` | MongoDB local con Docker                           |
 

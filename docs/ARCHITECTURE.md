@@ -44,7 +44,8 @@ componentes de React**.
 
 ```
 english-quest/
-├── public/                      # SVG originales, iconos PWA y sw.js
+├── public/                      # SVG e iconos PNG (npm run icons), sw.js
+├── scripts/                     # validate-content, seed, generate-icons
 ├── src/
 │   ├── app/
 │   │   ├── (public)/            # landing, privacidad, onboarding
@@ -63,8 +64,8 @@ english-quest/
 │   ├── config/
 │   ├── lib/
 │   └── types/
-├── scripts/{seed.ts,validate-content.ts}
-├── tests/{unit,integration,e2e}
+├── scripts/{seed.ts,validate-content.ts,generate-icons.ts}
+├── tests/{unit,components,integration,e2e,config}
 ├── docs/{adr,ARCHITECTURE.md,IMPLEMENTATION_PLAN.md,API.md,CONTENT_GUIDE.md,PRIVACY.md}
 ├── docker-compose.yml
 └── ...
