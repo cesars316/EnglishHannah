@@ -5,6 +5,7 @@ import {
   correctResponse,
   createProfileViaUi,
   findProfileId,
+  freshOwner,
   lessonActivities,
   sendAnswer,
 } from "./helpers";
@@ -27,12 +28,6 @@ import {
 test.beforeEach(async ({ context }) => {
   await context.clearCookies();
 });
-
-/** Crea un dueño nuevo llamando a la API (el servidor emite `eq_session`). */
-async function freshOwner(page: Page): Promise<void> {
-  const response = await page.request.get("/api/v1/profiles");
-  expect(response.ok()).toBeTruthy();
-}
 
 /** Crea un perfil y deja su identificador, partiendo de una sesion limpia. */
 async function setUpProfile(page: Page): Promise<{ name: string; profileId: string }> {

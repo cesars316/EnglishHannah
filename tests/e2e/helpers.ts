@@ -17,6 +17,18 @@ export type PublicActivity = {
   content: Record<string, unknown>;
 };
 
+/**
+ * Crea un dueno nuevo llamando a la API.
+ *
+ * El servidor emite la cookie `eq_session` si falta. Playwright reutiliza el
+ * contexto dentro de un worker, asi que las pruebas que necesitan aislamiento
+ * limpian antes las cookies (`context.clearCookies()`) y luego llaman aqui.
+ */
+export async function freshOwner(page: Page): Promise<void> {
+  const response = await page.request.get("/api/v1/profiles");
+  expect(response.ok()).toBeTruthy();
+}
+
 /** Crea un perfil desde la interfaz y lo deja activo. Devuelve su nombre. */
 export async function createProfileViaUi(page: Page, displayName?: string): Promise<string> {
   const name = displayName ?? `Nina${Date.now().toString(36).slice(-5)}`;
