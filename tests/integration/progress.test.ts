@@ -9,6 +9,15 @@ import { disconnect, mongoAvailable, resetDatabase } from "./helpers";
 
 const dbReady = await mongoAvailable();
 
+/**
+ * Fecha base de las pruebas.
+ *
+ * Se inyecta en `answerActivity` y en las lecturas de progreso para que los
+ * intervalos de repaso sean deterministas y no dependan del dia real en que se
+ * ejecuten (si no, la prueba caduca sola con el paso del tiempo).
+ */
+const BASE_NOW = new Date("2026-10-17T12:00:00.000Z");
+
 describe.skipIf(!dbReady)("progreso y repaso", () => {
   beforeEach(async () => {
     await resetDatabase();
@@ -35,9 +44,12 @@ describe.skipIf(!dbReady)("progreso y repaso", () => {
       hintUsed: false,
       isReview: false,
       durationMs: 1000,
+      now: BASE_NOW,
     });
 
-    const wrong = activity.content.options.find((o: { id: string }) => o.id !== activity.answerKey.optionId)?.id ?? activity.answerKey.optionId;
+    const wrong =
+      activity.content.options.find((o: { id: string }) => o.id !== activity.answerKey.optionId)
+        ?.id ?? activity.answerKey.optionId;
     await answerActivity({
       ownerId,
       profileId: profile.id,
@@ -48,9 +60,10 @@ describe.skipIf(!dbReady)("progreso y repaso", () => {
       hintUsed: false,
       isReview: false,
       durationMs: 500,
+      now: BASE_NOW,
     });
 
-    const summary = await getProgressSummary(ownerId, profile.id, new Date("2026-10-17T12:00:00.000Z"));
+    const summary = await getProgressSummary(ownerId, profile.id, BASE_NOW);
     expect(summary.xp).toBeGreaterThan(0);
     expect(summary.coins).toBeGreaterThan(0);
     expect(summary.activitiesCompleted).toBeGreaterThanOrEqual(1);
@@ -76,15 +89,16 @@ describe.skipIf(!dbReady)("progreso y repaso", () => {
       hintUsed: false,
       isReview: false,
       durationMs: 1000,
+      now: BASE_NOW,
     });
 
     // Con pocos intentos el nivel debe quedar en el inicial (suave).
-    const summary = await getProgressSummary(ownerId, profile.id, new Date("2026-10-17T12:00:00.000Z"));
+    const summary = await getProgressSummary(ownerId, profile.id, BASE_NOW);
     expect(summary.challenge.level).toBe("gentle");
     expect(summary.challenge.preferredDifficulty).toBe(1);
     expect(summary.challenge.label.es).toBe("Suave");
 
-    // El plan se pide pasado el intervalo de repaso para que haya objetivos.
+    // El plan se pide pasado el intervalo de repaso (2 dias) para que haya objetivos.
     const plan = await getReviewPlan(ownerId, profile.id, new Date("2026-10-20T12:00:00.000Z"));
     expect(plan.challenge.level).toBe("gentle");
     expect(plan.vocabularyIds.length).toBeGreaterThan(0);

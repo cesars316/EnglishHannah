@@ -53,6 +53,11 @@ export function OptionButton({
   return (
     <button
       type="button"
+      data-testid="option-button"
+      // `aria-pressed` marca las opciones de eleccion multiple (por ejemplo,
+      // las preguntas de una historia): informacion util para lectores de
+      // pantalla y para las pruebas end-to-end.
+      aria-pressed={state === "selected" ? true : undefined}
       onClick={onClick}
       disabled={isDisabled}
       aria-disabled={isDisabled || undefined}

@@ -99,15 +99,15 @@ export function reduceAttempt(
     }
 
     if (response.kind === "pairs") {
+      // En las parejas NO se descartan destinos fallados: la lista de destinos
+      // es corta (una tarjeta por pareja) y con varios fallos se quedaria sin
+      // ninguna opcion pulsable antes de llegar a la solucion. Las parejas
+      // acertadas se fijan y las demas quedan libres para reintentar.
       for (const pair of response.pairs) {
         const isRight = correctPairs.some(
           (item) => item.leftId === pair.leftId && item.rightId === pair.rightId,
         );
-        if (isRight) {
-          if (!hasPair(lockedPairs, pair)) lockedPairs.push(pair);
-        } else {
-          eliminated.push(pair.rightId);
-        }
+        if (isRight && !hasPair(lockedPairs, pair)) lockedPairs.push(pair);
       }
     }
   }

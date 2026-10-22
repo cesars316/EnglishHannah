@@ -4,6 +4,7 @@ import { toPublicActivities } from "@/features/activities/engine/public-activity
 import { selectReviewActivities } from "@/features/activities/select";
 import { computeChallenge } from "@/features/difficulty/logic";
 import { pickReviewTargets, summarizeProgress } from "@/features/progress/logic";
+import { serverNow } from "@/server/clock";
 import { toAttempt, toGameState, toProgressRecord } from "@/server/db/mappers";
 import { listAttempts } from "@/server/repositories/attempts";
 import { ensureGameState } from "@/server/repositories/game-state";
@@ -20,7 +21,7 @@ export type { ReviewPlan, RewardsView };
 export async function getProgressSummary(
   ownerId: string,
   profileId: string,
-  now: Date = new Date(),
+  now: Date = serverNow(),
 ): Promise<ProgressSummary> {
   const { db } = await profileContext(ownerId, profileId);
 
@@ -42,7 +43,7 @@ export async function getProgressSummary(
 export async function getReviewPlan(
   ownerId: string,
   profileId: string,
-  now: Date = new Date(),
+  now: Date = serverNow(),
 ): Promise<ReviewPlan> {
   const { db } = await profileContext(ownerId, profileId);
 

@@ -56,6 +56,11 @@ export type AnswerActivityParams = {
   durationMs: number;
   hintUsed: boolean;
   isReview: boolean;
+  /**
+   * Momento del intento. Se inyecta en las pruebas para controlar los
+   * intervalos de repaso; en produccion siempre es el reloj real.
+   */
+  now?: Date;
 };
 
 export async function answerActivity(input: AnswerActivityParams): Promise<AnswerActivityResult> {
@@ -73,7 +78,7 @@ export async function answerActivity(input: AnswerActivityParams): Promise<Answe
     isReview: input.isReview,
   });
 
-  const now = new Date();
+  const now = input.now ?? new Date();
 
   const conflict = await findAttemptByClientId(db, profileId, clientAttemptId);
   if (conflict) {
@@ -88,11 +93,7 @@ export async function answerActivity(input: AnswerActivityParams): Promise<Answe
     lessonId: activity.lessonId,
     worldId: worldIdForActivity(activity),
     skill: activity.skill,
-    result: outcome.solved
-      ? evaluation.selfReported
-        ? "self-reported"
-        : "correct"
-      : "incorrect",
+    result: outcome.solved ? (evaluation.selfReported ? "self-reported" : "correct") : "incorrect",
     attemptNumber: input.attemptNumber,
     durationMs: Math.max(0, Math.round(input.durationMs)),
     hintUsed: input.hintUsed,

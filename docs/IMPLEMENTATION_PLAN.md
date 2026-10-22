@@ -133,6 +133,12 @@ filtra respuestas correctas. ✅
 ## Fase 6 - Calidad y despliegue (sin publicar)
 
 - [x] Pruebas unitarias, de integracion y E2E (smoke + flujos principales).
+      Los E2E cubren, ademas del humo y la accesibilidad, el flujo de repaso
+      completo (`tests/e2e/review.spec.ts`: estado vacio, plan con progreso
+      vencido y sesion jugada de principio a fin). Para no esperar los
+      intervalos reales de repaso, el servidor de pruebas arranca con
+      `REVIEW_TIME_OFFSET_MS` (palanca solo de desarrollo, ver
+      `src/server/clock.ts`).
 - [x] Revision de accesibilidad (lang, headings, noindex en zonas privadas) y responsive 360 px.
 - [x] Auditoria de dependencias y seguridad (documentada; advisories dev-only conocidos).
 - [x] README reproducible completo (deploy link añadido).

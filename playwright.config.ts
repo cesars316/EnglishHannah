@@ -32,6 +32,12 @@ export default defineConfig({
     stdout: "pipe",
     env: {
       NODE_ENV: "development",
+      /**
+       * Adelanta el reloj del servidor para poder probar el repaso sin esperar
+       * los intervalos reales (un fallo no vuelve a proponerse hasta el dia
+       * siguiente). Es una palanca de pruebas; en produccion no se aplica.
+       */
+      REVIEW_TIME_OFFSET_MS: process.env.REVIEW_TIME_OFFSET_MS ?? "172800000",
     },
   },
 });

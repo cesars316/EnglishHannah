@@ -17,6 +17,13 @@ const envSchema = z.object({
   MONGODB_URI_TEST: z.string().min(1).optional(),
   MONGODB_DB_TEST: z.string().min(1).optional(),
   AUTH_SECRET: z.string().min(32).optional(),
+  /**
+   * Adelanta el reloj del servidor para repasar sin esperar dias reales.
+   *
+   * Es una palanca de desarrollo y pruebas, no una funcion del producto: solo
+   * se aplica fuera de produccion (ver `docs/DEPLOYMENT.md`).
+   */
+  REVIEW_TIME_OFFSET_MS: z.coerce.number().int().min(0).optional(),
 });
 
 export type ServerEnv = z.infer<typeof envSchema>;

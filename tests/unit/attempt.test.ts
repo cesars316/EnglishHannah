@@ -137,7 +137,7 @@ describe("reduceAttempt - parejas", () => {
   const raw = firstOfType("matching-pairs");
   const activity = toPublicActivity(raw) as Extract<PublicActivity, { type: "matching-pairs" }>;
 
-  it("fija las parejas acertadas y descarta los destinos fallados", () => {
+  it("fija las parejas acertadas y no descarta ningun destino", () => {
     const [firstPair, secondPair] = raw.answerKey.pairs;
     if (!firstPair || !secondPair) throw new Error("Se necesitan al menos dos parejas");
 
@@ -168,8 +168,10 @@ describe("reduceAttempt - parejas", () => {
       leftId: firstPair.leftId,
       rightId: firstPair.rightId,
     });
-    expect(next.eliminatedOptionIds).toContain("destino-incorrecto");
-    expect(next.eliminatedOptionIds).not.toContain(firstPair.rightId);
+    // Los destinos fallados siguen disponibles: la lista es corta y descartarlos
+    // dejaria la actividad sin opciones antes de revelar la solucion.
+    expect(next.eliminatedOptionIds).not.toContain("destino-incorrecto");
+    expect(next.eliminatedOptionIds).toHaveLength(0);
   });
 });
 
