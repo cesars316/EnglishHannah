@@ -1,17 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Saludo informal con la mano">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Dos amigos saludandose de cerca">
   <rect width="160" height="160" rx="32" fill="#eff8ff"/>
-  <!-- Brazo -->
-  <rect x="52" y="76" width="34" height="14" rx="7" fill="#f0b98c" transform="rotate(12 52 76)"/>
-  <!-- Palma levantada (high-five style) -->
-  <ellipse cx="90" cy="70" rx="20" ry="24" fill="#f7c9a3" transform="rotate(12 90 70)"/>
-  <!-- Dedos cortos y juntos (hi breve) -->
-  <rect x="96" y="42" width="10" height="30" rx="5" fill="#f7c9a3" transform="rotate(12 101 42)"/>
-  <rect x="86" y="40" width="10" height="32" rx="5" fill="#f7c9a3" transform="rotate(12 91 40)"/>
-  <rect x="76" y="42" width="10" height="30" rx="5" fill="#f7c9a3" transform="rotate(12 81 42)"/>
-  <rect x="68" y="48" width="10" height="24" rx="5" fill="#f7c9a3" transform="rotate(12 73 48)"/>
-  <!-- Pulgar -->
-  <ellipse cx="80" cy="78" rx="8" ry="10" fill="#f7c9a3" transform="rotate(-38 80 78)"/>
-  <!-- Estrellas pequenas para distinguirlo -->
-  <path d="M118 32l4 8 8 4-8 4-4 8-4-8-8-4 8-4z" fill="#f5b32b"/>
-  <path d="M136 46l2 4 4 2-4 2-2 4-2-4-4-2 4-2z" fill="#4ba9f2"/>
+  <!-- Suelo -->
+  <ellipse cx="80" cy="138" rx="58" ry="10" fill="#e7f6ff"/>
+  <!-- Figura 1 (izquierda, mas cerca) -->
+  <ellipse cx="56" cy="96" rx="14" ry="16" fill="#f7c9a3"/>
+  <circle cx="56" cy="76" r="16" fill="#f7c9a3"/>
+  <circle cx="51" cy="74" r="3" fill="#2b2118"/>
+  <circle cx="61" cy="74" r="3" fill="#2b2118"/>
+  <path d="M54 82q2 2 4 0" stroke="#2b2118" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Cuerpo figura 1 -->
+  <rect x="48" y="110" width="16" height="18" rx="8" fill="#f17fa6"/>
+  <!-- Mano breve levantada -->
+  <path d="M66 110q8 2 10 -6" stroke="#f7c9a3" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <!-- Figura 2 (derecha, mas cerca) -->
+  <ellipse cx="104" cy="96" rx="14" ry="16" fill="#f0b98c"/>
+  <circle cx="104" cy="76" r="16" fill="#f0b98c"/>
+  <circle cx="99" cy="74" r="3" fill="#2b2118"/>
+  <circle cx="109" cy="74" r="3" fill="#2b2118"/>
+  <path d="M102 82q2 2 4 0" stroke="#2b2118" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Cuerpo figura 2 -->
+  <rect x="96" y="110" width="16" height="18" rx="8" fill="#9b7ede"/>
+  <!-- Mano breve levantada -->
+  <path d="M94 110q-8 2 -10 -6" stroke="#f0b98c" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <!-- Sonrisa entre ellos -->
+  <path d="M70 68q10 -4 20 0" stroke="#f5b32b" stroke-width="4" stroke-linecap="round" fill="none"/>
 </svg>

@@ -1,19 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Mano despidiendose">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Uno se aleja y se despide con la mano">
   <rect width="160" height="160" rx="32" fill="#fdf4e7"/>
-  <!-- Brazo girado -->
-  <rect x="50" y="78" width="36" height="14" rx="7" fill="#f0b98c" transform="rotate(-8 50 78)"/>
-  <!-- Palma girada hacia fuera -->
-  <ellipse cx="88" cy="76" rx="20" ry="24" fill="#f7c9a3" transform="rotate(-28 88 76)"/>
-  <!-- Dedos juntos moviendose -->
-  <rect x="96" y="44" width="10" height="36" rx="5" fill="#f7c9a3" transform="rotate(-28 101 44)"/>
-  <rect x="86" y="44" width="10" height="36" rx="5" fill="#f7c9a3" transform="rotate(-28 91 44)"/>
-  <rect x="76" y="48" width="10" height="34" rx="5" fill="#f7c9a3" transform="rotate(-28 81 48)"/>
-  <rect x="68" y="56" width="10" height="26" rx="5" fill="#f7c9a3" transform="rotate(-28 73 56)"/>
-  <!-- Pulgar -->
-  <ellipse cx="78" cy="84" rx="8" ry="10" fill="#f7c9a3" transform="rotate(22 78 84)"/>
-  <!-- Ola (curva distintiva de adios) -->
-  <path d="M112 36q18 0 16 16" stroke="#0f5896" stroke-width="4" stroke-linecap="round" fill="none"/>
-  <path d="M118 28q24 2 20 22" stroke="#0f5896" stroke-width="4" stroke-linecap="round" fill="none"/>
-  <!-- Flecha que se aleja -->
-  <path d="M36 108h24M52 98l8 10-8 10" stroke="#4ba9f2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Suelo -->
+  <ellipse cx="80" cy="138" rx="62" ry="10" fill="#e7f6ff"/>
+  <!-- Figura que se queda (izquierda) -->
+  <ellipse cx="44" cy="94" rx="14" ry="16" fill="#f7c9a3"/>
+  <circle cx="44" cy="74" r="16" fill="#f7c9a3"/>
+  <circle cx="39" cy="72" r="3" fill="#2b2118"/>
+  <circle cx="49" cy="72" r="3" fill="#2b2118"/>
+  <path d="M42 80q2 2 4 0" stroke="#2b2118" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Cuerpo figura que se queda -->
+  <rect x="36" y="108" width="16" height="20" rx="8" fill="#4ba9f2"/>
+  <!-- Figura que se va (derecha, girada hacia atras) -->
+  <ellipse cx="108" cy="94" rx="14" ry="16" fill="#f0b98c"/>
+  <circle cx="108" cy="74" r="16" fill="#f0b98c"/>
+  <circle cx="113" cy="72" r="3" fill="#2b2118"/>
+  <circle cx="103" cy="72" r="3" fill="#2b2118"/>
+  <path d="M106 80q2 2 4 0" stroke="#2b2118" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Cuerpo figura que se va -->
+  <rect x="100" y="108" width="16" height="20" rx="8" fill="#ffb347"/>
+  <!-- Mano despidiendose detras/girando -->
+  <path d="M98 104q-12 2 -18 -8" stroke="#f0b98c" stroke-width="9" stroke-linecap="round" fill="none"/>
+  <path d="M96 100q-12 0 -16 -10" stroke="#f0b98c" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <!-- Huellas alejandose -->
+  <ellipse cx="122" cy="126" rx="4" ry="2" fill="#b9d9f3"/>
+  <ellipse cx="132" cy="122" rx="4" ry="2" fill="#b9d9f3"/>
+  <ellipse cx="142" cy="118" rx="4" ry="2" fill="#b9d9f3"/>
 </svg>

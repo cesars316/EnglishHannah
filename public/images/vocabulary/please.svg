@@ -1,20 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Manos juntas pidiendo por favor">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Uno pide algo al otro con las manos juntas">
   <rect width="160" height="160" rx="32" fill="#fdf4e7"/>
-  <!-- Mano inferior -->
-  <ellipse cx="70" cy="98" rx="18" ry="22" fill="#f0b98c" transform="rotate(15 70 98)"/>
-  <rect x="64" y="74" width="10" height="28" rx="5" fill="#f0b98c" transform="rotate(15 69 74)"/>
-  <rect x="74" y="72" width="10" height="30" rx="5" fill="#f0b98c" transform="rotate(15 79 72)"/>
-  <rect x="84" y="74" width="10" height="28" rx="5" fill="#f0b98c" transform="rotate(15 89 74)"/>
-  <rect x="92" y="80" width="10" height="22" rx="5" fill="#f0b98c" transform="rotate(15 97 80)"/>
-  <!-- Mano superior sobre ella -->
-  <ellipse cx="90" cy="88" rx="18" ry="22" fill="#f7c9a3" transform="rotate(-12 90 88)"/>
-  <rect x="88" y="62" width="10" height="30" rx="5" fill="#f7c9a3" transform="rotate(-12 93 62)"/>
-  <rect x="78" y="62" width="10" height="30" rx="5" fill="#f7c9a3" transform="rotate(-12 83 62)"/>
-  <rect x="68" y="66" width="10" height="28" rx="5" fill="#f7c9a3" transform="rotate(-12 73 66)"/>
-  <rect x="60" y="74" width="10" height="22" rx="5" fill="#f7c9a3" transform="rotate(-12 65 74)"/>
-  <!-- Pulgares juntos -->
-  <ellipse cx="80" cy="94" rx="9" ry="11" fill="#f7c9a3" transform="rotate(35 80 94)"/>
-  <!-- Ondas suaves -->
-  <path d="M116 48q14 6 14 18" stroke="#9b7ede" stroke-width="4" stroke-linecap="round" fill="none"/>
-  <path d="M126 38q18 8 16 24" stroke="#9b7ede" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <!-- Suelo -->
+  <ellipse cx="80" cy="138" rx="62" ry="10" fill="#e7f6ff"/>
+  <!-- Figura 1 (derecha, escucha) -->
+  <ellipse cx="112" cy="96" rx="14" ry="16" fill="#f0b98c"/>
+  <circle cx="112" cy="76" r="16" fill="#f0b98c"/>
+  <circle cx="107" cy="74" r="3" fill="#2b2118"/>
+  <circle cx="117" cy="74" r="3" fill="#2b2118"/>
+  <path d="M110 82q2 2 4 0" stroke="#2b2118" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Cuerpo figura 1 -->
+  <rect x="104" y="110" width="16" height="18" rx="8" fill="#2e9e6b"/>
+  <!-- Figura 2 (izquierda, pide por favor) -->
+  <ellipse cx="52" cy="96" rx="14" ry="16" fill="#f7c9a3"/>
+  <circle cx="52" cy="76" r="16" fill="#f7c9a3"/>
+  <circle cx="47" cy="74" r="3" fill="#2b2118"/>
+  <circle cx="57" cy="74" r="3" fill="#2b2118"/>
+  <path d="M50 82q2 2 4 0" stroke="#2b2118" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Cuerpo figura 2 inclinado hacia delante -->
+  <rect x="44" y="110" width="16" height="18" rx="8" fill="#4ba9f2" transform="rotate(-6 52 119)"/>
+  <!-- Manos juntas pidiendo -->
+  <path d="M60 104q4 6 10 0" stroke="#f7c9a3" stroke-width="10" stroke-linecap="round" fill="none"/>
+  <path d="M62 102q3 4 6 0" stroke="#f7c9a3" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <!-- Mirada suplicante -->
+  <path d="M72 72q-6 -4 -12 0" stroke="#9b7ede" stroke-width="3" stroke-linecap="round" fill="none"/>
 </svg>

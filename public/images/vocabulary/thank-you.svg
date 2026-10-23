@@ -1,20 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Mano en el corazon agradeciendo">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Uno agradece al otro">
   <rect width="160" height="160" rx="32" fill="#fdf4e7"/>
-  <!-- Brazo -->
-  <rect x="54" y="80" width="34" height="14" rx="7" fill="#f0b98c" transform="rotate(18 54 80)"/>
-  <!-- Mano sobre el corazon -->
-  <ellipse cx="88" cy="74" rx="18" ry="20" fill="#f7c9a3" transform="rotate(18 88 74)"/>
-  <!-- Dedos juntos -->
-  <rect x="92" y="48" width="10" height="30" rx="5" fill="#f7c9a3" transform="rotate(18 97 48)"/>
-  <rect x="82" y="46" width="10" height="32" rx="5" fill="#f7c9a3" transform="rotate(18 87 46)"/>
-  <rect x="72" y="48" width="10" height="30" rx="5" fill="#f7c9a3" transform="rotate(18 77 48)"/>
-  <rect x="64" y="54" width="10" height="24" rx="5" fill="#f7c9a3" transform="rotate(18 69 54)"/>
-  <!-- Pulgar -->
-  <ellipse cx="76" cy="82" rx="8" ry="10" fill="#f7c9a3" transform="rotate(-32 76 82)"/>
+  <!-- Suelo -->
+  <ellipse cx="80" cy="138" rx="62" ry="10" fill="#e7f6ff"/>
+  <!-- Figura 1 (derecha) -->
+  <ellipse cx="112" cy="96" rx="14" ry="16" fill="#f0b98c"/>
+  <circle cx="112" cy="76" r="16" fill="#f0b98c"/>
+  <circle cx="107" cy="74" r="3" fill="#2b2118"/>
+  <circle cx="117" cy="74" r="3" fill="#2b2118"/>
+  <path d="M110 82q2 2 4 0" stroke="#2b2118" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Cuerpo figura 1 -->
+  <rect x="104" y="110" width="16" height="18" rx="8" fill="#2e9e6b"/>
+  <!-- Figura 2 (izquierda, agradeciendo) -->
+  <ellipse cx="52" cy="96" rx="14" ry="16" fill="#f7c9a3"/>
+  <circle cx="52" cy="76" r="16" fill="#f7c9a3"/>
+  <circle cx="47" cy="74" r="3" fill="#2b2118"/>
+  <circle cx="57" cy="74" r="3" fill="#2b2118"/>
+  <path d="M50 82q2 2 4 0" stroke="#2b2118" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Cuerpo figura 2 -->
+  <rect x="44" y="110" width="16" height="18" rx="8" fill="#4ba9f2"/>
+  <!-- Manos en el pecho agradeciendo -->
+  <path d="M58 106q0 -8 -4 -12" stroke="#f7c9a3" stroke-width="9" stroke-linecap="round" fill="none"/>
+  <path d="M54 104q0 -6 -2 -10" stroke="#f7c9a3" stroke-width="7" stroke-linecap="round" fill="none"/>
   <!-- Corazon -->
-  <path d="M104 90c6-8 18-4 18 6 0 10-12 18-18 24-6-6-18-14-18-24 0-10 12-14 18-6z" fill="#e0788f"/>
-  <!-- Chispas de agradecimiento -->
-  <path d="M40 44l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#f5b32b"/>
-  <path d="M124 52l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#4ba9f2"/>
-  <path d="M50 110l2 4 4 2-4 2-2 4-2-4-4-2 4-2z" fill="#f17fa6"/>
+  <path d="M78 88c4-6 12-2 12 4 0 6-8 12-12 16-4-4-12-10-12-16 0-6 8-10 12-4z" fill="#e0788f"/>
+  <!-- Sonrisa -->
+  <path d="M74 68q6 4 12 0" stroke="#f5b32b" stroke-width="4" stroke-linecap="round" fill="none"/>
 </svg>
