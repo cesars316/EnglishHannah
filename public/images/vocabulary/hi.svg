@@ -1,13 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Dos globos de dialogo">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Saludo informal con la mano">
   <rect width="160" height="160" rx="32" fill="#eff8ff"/>
-  <rect x="16" y="34" width="72" height="46" rx="16" fill="#5aa9e6"/>
-  <polygon points="34,78 50,78 30,96" fill="#5aa9e6"/>
-  <circle cx="38" cy="57" r="4.5" fill="#ffffff"/>
-  <circle cx="52" cy="57" r="4.5" fill="#ffffff"/>
-  <circle cx="66" cy="57" r="4.5" fill="#ffffff"/>
-  <rect x="70" y="76" width="74" height="46" rx="16" fill="#4ba9f2"/>
-  <polygon points="126,120 110,120 130,138" fill="#4ba9f2"/>
-  <circle cx="92" cy="99" r="4.5" fill="#ffffff"/>
-  <circle cx="106" cy="99" r="4.5" fill="#ffffff"/>
-  <circle cx="120" cy="99" r="4.5" fill="#ffffff"/>
+  <!-- Brazo -->
+  <rect x="52" y="76" width="34" height="14" rx="7" fill="#f0b98c" transform="rotate(12 52 76)"/>
+  <!-- Palma levantada (high-five style) -->
+  <ellipse cx="90" cy="70" rx="20" ry="24" fill="#f7c9a3" transform="rotate(12 90 70)"/>
+  <!-- Dedos cortos y juntos (hi breve) -->
+  <rect x="96" y="42" width="10" height="30" rx="5" fill="#f7c9a3" transform="rotate(12 101 42)"/>
+  <rect x="86" y="40" width="10" height="32" rx="5" fill="#f7c9a3" transform="rotate(12 91 40)"/>
+  <rect x="76" y="42" width="10" height="30" rx="5" fill="#f7c9a3" transform="rotate(12 81 42)"/>
+  <rect x="68" y="48" width="10" height="24" rx="5" fill="#f7c9a3" transform="rotate(12 73 48)"/>
+  <!-- Pulgar -->
+  <ellipse cx="80" cy="78" rx="8" ry="10" fill="#f7c9a3" transform="rotate(-38 80 78)"/>
+  <!-- Estrellas pequenas para distinguirlo -->
+  <path d="M118 32l4 8 8 4-8 4-4 8-4-8-8-4 8-4z" fill="#f5b32b"/>
+  <path d="M136 46l2 4 4 2-4 2-2 4-2-4-4-2 4-2z" fill="#4ba9f2"/>
 </svg>

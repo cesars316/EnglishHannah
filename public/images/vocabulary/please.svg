@@ -1,8 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Por favor">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Manos juntas pidiendo por favor">
   <rect width="160" height="160" rx="32" fill="#fdf4e7"/>
-  <ellipse cx="60" cy="112" rx="30" ry="22" fill="#f7c9a3" transform="rotate(14 60 112)"/>
-  <ellipse cx="100" cy="112" rx="30" ry="22" fill="#f0b98c" transform="rotate(-14 100 112)"/>
-  <path d="M80 46l12 22a14 14 0 1 1-24 0z" fill="#f5b32b"/>
-  <path d="M30 44l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#f17fa6"/>
-  <path d="M126 58l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#4ba9f2"/>
+  <!-- Mano inferior -->
+  <ellipse cx="70" cy="98" rx="18" ry="22" fill="#f0b98c" transform="rotate(15 70 98)"/>
+  <rect x="64" y="74" width="10" height="28" rx="5" fill="#f0b98c" transform="rotate(15 69 74)"/>
+  <rect x="74" y="72" width="10" height="30" rx="5" fill="#f0b98c" transform="rotate(15 79 72)"/>
+  <rect x="84" y="74" width="10" height="28" rx="5" fill="#f0b98c" transform="rotate(15 89 74)"/>
+  <rect x="92" y="80" width="10" height="22" rx="5" fill="#f0b98c" transform="rotate(15 97 80)"/>
+  <!-- Mano superior sobre ella -->
+  <ellipse cx="90" cy="88" rx="18" ry="22" fill="#f7c9a3" transform="rotate(-12 90 88)"/>
+  <rect x="88" y="62" width="10" height="30" rx="5" fill="#f7c9a3" transform="rotate(-12 93 62)"/>
+  <rect x="78" y="62" width="10" height="30" rx="5" fill="#f7c9a3" transform="rotate(-12 83 62)"/>
+  <rect x="68" y="66" width="10" height="28" rx="5" fill="#f7c9a3" transform="rotate(-12 73 66)"/>
+  <rect x="60" y="74" width="10" height="22" rx="5" fill="#f7c9a3" transform="rotate(-12 65 74)"/>
+  <!-- Pulgares juntos -->
+  <ellipse cx="80" cy="94" rx="9" ry="11" fill="#f7c9a3" transform="rotate(35 80 94)"/>
+  <!-- Ondas suaves -->
+  <path d="M116 48q14 6 14 18" stroke="#9b7ede" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M126 38q18 8 16 24" stroke="#9b7ede" stroke-width="4" stroke-linecap="round" fill="none"/>
 </svg>

@@ -1,8 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Gracias">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Mano en el corazon agradeciendo">
   <rect width="160" height="160" rx="32" fill="#fdf4e7"/>
-  <ellipse cx="56" cy="118" rx="28" ry="20" fill="#f7c9a3" transform="rotate(16 56 118)"/>
-  <ellipse cx="104" cy="118" rx="28" ry="20" fill="#f0b98c" transform="rotate(-16 104 118)"/>
-  <path d="M80 44c10-14 34-8 34 10 0 16-22 30-34 40-12-10-34-24-34-40 0-18 24-24 34-10z" fill="#e0788f"/>
-  <path d="M28 40l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#f5b32b"/>
-  <path d="M130 60l2.5 6.5 6.5 2.5-6.5 2.5L130 78l-2.5-6.5L121 69l6.5-2.5z" fill="#4ba9f2"/>
+  <!-- Brazo -->
+  <rect x="54" y="80" width="34" height="14" rx="7" fill="#f0b98c" transform="rotate(18 54 80)"/>
+  <!-- Mano sobre el corazon -->
+  <ellipse cx="88" cy="74" rx="18" ry="20" fill="#f7c9a3" transform="rotate(18 88 74)"/>
+  <!-- Dedos juntos -->
+  <rect x="92" y="48" width="10" height="30" rx="5" fill="#f7c9a3" transform="rotate(18 97 48)"/>
+  <rect x="82" y="46" width="10" height="32" rx="5" fill="#f7c9a3" transform="rotate(18 87 46)"/>
+  <rect x="72" y="48" width="10" height="30" rx="5" fill="#f7c9a3" transform="rotate(18 77 48)"/>
+  <rect x="64" y="54" width="10" height="24" rx="5" fill="#f7c9a3" transform="rotate(18 69 54)"/>
+  <!-- Pulgar -->
+  <ellipse cx="76" cy="82" rx="8" ry="10" fill="#f7c9a3" transform="rotate(-32 76 82)"/>
+  <!-- Corazon -->
+  <path d="M104 90c6-8 18-4 18 6 0 10-12 18-18 24-6-6-18-14-18-24 0-10 12-14 18-6z" fill="#e0788f"/>
+  <!-- Chispas de agradecimiento -->
+  <path d="M40 44l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#f5b32b"/>
+  <path d="M124 52l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#4ba9f2"/>
+  <path d="M50 110l2 4 4 2-4 2-2 4-2-4-4-2 4-2z" fill="#f17fa6"/>
 </svg>

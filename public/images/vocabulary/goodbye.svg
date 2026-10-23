@@ -1,10 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Despedida">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Mano despidiendose">
   <rect width="160" height="160" rx="32" fill="#fdf4e7"/>
-  <rect x="44" y="72" width="46" height="52" rx="17" fill="#f7c9a3"/>
-  <rect x="46" y="50" width="10" height="32" rx="5" fill="#f7c9a3"/>
-  <rect x="59" y="42" width="10" height="40" rx="5" fill="#f7c9a3"/>
-  <rect x="72" y="48" width="10" height="34" rx="5" fill="#f7c9a3"/>
-  <rect x="85" y="60" width="10" height="24" rx="5" fill="#f7c9a3"/>
-  <path d="M108 70h30M130 58l14 12-14 12" stroke="#0f5896" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-  <path d="M36 40q-10 10-8 22" stroke="#85c7fa" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <!-- Brazo girado -->
+  <rect x="50" y="78" width="36" height="14" rx="7" fill="#f0b98c" transform="rotate(-8 50 78)"/>
+  <!-- Palma girada hacia fuera -->
+  <ellipse cx="88" cy="76" rx="20" ry="24" fill="#f7c9a3" transform="rotate(-28 88 76)"/>
+  <!-- Dedos juntos moviendose -->
+  <rect x="96" y="44" width="10" height="36" rx="5" fill="#f7c9a3" transform="rotate(-28 101 44)"/>
+  <rect x="86" y="44" width="10" height="36" rx="5" fill="#f7c9a3" transform="rotate(-28 91 44)"/>
+  <rect x="76" y="48" width="10" height="34" rx="5" fill="#f7c9a3" transform="rotate(-28 81 48)"/>
+  <rect x="68" y="56" width="10" height="26" rx="5" fill="#f7c9a3" transform="rotate(-28 73 56)"/>
+  <!-- Pulgar -->
+  <ellipse cx="78" cy="84" rx="8" ry="10" fill="#f7c9a3" transform="rotate(22 78 84)"/>
+  <!-- Ola (curva distintiva de adios) -->
+  <path d="M112 36q18 0 16 16" stroke="#0f5896" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M118 28q24 2 20 22" stroke="#0f5896" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <!-- Flecha que se aleja -->
+  <path d="M36 108h24M52 98l8 10-8 10" stroke="#4ba9f2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 </svg>
