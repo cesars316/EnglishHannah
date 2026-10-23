@@ -1,8 +1,14 @@
 import { CONTENT_VERSION } from "@/config/game";
-import { ORIGINAL_SVG_SOURCE, imageVisual } from "@/content/helpers";
+import { ORIGINAL_SVG_SOURCE, commonsPhotoSource, imageVisual } from "@/content/helpers";
 import type { VocabularyItem } from "@/types/content";
 
-/** Mundo 1: Hello Village. Saludos, cortesia y presentacion. */
+/**
+ * Mundo 1: Hello Village. Saludos, cortesia y presentacion.
+ *
+ * Las seis palabras sociales usan fotos reales de Wikimedia Commons porque el
+ * gesto se entiende mejor que con un dibujo (ver ADR 0006). El credito de cada
+ * foto esta en `docs/IMAGE-CREDITS.md`.
+ */
 export const HELLO_VILLAGE_VOCABULARY: readonly VocabularyItem[] = [
   {
     id: "hello",
@@ -11,13 +17,17 @@ export const HELLO_VILLAGE_VOCABULARY: readonly VocabularyItem[] = [
     translation: "hola",
     partOfSpeech: "interjection",
     phonetic: "he-LOU",
-    visual: imageVisual("hello", "Una mano saludando"),
+    visual: imageVisual("hello", "Dos personas se dan la mano al encontrarse", "webp"),
     audio: null,
     example: { es: "Hola, soy Sam.", en: "Hello, I am Sam." },
     acceptedAnswers: ["hello"],
     tags: ["greetings", "beginner"],
     objective: "Saludar al llegar",
-    source: ORIGINAL_SVG_SOURCE,
+    source: commonsPhotoSource(
+      "cc-by",
+      "CC BY 2.0",
+      "https://commons.wikimedia.org/wiki/File:Sudan_Envoy_-_Shaking_Hands.jpg",
+    ),
     contentVersion: CONTENT_VERSION,
   },
   {
@@ -27,13 +37,17 @@ export const HELLO_VILLAGE_VOCABULARY: readonly VocabularyItem[] = [
     translation: "hola (informal)",
     partOfSpeech: "interjection",
     phonetic: "jai",
-    visual: imageVisual("hi", "Dos globos de dialogo"),
+    visual: imageVisual("hi", "Un nino levanta la mano para saludar", "webp"),
     audio: null,
     example: { es: "Hola, amiga.", en: "Hi, friend." },
     acceptedAnswers: ["hi"],
     tags: ["greetings", "beginner"],
     objective: "Saludar de forma informal",
-    source: ORIGINAL_SVG_SOURCE,
+    source: commonsPhotoSource(
+      "cc-by-sa",
+      "CC BY-SA 4.0",
+      "https://commons.wikimedia.org/wiki/File:Child_waving-Rwanda.jpg",
+    ),
     contentVersion: CONTENT_VERSION,
   },
   {
@@ -43,13 +57,21 @@ export const HELLO_VILLAGE_VOCABULARY: readonly VocabularyItem[] = [
     translation: "adios",
     partOfSpeech: "interjection",
     phonetic: "gud-BAI",
-    visual: imageVisual("goodbye", "Una mano despidiendose"),
+    visual: imageVisual(
+      "goodbye",
+      "Dos personas se despiden con la mano mientras un amigo se va en tren",
+      "webp",
+    ),
     audio: null,
     example: { es: "Adios, hasta manana.", en: "Goodbye, see you tomorrow." },
     acceptedAnswers: ["goodbye", "bye"],
     tags: ["greetings", "beginner"],
     objective: "Despedirse",
-    source: ORIGINAL_SVG_SOURCE,
+    source: commonsPhotoSource(
+      "cc-by-sa",
+      "CC BY-SA 3.0",
+      "https://commons.wikimedia.org/wiki/File:Munich_-_ICE_train_Hauptbahnhof_Munich,_Germany_-_5553.jpg",
+    ),
     contentVersion: CONTENT_VERSION,
   },
   {
@@ -59,13 +81,17 @@ export const HELLO_VILLAGE_VOCABULARY: readonly VocabularyItem[] = [
     translation: "por favor",
     partOfSpeech: "adverb",
     phonetic: "pliz",
-    visual: imageVisual("please", "Manos pidiendo por favor"),
+    visual: imageVisual("please", "Dos manos juntas pidiendo por favor", "webp"),
     audio: null,
     example: { es: "Un vaso de agua, por favor.", en: "A glass of water, please." },
     acceptedAnswers: ["please"],
     tags: ["courtesy", "beginner"],
     objective: "Pedir algo con educacion",
-    source: ORIGINAL_SVG_SOURCE,
+    source: commonsPhotoSource(
+      "public-domain",
+      "Public domain",
+      "https://commons.wikimedia.org/wiki/File:Albrecht_D%C3%BCrer_-_Praying_Hands,_1508_-_Google_Art_Project.jpg",
+    ),
     contentVersion: CONTENT_VERSION,
   },
   {
@@ -75,13 +101,17 @@ export const HELLO_VILLAGE_VOCABULARY: readonly VocabularyItem[] = [
     translation: "gracias",
     partOfSpeech: "interjection",
     phonetic: "ZENK iu",
-    visual: imageVisual("thank-you", "Un corazon con destellos"),
+    visual: imageVisual("thank-you", "Una alumna recibe un regalo de su profesora", "webp"),
     audio: null,
     example: { es: "Gracias por tu ayuda.", en: "Thank you for your help." },
     acceptedAnswers: ["thank you", "thanks", "thankyou"],
     tags: ["courtesy", "beginner"],
     objective: "Agradecer",
-    source: ORIGINAL_SVG_SOURCE,
+    source: commonsPhotoSource(
+      "cc-by",
+      "CC BY 4.0",
+      "https://commons.wikimedia.org/wiki/File:A_student_receiving_gift_from_her_mentor.jpg",
+    ),
     contentVersion: CONTENT_VERSION,
   },
   {
@@ -91,13 +121,17 @@ export const HELLO_VILLAGE_VOCABULARY: readonly VocabularyItem[] = [
     translation: "lo siento",
     partOfSpeech: "interjection",
     phonetic: "SO-ri",
-    visual: imageVisual("sorry", "Una cara triste con un corazon"),
+    visual: imageVisual("sorry", "Un nino con cara de tristeza y verguenza", "webp"),
     audio: null,
     example: { es: "Lo siento, fue sin querer.", en: "Sorry, it was an accident." },
     acceptedAnswers: ["sorry"],
     tags: ["courtesy", "feelings"],
     objective: "Disculparse",
-    source: ORIGINAL_SVG_SOURCE,
+    source: commonsPhotoSource(
+      "cc-by-sa",
+      "CC BY-SA 3.0",
+      "https://commons.wikimedia.org/wiki/File:01_Tristeza.jpg",
+    ),
     contentVersion: CONTENT_VERSION,
   },
   {

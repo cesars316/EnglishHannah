@@ -3,6 +3,7 @@ import type {
   CameraHuntActivity,
   ChoiceOption,
   ContentSource,
+  ContentSourceKind,
   Difficulty,
   ImageChoiceActivity,
   ListenAndChooseActivity,
@@ -33,11 +34,23 @@ export const ORIGINAL_SVG_SOURCE: ContentSource = {
   url: null,
 };
 
-export const IMAGE_PATH = (id: string): string => `/images/vocabulary/${id}.svg`;
+/**
+ * Origen de las fotos reales (Wikimedia Commons).
+ *
+ * Las licencias CC BY y CC BY-SA exigen atribucion: autor, licencia y enlace
+ * quedan documentados en `docs/IMAGE-CREDITS.md`.
+ */
+export const commonsPhotoSource = (
+  kind: Extract<ContentSourceKind, "public-domain" | "cc-by" | "cc-by-sa">,
+  license: string,
+  url: string,
+): ContentSource => ({ kind, license, url });
 
-export const imageVisual = (id: string, alt: string): VocabularyVisual => ({
+export const IMAGE_PATH = (id: string, ext = "svg"): string => `/images/vocabulary/${id}.${ext}`;
+
+export const imageVisual = (id: string, alt: string, ext = "svg"): VocabularyVisual => ({
   kind: "image",
-  src: IMAGE_PATH(id),
+  src: IMAGE_PATH(id, ext),
   alt,
 });
 

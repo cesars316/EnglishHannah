@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { SITE } from "@/config/game";
+import { IMAGE_CREDITS } from "@/content/image-credits";
 
 export const metadata: Metadata = {
   title: "Privacidad y datos",
@@ -56,6 +57,42 @@ export default function PrivacyPage() {
           </Card>
         ))}
       </div>
+
+      <Card tone="cool" className="space-y-2">
+        <h2 className="text-cream-900 text-lg font-extrabold">Fotos de terceros</h2>
+        <p className="text-cream-700 text-sm leading-relaxed">
+          Las imágenes de `hello`, `hi`, `goodbye`, `please`, `thank you` y `sorry` provienen
+          de Wikimedia Commons. Cumplimos sus términos de licencia:
+        </p>
+        <ul className="text-cream-700 grid gap-1 text-sm">
+          {IMAGE_CREDITS.map((credit) => (
+            <li key={credit.file}>
+              <strong>{credit.word}</strong> ({credit.file}) —{" "}
+              <a
+                className="text-brand-700 underline"
+                href={credit.sourceUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {credit.author}
+              </a>{" "}
+              /{" "}
+              <a
+                className="text-brand-700 underline"
+                href={credit.licenseUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {credit.license}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p className="text-cream-600 text-xs leading-relaxed">
+          Las imágenes se han recortado a cuadrado 640x640 y convertido a WebP para optimizar
+          la carga. El resto de ilustraciones son SVG originales de este proyecto.
+        </p>
+      </Card>
 
       <Card tone="cool" className="space-y-2">
         <h2 className="text-cream-900 text-lg font-extrabold">Dudas o sugerencias</h2>

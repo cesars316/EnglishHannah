@@ -12,7 +12,7 @@ export type VocabularyVisualViewProps = {
 const SIZES = {
   sm: "size-16 text-[0.55rem]",
   md: "size-24 text-[0.6rem]",
-  lg: "size-36 text-[0.7rem]",
+  lg: "size-36 text-[0.7rem] sm:size-44",
 } as const;
 
 const COUNT_COLUMNS = {
@@ -30,7 +30,8 @@ const DOT_SIZES = {
 /**
  * Representa una palabra de forma visual sin inventar recursos:
  *
- * - `image`: SVG original versionado en `public/images/vocabulary`.
+ * - `image`: SVG original o foto con licencia versionada en
+ *   `public/images/vocabulary` (creditos en `docs/IMAGE-CREDITS.md`).
  * - `color`: muestra de color real con borde para que el blanco sea visible.
  * - `count`: grupo de puntos contables (numeros 1-20).
  *
@@ -56,16 +57,16 @@ export function VocabularyVisualView({
         )}
         {...a11y}
       >
-        {/* Los SVG locales son pequeños y originales; el optimizador de Next no procesa SVG. */}
+        {/* Assets locales ya optimizados (SVG original o WebP 640x640). */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={visual.src}
           alt={decorative ? "" : visual.alt}
-          width={144}
-          height={144}
+          width={176}
+          height={176}
           loading="lazy"
           decoding="async"
-          className="size-full object-contain"
+          className="size-full object-cover"
         />
       </span>
     );

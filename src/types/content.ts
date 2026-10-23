@@ -26,7 +26,13 @@ export type ActivityType =
 
 export type Difficulty = 1 | 2 | 3;
 
-export type ContentSourceKind = "original" | "public-domain" | "cc0" | "cc-by" | "own-audio";
+export type ContentSourceKind =
+  | "original"
+  | "public-domain"
+  | "cc0"
+  | "cc-by"
+  | "cc-by-sa"
+  | "own-audio";
 
 export type ContentSource = {
   kind: ContentSourceKind;
