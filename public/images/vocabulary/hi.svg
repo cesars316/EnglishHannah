@@ -1,27 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Dos amigos saludandose de cerca">
-  <rect width="160" height="160" rx="32" fill="#eff8ff"/>
-  <!-- Suelo -->
-  <ellipse cx="80" cy="138" rx="58" ry="10" fill="#e7f6ff"/>
-  <!-- Figura 1 (izquierda, mas cerca) -->
-  <ellipse cx="56" cy="96" rx="14" ry="16" fill="#f7c9a3"/>
-  <circle cx="56" cy="76" r="16" fill="#f7c9a3"/>
-  <circle cx="51" cy="74" r="3" fill="#2b2118"/>
-  <circle cx="61" cy="74" r="3" fill="#2b2118"/>
-  <path d="M54 82q2 2 4 0" stroke="#2b2118" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-  <!-- Cuerpo figura 1 -->
-  <rect x="48" y="110" width="16" height="18" rx="8" fill="#f17fa6"/>
-  <!-- Mano breve levantada -->
-  <path d="M66 110q8 2 10 -6" stroke="#f7c9a3" stroke-width="8" stroke-linecap="round" fill="none"/>
-  <!-- Figura 2 (derecha, mas cerca) -->
-  <ellipse cx="104" cy="96" rx="14" ry="16" fill="#f0b98c"/>
-  <circle cx="104" cy="76" r="16" fill="#f0b98c"/>
-  <circle cx="99" cy="74" r="3" fill="#2b2118"/>
-  <circle cx="109" cy="74" r="3" fill="#2b2118"/>
-  <path d="M102 82q2 2 4 0" stroke="#2b2118" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-  <!-- Cuerpo figura 2 -->
-  <rect x="96" y="110" width="16" height="18" rx="8" fill="#9b7ede"/>
-  <!-- Mano breve levantada -->
-  <path d="M94 110q-8 2 -10 -6" stroke="#f0b98c" stroke-width="8" stroke-linecap="round" fill="none"/>
-  <!-- Sonrisa entre ellos -->
-  <path d="M70 68q10 -4 20 0" stroke="#f5b32b" stroke-width="4" stroke-linecap="round" fill="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Dos amigos se saludan de cerca con la mano">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0f8ff"/>
+      <stop offset="100%" stop-color="#e6f3ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="36" fill="url(#bg2)"/>
+  <ellipse cx="100" cy="172" rx="70" ry="12" fill="#eaf6ff"/>
+  <!-- Persona A (izquierda, muy cerca) -->
+  <ellipse cx="78" cy="122" rx="18" ry="20" fill="#f7c9a3"/>
+  <circle cx="78" cy="96" r="20" fill="#f7c9a3"/>
+  <circle cx="72" cy="94" r="4" fill="#2b2118"/>
+  <circle cx="84" cy="94" r="4" fill="#2b2118"/>
+  <path d="M76 104 Q78 106 80 104" stroke="#2b2118" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <rect x="68" y="140" width="20" height="24" rx="10" fill="#f17fa6"/>
+  <!-- Mano corta levantada -->
+  <path d="M92 138 Q106 132 108 118" stroke="#f7c9a3" stroke-width="14" stroke-linecap="round" fill="none"/>
+  <ellipse cx="110" cy="114" rx="10" ry="12" fill="#f7c9a3" transform="rotate(30 110 114)"/>
+  <!-- Persona B (derecha, muy cerca) -->
+  <ellipse cx="122" cy="122" rx="18" ry="20" fill="#f0b98c"/>
+  <circle cx="122" cy="96" r="20" fill="#f0b98c"/>
+  <circle cx="116" cy="94" r="4" fill="#2b2118"/>
+  <circle cx="128" cy="94" r="4" fill="#2b2118"/>
+  <path d="M120 104 Q122 106 124 104" stroke="#2b2118" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <rect x="112" y="140" width="20" height="24" rx="10" fill="#9b7ede"/>
+  <!-- Mano corta levantada -->
+  <path d="M108 138 Q94 132 92 118" stroke="#f0b98c" stroke-width="14" stroke-linecap="round" fill="none"/>
+  <ellipse cx="90" cy="114" rx="10" ry="12" fill="#f0b98c" transform="rotate(-30 90 114)"/>
+  <!-- Estrellas para decir "hi" informal -->
+  <path d="M150 70 L153 78 L161 78 L155 83 L157 91 L150 86 L143 91 L145 83 L139 78 L147 78 Z" fill="#f5b32b"/>
 </svg>

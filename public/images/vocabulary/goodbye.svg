@@ -1,28 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Uno se aleja y se despide con la mano">
-  <rect width="160" height="160" rx="32" fill="#fdf4e7"/>
-  <!-- Suelo -->
-  <ellipse cx="80" cy="138" rx="62" ry="10" fill="#e7f6ff"/>
-  <!-- Figura que se queda (izquierda) -->
-  <ellipse cx="44" cy="94" rx="14" ry="16" fill="#f7c9a3"/>
-  <circle cx="44" cy="74" r="16" fill="#f7c9a3"/>
-  <circle cx="39" cy="72" r="3" fill="#2b2118"/>
-  <circle cx="49" cy="72" r="3" fill="#2b2118"/>
-  <path d="M42 80q2 2 4 0" stroke="#2b2118" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-  <!-- Cuerpo figura que se queda -->
-  <rect x="36" y="108" width="16" height="20" rx="8" fill="#4ba9f2"/>
-  <!-- Figura que se va (derecha, girada hacia atras) -->
-  <ellipse cx="108" cy="94" rx="14" ry="16" fill="#f0b98c"/>
-  <circle cx="108" cy="74" r="16" fill="#f0b98c"/>
-  <circle cx="113" cy="72" r="3" fill="#2b2118"/>
-  <circle cx="103" cy="72" r="3" fill="#2b2118"/>
-  <path d="M106 80q2 2 4 0" stroke="#2b2118" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-  <!-- Cuerpo figura que se va -->
-  <rect x="100" y="108" width="16" height="20" rx="8" fill="#ffb347"/>
-  <!-- Mano despidiendose detras/girando -->
-  <path d="M98 104q-12 2 -18 -8" stroke="#f0b98c" stroke-width="9" stroke-linecap="round" fill="none"/>
-  <path d="M96 100q-12 0 -16 -10" stroke="#f0b98c" stroke-width="7" stroke-linecap="round" fill="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Alguien se aleja y se despide con la mano">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fdf6ec"/>
+      <stop offset="100%" stop-color="#f7efe2"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="36" fill="url(#bg3)"/>
+  <ellipse cx="100" cy="172" rx="78" ry="12" fill="#eaf6ff"/>
+  <!-- Persona que se queda (izquierda) -->
+  <ellipse cx="58" cy="120" rx="18" ry="20" fill="#f7c9a3"/>
+  <circle cx="58" cy="94" r="20" fill="#f7c9a3"/>
+  <circle cx="52" cy="92" r="4" fill="#2b2118"/>
+  <circle cx="64" cy="92" r="4" fill="#2b2118"/>
+  <path d="M56 102 Q58 104 60 102" stroke="#2b2118" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <rect x="48" y="138" width="20" height="26" rx="10" fill="#4ba9f2"/>
+  <!-- Persona que se va (derecha, de espaldas y alejandose) -->
+  <ellipse cx="142" cy="122" rx="18" ry="20" fill="#f0b98c"/>
+  <circle cx="142" cy="96" r="20" fill="#f0b98c"/>
+  <circle cx="148" cy="94" r="4" fill="#2b2118"/>
+  <!-- Espalda visible, sin cara frontal -->
+  <ellipse cx="142" cy="96" rx="18" ry="18" fill="#f0b98c"/>
+  <path d="M128 94 Q134 88 142 88 Q150 88 156 94" fill="#b98a56" opacity="0.6"/>
+  <rect x="132" y="140" width="20" height="26" rx="10" fill="#ffb347"/>
+  <!-- Mano levantada por encima del hombro despidiendose -->
+  <path d="M126 142 Q98 112 112 78" stroke="#f0b98c" stroke-width="16" stroke-linecap="round" fill="none"/>
+  <path d="M128 138 Q106 114 118 86" stroke="#f0b98c" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <ellipse cx="120" cy="82" rx="12" ry="14" fill="#f0b98c" transform="rotate(-40 120 82)"/>
   <!-- Huellas alejandose -->
-  <ellipse cx="122" cy="126" rx="4" ry="2" fill="#b9d9f3"/>
-  <ellipse cx="132" cy="122" rx="4" ry="2" fill="#b9d9f3"/>
-  <ellipse cx="142" cy="118" rx="4" ry="2" fill="#b9d9f3"/>
+  <ellipse cx="158" cy="158" rx="5" ry="2.5" fill="#b9d9f3" transform="rotate(-15 158 158)"/>
+  <ellipse cx="170" cy="150" rx="5" ry="2.5" fill="#b9d9f3" transform="rotate(-20 170 150)"/>
+  <ellipse cx="182" cy="140" rx="5" ry="2.5" fill="#b9d9f3" transform="rotate(-25 182 140)"/>
 </svg>
