@@ -66,7 +66,7 @@ export function VocabularyVisualView({
           height={176}
           loading="lazy"
           decoding="async"
-          className="size-full object-cover"
+          className="size-full object-contain bg-white"
         />
       </span>
     );
