@@ -29,6 +29,13 @@ export const AVATARS: readonly Avatar[] = [
     primary: "#96660a",
     soft: "#fff3d6",
   },
+  {
+    id: "unicorn-dreamer",
+    label: "Unicornio sonador",
+    emoji: "🦄",
+    primary: "#8e5bd8",
+    soft: "#f3e9ff",
+  },
 ] as const;
 
 export const DEFAULT_AVATAR_ID = "fox-explorer";

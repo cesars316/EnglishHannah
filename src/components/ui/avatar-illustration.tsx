@@ -51,6 +51,21 @@ export function AvatarIllustration({ avatar, size = 96, className }: AvatarIllus
             <path d="M98 62 116 46l-6 30z" fill={primary} />
           </>
         );
+      case "unicorn-dreamer":
+        return (
+          <>
+            <path
+              d="M26 44c8 20 22 34 34 44"
+              fill="none"
+              stroke="#f17fa6"
+              strokeWidth="7"
+              strokeLinecap="round"
+            />
+            <path d="M50 26 60 2l10 24z" fill="#f5b32b" />
+            <path d="M28 30 22 8l20 12z" fill={primary} />
+            <path d="M92 30 98 8 78 20z" fill={primary} />
+          </>
+        );
       default:
         return (
           <>

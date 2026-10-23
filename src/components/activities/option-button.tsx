@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { PointerEventHandler, ReactNode, Ref } from "react";
 
 import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/cn";
@@ -15,6 +15,13 @@ export type OptionButtonProps = {
   className?: string;
   /** Etiqueta corta bajo el contenido (por ejemplo la traduccion). */
   hint?: ReactNode;
+  /** Identificador de prueba opcional (por defecto `option-button`). */
+  "data-testid"?: string;
+  /** Marca la opcion como posible destino de un arrastre (matching-pairs). */
+  "data-drop-target"?: string;
+  /** Se usa para arrastrar la opcion (matching-pairs). */
+  onPointerDown?: PointerEventHandler<HTMLButtonElement>;
+  ref?: Ref<HTMLButtonElement>;
 };
 
 const STATES: Record<OptionState, string> = {
@@ -46,6 +53,10 @@ export function OptionButton({
   srLabel,
   className,
   hint,
+  onPointerDown,
+  ref,
+  "data-testid": testId = "option-button",
+  "data-drop-target": dropTarget,
 }: OptionButtonProps) {
   const isDisabled = disabled || state === "correct" || state === "dimmed";
   const label = STATE_LABEL[state];
@@ -53,12 +64,15 @@ export function OptionButton({
   return (
     <button
       type="button"
-      data-testid="option-button"
-      // `aria-pressed` marca las opciones de eleccion multiple (por ejemplo,
-      // las preguntas de una historia): informacion util para lectores de
+      ref={ref}
+      data-testid={testId}
+      data-drop-target={dropTarget}
+      // `aria-pressed` marca las opciones seleccionadas (eleccion multiple o
+      // palabra activa en las parejas): informacion util para lectores de
       // pantalla y para las pruebas end-to-end.
       aria-pressed={state === "selected" ? true : undefined}
       onClick={onClick}
+      onPointerDown={onPointerDown}
       disabled={isDisabled}
       aria-disabled={isDisabled || undefined}
       className={cn(

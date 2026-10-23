@@ -153,8 +153,8 @@ export function buildMatchingPairs(input: MatchingPairsInput): MatchingPairsActi
         en: "Match each word with its picture.",
       },
       instructions: input.instructions ?? {
-        es: "Toca una palabra y luego su dibujo. Tambien puedes usar el teclado.",
-        en: "Tap a word and then its picture. You can use the keyboard too.",
+        es: "Arrastra cada palabra hasta su dibujo. Si lo prefieres, toca la palabra y luego el dibujo.",
+        en: "Drag each word onto its picture. If you prefer, tap the word and then the picture.",
       },
     }),
     type: "matching-pairs",

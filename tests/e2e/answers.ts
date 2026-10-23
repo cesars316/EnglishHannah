@@ -95,8 +95,8 @@ async function answerStoryQuiz(page: Page): Promise<boolean> {
  * quedan, rotando la eleccion para no repetir siempre el mismo emparejamiento.
  */
 async function answerPairs(page: Page): Promise<boolean> {
-  const lefts = page.locator('[role="group"][aria-label="Palabras"] [data-testid="option-button"]');
-  const rights = page.locator('[role="group"][aria-label="Dibujos"] [data-testid="option-button"]');
+  const lefts = page.locator('[role="group"][aria-label="Palabras"] [data-testid="pair-item"]');
+  const rights = page.locator('[role="group"][aria-label="Dibujos"] [data-testid="pair-item"]');
 
   const leftCount = await lefts.count();
   if (leftCount === 0) return false;
@@ -110,7 +110,9 @@ async function answerPairs(page: Page): Promise<boolean> {
 
     await left.click();
 
-    const free = rights.locator(`:scope:not([disabled]):not([aria-pressed="true"])`);
+    const free = rights.locator(
+      ':scope:not([disabled]):not([aria-disabled="true"]):not([aria-pressed="true"])',
+    );
     const available = await free.count();
     if (available === 0) break;
 

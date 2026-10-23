@@ -98,7 +98,13 @@ export type GameState = {
 };
 
 export type AvatarId =
-  "fox-explorer" | "owl-scholar" | "cat-artist" | "panda-pilot" | "dolphin-diver" | "bee-builder";
+  | "fox-explorer"
+  | "owl-scholar"
+  | "cat-artist"
+  | "panda-pilot"
+  | "dolphin-diver"
+  | "bee-builder"
+  | "unicorn-dreamer";
 
 export type Avatar = {
   id: AvatarId;
